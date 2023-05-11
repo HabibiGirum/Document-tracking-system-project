@@ -1,0 +1,113 @@
+.nav{
+  text-align: center;
+  color: #a87b32;
+}
+.Navbar{
+  background-color: #13163b;
+}
+.login{
+  color: #a87b32;
+  background-color: #13163b;
+  height: 40px;
+}
+
+.button{
+  background-color: #13163b;
+  color:#a87b32
+}
+h1{
+  background-color: #13163b;
+  color:#a87b32;
+  font-size: 1.8rem;
+  padding: 1rem 0;
+  justify-content: center;
+}
+.col{
+  background-color: #13163b;
+}
+
+
+
+
+
+
+.lottie-player {
+  width: 400px;
+  height: 400px;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .Row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .Card {
+    width: 80%;
+    margin: 0;
+  }
+  .login {
+    font-size: 1.5rem;
+  }
+  .button {
+    width: 100%;
+  }
+  .lottie-player {
+    width: 80%;
+    height: auto;
+    margin-top: 2rem;
+  }
+}
+
+main {
+  min-height: 80vh;
+}
+
+h3 {
+  padding: 1rem 0;
+}
+
+
+
+h2 {
+  font-size: 1.4rem;
+  padding: 0.5rem 0;
+}
+
+.rating span {
+  margin: 0.1rem;
+}
+
+/* carousel */
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+  display: flex;
+}
+.carousel-caption {
+  position: absolute;
+  top: 0;
+}
+
+.carousel-caption h2 {
+  color: #fff;
+}
+
+.carousel img {
+  height: 300px;
+  padding: 30px;
+  margin: 40px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.carousel a {
+  margin: 0 auto;
+}
+@media (max-width: 900px) {
+  .carousel-caption h2 {
+    font-size: 2.5vw;
+  }
+}
+
+
