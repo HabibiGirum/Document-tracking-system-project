@@ -8,11 +8,11 @@ function Home() {
     return (
         <>
             <Header />
-            <Container className='justify-container-center'>
+            <Container className='justify-container-center mt-5 text-primary' >
 
                 <Col md={4}>
                     <Card>
-                        <Form>
+                        <Form className='p-3'>
                             <Form.Group className="mb-3" controlId="home">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control type="email" placeholder="Enter email" />
