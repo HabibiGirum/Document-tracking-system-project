@@ -33,7 +33,7 @@ const Login = () => {
 
                 
                     <Card>
-                        <Form>
+                        <Form className="p-3">
                             <Form.Group className="mb-3" controlId="home">
                                 <Form.Label>Email address</Form.Label>
                                 <Form.Control type="email" placeholder="Enter email" />
