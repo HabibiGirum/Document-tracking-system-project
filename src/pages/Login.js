@@ -1,5 +1,5 @@
 import { Button,  Col, Form, Card, Image, Row ,Container} from "react-bootstrap";
-
+import { useNavigate } from "react-router-dom";
 import {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/userActions";
@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import myImage from "../assets/images/AASTU.jpg";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,7 +19,15 @@ const Login = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
+    dispatch(login(email, password))
+      .then(() => {
+        // Redirect to the home page after successful login
+        navigate("/home");
+      })
+      .catch((error) => {
+        // Handle login error
+        console.log(error);
+      });;
     console.log(email);
     console.log(password);
   };
