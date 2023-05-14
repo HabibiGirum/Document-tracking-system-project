@@ -1,5 +1,6 @@
-import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import { Login,Error,Register, Home } from "./pages";
+import { Route, BrowserRouter, Routes,Link } from 'react-router-dom';
+import { Login,Error,Register } from "./pages";
+import Home from './pages/dashboard/Home'
 function App() {
   return (
     <>
@@ -11,6 +12,8 @@ function App() {
           <Route path='*' exact element ={<Error />} />
         </Routes>
       </BrowserRouter>
+
+      
     </>
   );
 }
