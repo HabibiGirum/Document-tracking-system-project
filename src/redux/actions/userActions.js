@@ -20,13 +20,9 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-<<<<<<< HEAD
+
       `${API_BASE_URL}/users/login`,
-=======
-      "/api/users/login",
->>>>>>> Home
-      { email, password },
-      config
+
     );
 
     // Check if the login was successful
@@ -73,7 +69,7 @@ export const registerUser = (userData) => async (dispatch) => {
       userData
     );
 
-<<<<<<< HEAD
+
     // Handle the response
     dispatch({ type: USER_REGISTER_SUCCESS, payload: response.data.token });
     // Optionally, you can dispatch additional actions or handle the response here
@@ -82,44 +78,3 @@ export const registerUser = (userData) => async (dispatch) => {
     // Optionally, you can dispatch additional actions or handle the error here
   }
 };
-=======
-export const register =
-  (name, lastName, email, password, department, role) => async (dispatch) => {
-    try {
-      dispatch({
-        type: USER_REGISTER_REQUEST,
-      });
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const { data } = await axios.post(
-        "/api/users",
-        { name, lastName, email, password, department, role },
-        config
-      );
-
-      dispatch({
-        type: USER_REGISTER_SUCCESS,
-        payload: data,
-      });
-      localStorage.setItem("userInfo", JSON.stringify(data));
-    } catch (error) {
-      dispatch({
-        type: USER_REGISTER_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message
-      });
-    }
-  };
-export const logout=()=>(dispatch)=>{
-    localStorage.removeItem('userInfo')
-    dispatch({type:USER_LOGOUT})
-    document.location.href='/login'
-}
-
->>>>>>> Home

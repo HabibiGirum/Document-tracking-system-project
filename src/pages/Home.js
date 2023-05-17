@@ -15,17 +15,28 @@ function Home() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Access the form field values using event.target.elements
+    
   const fullName = event.target.elements.fullName.value;
   const department = event.target.elements.department.value;
   const purpose = event.target.elements.purpose.value;
   const to = event.target.elements.to.value;
   const documentType = event.target.elements.documentType.value;
+  const data={
+    fullName,
+    department,
+    purpose,
+    to,
+    documentType
+
+  }
+  console.log(data);
 
   console.log("Full Name:", fullName);
   console.log("Department:", department);
   console.log("Purpose of Submission:", purpose);
   console.log("To:", to);
   console.log("Selected Document Type:", documentType);
+
 
     const doc = new jsPDF();
 
