@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button, Card, Container } from "react-bootstrap";
@@ -54,6 +55,9 @@ const Register = () => {
   };
 
   console.log(name);
+
+  
+
   return (
     <>
       <Header />
