@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getRequests } from "../redux/actions/requestAction";
+import { getRequests, openFile } from "../redux/actions/requestAction";
 import { Table } from "react-bootstrap";
 
 const ReceivedPage = () => {
@@ -19,7 +19,12 @@ const ReceivedPage = () => {
     return <div>Error: {error}</div>;
   }
 
-  console.log(requests)
+  console.log(requests);
+
+  const handleFileOpen = (filename) => {
+    dispatch(openFile(filename));
+  };
+
   return (
     <div>
       <h1>Received Requests</h1>
@@ -43,7 +48,11 @@ const ReceivedPage = () => {
                 <td>{request.documentType}</td>
                 <td>{request.purpose}</td>
                 <td>{request.to}</td>
-                <td>{request.filename}</td>
+                <td>
+                  <button onClick={() => handleFileOpen(request.filename)}>
+                    {request.filename}
+                  </button>
+                </td>
               </tr>
             ))}
         </tbody>

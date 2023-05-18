@@ -15,6 +15,7 @@ import {
   CLEAR_VALUES,
   CLEAR_ALERT,
   LOGOUT_USER,
+  REQUEST_ERROR
 } from "../constants/requestConstants";
 
 export const clearAlert = () => {
@@ -161,28 +162,29 @@ export const deleteRequest = (requestId) => {
   };
 };
 
-export const openFile = (requestId) => {
-  return async (dispatch) => {
-    dispatch({ type: OPEN_FILE });
+export const openFile = (filename) => async (dispatch) => {
+  try {
+    // Make an API call to open the file
+    const response = await axios.get(
+      `http://localhost:5000/api/files/${filename}`,
+      {
+        responseType: "blob",
+      }
+    );
 
-    try {
-      const response = await axios.get(`/api/requests/${requestId}`, {
-        responseType: "arraybuffer",
-      });
+    // Create a blob URL for the file
+    const fileBlob = new Blob([response.data], { type: "application/pdf" });
+    const fileUrl = URL.createObjectURL(fileBlob);
 
-      const pdfData = new Blob([response.data], { type: "application/pdf" });
-      const pdfUrl = URL.createObjectURL(pdfData);
-
-      console.log(pdfData);
-      console.log(response.headers);
-      console.log(pdfUrl);
-
-      window.open(pdfUrl);
-      dispatch(getRequests());
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    // Open the file in a new tab/window
+    window.open(fileUrl);
+  } catch (error) {
+    // Handle error
+    dispatch({
+      type: REQUEST_ERROR,
+      payload: error.response.data.message,
+    });
+  }
 };
 
 export const clearFilters = () => {
