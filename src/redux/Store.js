@@ -3,10 +3,12 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import registerReducer from "./reducers/userReducers";
 import { userLoginReducer } from "./reducers/userReducers";
+import requestReducer from "./reducers/requestReducers"; // Import the requestReducer
 
 const rootReducer = combineReducers({
   register: registerReducer,
   userLogin: userLoginReducer,
+  requests: requestReducer, // Add the requestReducer to the root reducer
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
