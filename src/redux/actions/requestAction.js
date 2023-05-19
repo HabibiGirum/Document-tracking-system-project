@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   CREATE_REQUEST_BEGIN,
   CREATE_REQUEST_SUCCESS,
@@ -11,114 +12,183 @@ import {
   EDIT_REQUEST_SUCCESS,
   OPEN_FILE,
   CLEAR_FILTERS,
+  CLEAR_VALUES,
+  CLEAR_ALERT,
+  LOGOUT_USER,
+  REQUEST_ERROR
 } from "../constants/requestConstants";
 
+export const clearAlert = () => {
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch({
+        type: CLEAR_ALERT,
+      });
+    }, 3000);
+  };
+};
 
-export const createRequest = () => async (dispatch, getState) => {
-  dispatch({ type: CREATE_REQUEST_BEGIN });
-  const { user } = getState();
-  const { DocumentType, To, purpose, file } = getState().state;
+export const logoutUser = () => {
+  return (dispatch) => {
+    dispatch({ type: LOGOUT_USER });
+    removeUserFromLocalStorage();
+  };
+};
+
+const addUserToLocalStorage = ({ user, token, department }) => {
+  localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("token", token);
+  localStorage.setItem("department", department);
+};
+
+const removeUserFromLocalStorage = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("department");
+};
+
+export const createRequest = () => {
+  return async (dispatch, getState) => {
+    const { user } = getState();
+    const { DocumentType, To, purpose, file } = getState();
+
+    dispatch({ type: CREATE_REQUEST_BEGIN });
+
+    try {
+      await axios.post("/api/requests", {
+        DocumentType,
+        To,
+        purpose,
+        file,
+      });
+
+      dispatch({ type: CREATE_REQUEST_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+
+      dispatch({
+        type: CREATE_REQUEST_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+
+    dispatch(clearAlert());
+  };
+};
+
+export const getRequests = () => {
+  return async (dispatch, getState) => {
+    const { search, searchType, sort } = getState();
+    let url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}`;
+
+    if (search) {
+      url = url + `&search=${search}`;
+    }
+
+    dispatch({ type: GET_REQUESTS_BEGIN });
+
+    try {
+      const response = await axios.get(url);
+      console.log(response,"response")
+      // const { response.data, totalRequests, numOfPages } = response;
+      // console.log(requests)
+      const totalRequests = 5
+      const numOfPages = 3  
+
+
+      dispatch({
+        type: GET_REQUESTS_SUCCESS,
+        payload: {
+          requests: response.data,
+          totalRequests,
+          numOfPages,
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching requests:", error);
+    }
+  };
+};
+
+export const setEditRequest = (id) => {
+  return (dispatch) => {
+    dispatch({ type: SET_EDIT_REQUEST, payload: { id } });
+  };
+};
+
+export const editRequest = () => {
+  return async (dispatch, getState) => {
+    const { DocumentType, To, purpose, file } = getState().state;
+
+    dispatch({ type: EDIT_REQUEST_BEGIN });
+
+    try {
+      await axios.patch(`/api/requests/${getState().state.editRequestId}`, {
+        DocumentType,
+        purpose,
+        To,
+        file,
+      });
+
+      dispatch({ type: EDIT_REQUEST_SUCCESS });
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+
+      dispatch({
+        type: EDIT_REQUEST_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+
+    dispatch(clearAlert());
+  };
+};
+
+export const deleteRequest = (requestId) => {
+  return async (dispatch) => {
+    dispatch({ type: DELETE_REQUEST_BEGIN });
+    console.log(`req id ${requestId}`);
+
+    try {
+      await axios.delete(`/api/requests/${requestId}`);
+      dispatch(getRequests());
+    } catch (error) {
+      logoutUser()(dispatch);
+    }
+
+    console.log(`delete request: ${requestId}`);
+  };
+};
+
+export const openFile = (filename) => async (dispatch) => {
   try {
-    await authFetch.post("/requests", {
-      DocumentType,
-      To,
-      purpose,
-      file,
-    });
-    dispatch({ type: CREATE_REQUEST_SUCCESS });
-    dispatch({ type: CLEAR_VALUES });
+    // Make an API call to open the file
+    const response = await axios.get(
+      `http://localhost:5000/api/files/${filename}`,
+      {
+        responseType: "blob",
+      }
+    );
+
+    // Create a blob URL for the file
+    const fileBlob = new Blob([response.data], { type: "application/pdf" });
+    const fileUrl = URL.createObjectURL(fileBlob);
+
+    // Open the file in a new tab/window
+    window.open(fileUrl);
   } catch (error) {
-    if (error.response.status === 401) return;
+    // Handle error
     dispatch({
-      type: CREATE_REQUEST_ERROR,
-      payload: { msg: error.response.data.msg },
+      type: REQUEST_ERROR,
+      payload: error.response.data.message,
     });
   }
-  clearAlert();
 };
 
-export const getRequests = () => async (dispatch, getState) => {
-  const { search, searchType, sort } = getState().state;
-  let url = `/requests?DocumentType=${searchType}&sort=${sort}`;
-
-  if (search) {
-    url = url + `&search=${search}`;
-  }
-
-  dispatch({ type: GET_REQUESTS_BEGIN });
-  try {
-    const { data } = await authFetch(url);
-    const { requests, totalRequests, numOfPages } = data;
-    dispatch({
-      type: GET_REQUESTS_SUCCESS,
-      payload: {
-        requests,
-        totalRequests,
-        numOfPages,
-      },
-    });
-  } catch (error) {
-    console.log(error.response);
-  }
-  clearAlert();
-};
-
-export const setEditRequest = (id) => (dispatch) => {
-  dispatch({ type: SET_EDIT_REQUEST, payload: { id } });
-};
-
-export const editRequest = () => async (dispatch, getState) => {
-  dispatch({ type: EDIT_REQUEST_BEGIN });
-  const { DocumentType, To, purpose, file } = getState().state;
-  try {
-    await authFetch.patch(`/requests/${getState().state.editRequestId}`, {
-      DocumentType,
-      purpose,
-      To,
-      file,
-    });
-    dispatch({ type: EDIT_REQUEST_SUCCESS });
-    dispatch({ type: CLEAR_VALUES });
-  } catch (error) {
-    if (error.response.status === 401) return;
-    dispatch({
-      type: EDIT_REQUEST_ERROR,
-      payload: { msg: error.response.data.msg },
-    });
-  }
-  clearAlert();
-};
-
-export const deleteRequest = (requestId) => async (dispatch) => {
-  dispatch({ type: DELETE_REQUEST_BEGIN });
-  console.log(`req id ${requestId}`);
-  try {
-    await authFetch.delete(`/requests/${requestId}`);
-    dispatch(getRequests()); // dispatch getRequests() to update the state with the new list of requests after deleting the request
-  } catch (error) {
-    logoutUser();
-  }
-  console.log(`delete request : ${requestId}`);
-};
-
-export const openFile = (requestId) => async (dispatch) => {
-  dispatch({ type: OPEN_FILE });
-  try {
-    const response = await authFetch(`/requests/${requestId}`, {
-      responseType: "arraybuffer", // specify response type as arraybuffer to handle binary data
-    });
-    const pdfData = new Blob([response.data], { type: "application/pdf" }); // create Blob object from response data
-    const pdfUrl = URL.createObjectURL(pdfData); // create URL for Blob object
-    console.log(pdfData);
-    console.log(response.headers);
-    console.log(pdfUrl);
-    window.open(pdfUrl); // open new window/tab with URL of Blob object
-    dispatch(getRequests()); // dispatch getRequests() to update the state with the new list of requests after opening the file
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const clearFilters = () => (dispatch) => {
-  dispatch({ type: CLEAR_FILTERS });
+export const clearFilters = () => {
+  return (dispatch) => {
+    dispatch({ type: CLEAR_FILTERS });
+  };
 };

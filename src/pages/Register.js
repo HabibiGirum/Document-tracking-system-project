@@ -32,9 +32,8 @@ const Register = () => {
   );
 
   const handleSubmit = (e) => {
-    console.log("kasfjdasfjakskjdfajkshfdhakskhdfhakjsdfhaskjdfaksdf");
     e.preventDefault();
-    console.log(name); // Check if name value is logged correctly
+    // Check if name value is logged correctly
 
     if (password !== confirmPassword) {
       return;
