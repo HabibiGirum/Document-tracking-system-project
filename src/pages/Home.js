@@ -42,6 +42,7 @@ function Home() {
 
     // Generate the PDF content.
     const content = `
+  
   Name: ${event.target.elements.fullName.value}
   Department: ${event.target.elements.department.value}
   Purpose of Submission: ${event.target.elements.purpose.value}
