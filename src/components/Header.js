@@ -22,18 +22,13 @@ const Header = () => {
           <LinkContainer to="/">
             <Navbar.Brand className="nav">Document Tracking System </Navbar.Brand>
           </LinkContainer>
+        
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <LinkContainer to="/cart">
+              <LinkContainer to="/login">
                 <Nav.Link>
-                  
-                </Nav.Link>
-              </LinkContainer>
-
-              <LinkContainer to="/">
-                <Nav.Link onClick={handleLogout}>
-                  {/* <i className="fas fa-user"></i>Sign Out */}
+                  login
                 </Nav.Link>
               </LinkContainer>
             </Nav>

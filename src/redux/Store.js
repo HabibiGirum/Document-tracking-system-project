@@ -6,7 +6,7 @@ import thunk from "redux-thunk";
 // import { userLoginReducer } from "./reducers/userReducers";
 // <<<<<<< HEAD
 // =======
-import { userLoginReducer, userRegisterReducer } from "./reducers/userReducers";
+import { userLoginReducer, registerReducer } from "./reducers/userReducers";
 // >>>>>>> Home
 // =======
 import requestReducer from "./reducers/requestReducers"; // Import the requestReducer
@@ -15,7 +15,7 @@ import requestReducer from "./reducers/requestReducers"; // Import the requestRe
 const rootReducer = combineReducers({
   // register: registerReducer,
   userLogin: userLoginReducer,
-  userRegister:userRegisterReducer,
+  userRegister:registerReducer,
   requests: requestReducer, // Add the requestReducer to the root reducer
 });
 

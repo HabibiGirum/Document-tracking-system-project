@@ -19,7 +19,7 @@ const Register = () => {
 
   const dispatch = useDispatch();
 
-  const register = useSelector((state) => state.register);
+  const register = useSelector((state) => state.userRegister);
   const { loading, error, success } = register;
   console.log(
     role,
