@@ -71,7 +71,7 @@ const ReceivedPage = () => {
             <tr key={request._id}>
               <td>{request.from}</td>
               <td>{request.by}</td>
-              <td>{request.DocumentType}</td>
+              <td>{request.documentType}</td>
               <td>{request.purpose}</td>
               <td>{request.to}</td>
               <td>{formatDateTime(request.createdAt).split(",")[0]}</td>

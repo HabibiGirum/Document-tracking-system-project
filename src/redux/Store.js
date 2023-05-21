@@ -12,10 +12,13 @@ import { userLoginReducer, registerReducer } from "./reducers/userReducers";
 import requestReducer from "./reducers/requestReducers"; // Import the requestReducer
 // >>>>>>> document_request
 
+import sentReducer from "./reducers/sentReducer";
+
 const rootReducer = combineReducers({
   // register: registerReducer,
+  sentDocuments: sentReducer,
   userLogin: userLoginReducer,
-  userRegister:registerReducer,
+  userRegister: registerReducer,
   requests: requestReducer, // Add the requestReducer to the root reducer
 });
 
