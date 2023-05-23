@@ -1,34 +1,31 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-// <<<<<<< HEAD
-// import registerReducer from "./reducers/userReducers";
-// import { userLoginReducer } from "./reducers/userReducers";
-// <<<<<<< HEAD
-// =======
 import { userLoginReducer, registerReducer } from "./reducers/userReducers";
-// >>>>>>> Home
-// =======
-import requestReducer from "./reducers/requestReducers"; // Import the requestReducer
-// >>>>>>> document_request
-
+import requestReducer from "./reducers/requestReducers";
 import sentReducer from "./reducers/sentReducer";
 
 const rootReducer = combineReducers({
-  // register: registerReducer,
   sentDocuments: sentReducer,
   userLogin: userLoginReducer,
   userRegister: registerReducer,
-  requests: requestReducer, // Add the requestReducer to the root reducer
+  requests: requestReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
+console.log(userInfoFromStorage)
+const isAuthenticated = userInfoFromStorage !== null;
 
 const initialState = {
-  register: {
+  userLogin: {
     userInfo: userInfoFromStorage,
+    isAuthenticated: isAuthenticated,
+    loading: false,
+    error: null,
+  },
+  userRegister: {
     loading: false,
     success: false,
     error: null,

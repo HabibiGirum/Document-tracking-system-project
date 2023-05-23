@@ -23,7 +23,7 @@ const initialState = {
 };
 
 const requestReducer = (state = initialState, action) => {
-  console.log(state)
+  // console.log(state)
   switch (action.type) {
     case CREATE_REQUEST_BEGIN:
     case GET_REQUESTS_BEGIN:

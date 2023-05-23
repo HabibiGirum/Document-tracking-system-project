@@ -36,14 +36,14 @@ export const logoutUser = () => {
 };
 
 const addUserToLocalStorage = ({ user, token, department }) => {
-  localStorage.setItem("user", JSON.stringify(user));
+  localStorage.setItem("userInfo", JSON.stringify(user));
   localStorage.setItem("token", token);
   localStorage.setItem("department", department);
 };
 
 const removeUserFromLocalStorage = () => {
   localStorage.removeItem("token");
-  localStorage.removeItem("user");
+  localStorage.removeItem("userInfo");
   localStorage.removeItem("department");
 };
 
