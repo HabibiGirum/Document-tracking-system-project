@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const documentSchema = new mongoose.Schema(
+const biological_chemicalSchema = new mongoose.Schema(
   {
     _id: {
       type: String,
@@ -43,6 +43,9 @@ const documentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Document = mongoose.model("Document", documentSchema);
+const Biological_chemical = mongoose.model(
+  "Biological_chemical",
+  biological_chemicalSchema
+);
 
-module.exports = Document;
+module.exports = Biological_chemical;

@@ -25,8 +25,8 @@ const loginUser = async (req, res, next) => {
 
     // Generate JWT token
     const token = generateToken(user._id);
-
-    res.json({ token });
+    
+    res.json({ token,user });
   } catch (error) {
     next(error);
   }

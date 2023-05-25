@@ -1,6 +1,12 @@
 
 const Request = require("../models/requests");
 const Tracking = require("../models/tracking");
+const Applied = require("../models/applied");
+const Architecture_civil = require("../models/architecture_civil");
+const Biological_chemical = require("../models/biological_chemical");
+const Electrical = require("../models/electrical");
+const Natural_social = require("../models/natural_social");
+
 
 
 exports.getTrackingById = async (req, res) => {
@@ -24,12 +30,13 @@ exports.getTrackingById = async (req, res) => {
 
 
 exports.getSentDocuments = async (req, res) => {
+  console.log(req.body)
   try {
     const { by, documentType, status } = req.query;
 
     // Build the query object to filter documents
     const query = {
-      by, // Filter by specific user ID
+      by:by, // Filter by specific user ID
     };
 
     if (documentType) {
@@ -99,11 +106,136 @@ exports.updateTrackingById = async (req, res) => {
 
 // Get all requests
 exports.getAllRequests = async (req, res) => {
+  
   try {
-    const requests = await Request.find();
-    console.log(JSON.stringify(requests));
+    const userInfo = JSON.parse(req.query.userInfo)
+    const College = userInfo.college
+    const role = userInfo.role
+    console.log(role)
+    console.log(typeof (College))
+    let data = "";
+    let query;
+    const name = userInfo.name;
+    const to = userInfo.department;
+    
+    switch (role) {
+      case "1":
+        
+        query = { to: name };
+                  switch (College) {
+                    case "1":
+                      // code block
+                      data = await Request.find(query);
+                      break;
+                    case "2":
+                      // code block
+                      data = await Biological_chemical.find(query);
+                      break;
+                    case "3":
+                      // code block
+                      data = await Applied.find(query);
+                      break;
+                    case "4":
+                      // code block
+                      data = await Natural_social.find(query);
+                      break;
+                    case "5":
+                      data = await Architecture_civil.find(query);
+                      break;
+                    default:
+                    // code block
+                  }
+        break
+      case "2":
+        query = { to: to };
+                          switch (College) {
+                            case "1":
+                              // code block
+                              data = await Request.find(query);
+                              break;
+                            case "2":
+                              // code block 
+                              data = await Biological_chemical.find(query);
+                              break;
+                            case "3":
+                              // code block
+                              data = await Applied.find(query);
+                              break;
+                            case "4":
+                              // code block
+                              data = await Natural_social.find(query);
+                              break;
+                            case "5":
+                              data = await Architecture_civil.find(query);
+                              break;
+                            default:
+                            // code block
+                          }
+        break
+      case "3":
+        to = userInfo.college
+                query = { to: to };
+                          switch (College) {
+                            case "1":
+                              // code block
+                              data = await Request.find(query);
+                              break;
+                            case "2":
+                              // code block 
+                              data = await Biological_chemical.find(query);
+                              break;
+                            case "3":
+                              // code block
+                              data = await Applied.find(query);
+                              break;
+                            case "4":
+                              // code block
+                              data = await Natural_social.find(query);
+                              break;
+                            case "5":
+                              data = await Architecture_civil.find(query);
+                              break;
+                            default:
+                            // code block
+                          }
+        break
+      case "4":
+                query = { to: to };
+                          switch (College) {
+                            case "1":
+                              // code block
+                              data = await Request.find(query);
+                              break;
+                            case "2":
+                              // code block 
+                              data = await Biological_chemical.find(query);
+                              break;
+                            case "3":
+                              // code block
+                              data = await Applied.find(query);
+                              break;
+                            case "4":
+                              // code block
+                              data = await Natural_social.find(query);
+                              break;
+                            case "5":
+                              data = await Architecture_civil.find(query);
+                              break;
+                            default:
+                            // code block
+                          }
 
-    res.status(201).json(requests);
+
+
+    }
+    
+
+    console.log(College)
+    console.log(data)
+    // const requests = await Request.find();
+    // console.log(JSON.stringify(requests));
+
+    res.status(201).json(data);
   } catch (error) {
     res.status(500).json({ error: "An error occurred" });
   }

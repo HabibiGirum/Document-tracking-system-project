@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const documentSchema = new mongoose.Schema(
+const architecture_civilSchema = new mongoose.Schema(
   {
     _id: {
       type: String,
@@ -43,6 +43,9 @@ const documentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Document = mongoose.model("Document", documentSchema);
+const Architecture_civil = mongoose.model(
+  "Architecture_civil",
+  architecture_civilSchema
+);
 
-module.exports = Document;
+module.exports = Architecture_civil;

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const documentSchema = new mongoose.Schema(
+const electricalSchema = new mongoose.Schema(
   {
     _id: {
       type: String,
@@ -43,6 +43,6 @@ const documentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Document = mongoose.model("Document", documentSchema);
+const Electrical = mongoose.model("Electrical", electricalSchema);
 
-module.exports = Document;
+module.exports = Electrical;
