@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getRequests, openFile } from "../redux/actions/requestAction";
 import { Table } from "react-bootstrap";
+import SideBar from '../components/SideBar'
+import { json } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
 
 const ReceivedPage = () => {
   const dispatch = useDispatch();
@@ -9,6 +12,12 @@ const ReceivedPage = () => {
   const [sortedRequests, setSortedRequests] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
 
+  const { userInfo } = useSelector((state) => state.userLogin)
+  // const userInfo = JSON.parse(userInfo)
+  console.log(userInfo)
+  // if (role == 1) {
+    
+  // }
   useEffect(() => {
     dispatch(getRequests());
   }, [dispatch]);
@@ -49,6 +58,7 @@ const ReceivedPage = () => {
   return (
     <div>
       <h1>Received Requests</h1>
+      <SideBar />
       <Table striped bordered>
         <thead>
           <tr>

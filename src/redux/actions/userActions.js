@@ -11,7 +11,18 @@ import {
 import axios from "axios";
 import { API_BASE_URL } from "../../config";
 
+const addUserToLocalStorage = ({ user, token }) => {
+  console.log(user,token)
+  localStorage.setItem("userInfo", JSON.stringify(user));
+  localStorage.setItem("token", token);
+  // localStorage.setItem("department", department);
+};
 
+const removeUserFromLocalStorage = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("userInfo");
+  // localStorage.removeItem("department");
+};
 // const navigate = useNavigate()
 export const login = (email, password) => async (dispatch) => {
 
@@ -30,7 +41,7 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-      console.log(data.token)
+      console.log(data.user)
     // Check if the login was successful
     if (data.token) {
       dispatch({
@@ -39,7 +50,8 @@ export const login = (email, password) => async (dispatch) => {
       });
 
       // Set the user data in local storage
-      localStorage.setItem("userInfo", JSON.stringify(data.token));
+      // localStorage.setItem("userInfo", JSON.stringify(data.token));
+      addUserToLocalStorage({user:data.user,token:data.token})
       console.log(data);
       // Redirect to the home page or the desired protected route
       window.location.href = "/home";

@@ -1,4 +1,6 @@
+import { switchClasses } from "@mui/base";
 import axios from "axios";
+import { json } from "react-router-dom";
 import {
   CREATE_REQUEST_BEGIN,
   CREATE_REQUEST_SUCCESS,
@@ -15,7 +17,7 @@ import {
   CLEAR_VALUES,
   CLEAR_ALERT,
   LOGOUT_USER,
-  REQUEST_ERROR
+  REQUEST_ERROR,
 } from "../constants/requestConstants";
 
 export const clearAlert = () => {
@@ -79,23 +81,58 @@ export const createRequest = () => {
 
 export const getRequests = () => {
   return async (dispatch, getState) => {
-    const { search, searchType, sort } = getState();
-    let url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}`;
+    const { search, searchType, sort, userLogin } = getState();
+    const userInfo = JSON.parse(userLogin.userInfo);
+    const role = userInfo.role;
+    const college = userInfo.college;
+    const email = userInfo.to;
+    console.log(userInfo);
+    let url = "";
+    if (role === "1") {
+      switch (college) {
+        case "1":
+          // code block
+           url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
+             JSON.stringify(userInfo)
+           )}`;
+          break;
+        case "2":
+          // code block
+          url = `http://localhost:5000/api/biological_chemical?DocumentType=${searchType}&sort=${sort}`;
+          break;
+        case "3":
+          // code block
+          url = `http://localhost:5000/api/apllied?DocumentType=${searchType}&sort=${sort}`;
+          break;
+        case "4":
+          // code block
+          url = `http://localhost:5000/api/natural_social?DocumentType=${searchType}&sort=${sort}`;
+          break;
+        case "5":
+          url = `http://localhost:5000/api/architecture_civil?DocumentType=${searchType}&sort=${sort}`;
+          break;
+        default:
+        // code block
+      }
+    }
 
     if (search) {
       url = url + `&search=${search}`;
     }
-
+    console.log(url)
     dispatch({ type: GET_REQUESTS_BEGIN });
 
     try {
-      const response = await axios.get(url);
-      console.log(response,"response")
+      const response = await axios.get(url, {
+        headers: { "Content-Type": "application/json" },
+        data: JSON.stringify(userInfo),
+      });
+      console.log(response)
+      console.log(response, "response");
       // const { response.data, totalRequests, numOfPages } = response;
       // console.log(requests)
-      const totalRequests = 5
-      const numOfPages = 3  
-
+      const totalRequests = 5;
+      const numOfPages = 3;
 
       dispatch({
         type: GET_REQUESTS_SUCCESS,
