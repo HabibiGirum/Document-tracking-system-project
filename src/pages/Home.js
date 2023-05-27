@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux'
 import { Card, Form, Container,Button } from "react-bootstrap";
 import Footer from "../components/Footer";
 import Header from "../components/HomeHeader";
 import { jsPDF } from "jspdf";
+import { documentRequest } from "../redux/actions/Document_Actions";
 // import List from "../components/List";
 
-
 function Home() {
+  const dispatch = useDispatch()
+  const document_request = useSelector((state)=>state.document_request)
+  const {loading,error,docInfo}=document_request
   const [selectedOption, setSelectedOption] = useState("");
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -21,11 +25,22 @@ function Home() {
   const to = event.target.elements.to.value;
   const documentType = event.target.elements.documentType.value;
 
-  console.log("Full Name:", fullName);
-  console.log("Department:", department);
-  console.log("Purpose of Submission:", purpose);
-  console.log("To:", to);
-  console.log("Selected Document Type:", documentType);
+  const data={
+    fullName,
+    department,
+    purpose,
+    to,
+    documentType
+  }
+
+  dispatch(documentRequest(data))
+  console.log(data);
+
+  // console.log("Full Name:", fullName);
+  // console.log("Department:", department);
+  // console.log("Purpose of Submission:", purpose);
+  // console.log("To:", to);
+  // console.log("Selected Document Type:", documentType);
 
     const doc = new jsPDF();
 
@@ -85,7 +100,7 @@ function Home() {
                 <option>Department</option>
                 <option>College</option>
                 <option>HR</option>
-                <option>vice presedant</option>
+                <option>vice president</option>
               </Form.Control>
             </Form.Group>
 
@@ -100,7 +115,7 @@ function Home() {
               >
                 <option>Control document type</option>
                 <option value="1">Leave</option>
-                <option value="2">Requritment</option>
+                <option value="2">Recruitment</option>
                 <option value="3">Promotion</option>
               </Form.Control>
             </Form.Group>
