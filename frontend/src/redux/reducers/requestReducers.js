@@ -22,8 +22,8 @@ const initialState = {
   error: null,
 };
 
-const requestReducer = (state = initialState, action) => {
-  console.log(state)
+export const requestReducer = (state = initialState, action) => {
+  // console.log(state)
   switch (action.type) {
     case CREATE_REQUEST_BEGIN:
     case GET_REQUESTS_BEGIN:
@@ -68,4 +68,4 @@ const requestReducer = (state = initialState, action) => {
   }
 };
 
-export default requestReducer;
+// export default requestReducer;
