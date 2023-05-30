@@ -1,6 +1,8 @@
 import { switchClasses } from "@mui/base";
 import axios from "axios";
 import { json } from "react-router-dom";
+import { API_BASE_URL } from "../../config";
+
 import {
   CREATE_REQUEST_BEGIN,
   CREATE_REQUEST_SUCCESS,
@@ -18,6 +20,7 @@ import {
   CLEAR_ALERT,
   LOGOUT_USER,
   REQUEST_ERROR,
+  CREATE_REQUEST_FAIL,
 } from "../constants/requestConstants";
 
 export const clearAlert = () => {
@@ -49,35 +52,45 @@ const removeUserFromLocalStorage = () => {
   localStorage.removeItem("department");
 };
 
-export const createRequest = () => {
-  return async (dispatch, getState) => {
-    const { user } = getState();
-    const { DocumentType, To, purpose, file } = getState();
 
-    dispatch({ type: CREATE_REQUEST_BEGIN });
 
-    try {
-      await axios.post("/api/requests", {
-        DocumentType,
-        To,
-        purpose,
-        file,
+
+export const createRequestBegin = () => ({
+  type: CREATE_REQUEST_BEGIN
+});
+
+export const createRequestSuccess = () => ({
+  type: CREATE_REQUEST_SUCCESS
+});
+
+export const createRequestFail = (error) => ({
+  type: CREATE_REQUEST_FAIL,
+  payload: error
+});
+
+export const createRequestError = (error) => ({
+  type: CREATE_REQUEST_ERROR,
+  payload: error
+});
+
+export const createRequest = (requestData) => {
+  return (dispatch) => {
+    dispatch(createRequestBegin());
+console.log(requestData);
+    axios
+      .post(`${API_BASE_URL}/requests`, requestData)
+      .then((response) => {
+        dispatch(createRequestSuccess());
+        // Handle any additional actions or logic after successful request creation
+      })
+      .catch((error) => {
+        dispatch(createRequestFail(error));
+        // Handle any error actions or logic
       });
-
-      dispatch({ type: CREATE_REQUEST_SUCCESS });
-      dispatch({ type: CLEAR_VALUES });
-    } catch (error) {
-      if (error.response.status === 401) return;
-
-      dispatch({
-        type: CREATE_REQUEST_ERROR,
-        payload: { msg: error.response.data.msg },
-      });
-    }
-
-    dispatch(clearAlert());
   };
 };
+
+
 
 export const getRequests = () => {
   return async (dispatch, getState) => {

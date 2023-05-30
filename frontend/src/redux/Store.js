@@ -3,14 +3,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { userLoginReducer, registerReducer } from "./reducers/userReducers";
 
-// >>>>>>> Home
-// =======
-import { requestReducer } from "./reducers/requestReducers";
-// import requestReducer from "./reducers/requestReducers"; // Import the requestReducer
-import { document_request_reducer } from "./reducers/Document_Reducers";
 
-// >>>>>>> document_request
-// import requestReducer from "./reducers/requestReducers";
+import { requestReducer,requestCreateReducer } from "./reducers/requestReducers";
+
 import sentReducer from "./reducers/sentReducer";
 
 const rootReducer = combineReducers({
@@ -18,8 +13,8 @@ const rootReducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: registerReducer,
 
-  document_request: document_request_reducer,
-  requests: requestReducer, // Add the requestReducer to the root reducer
+  requestCreate:requestCreateReducer,
+  //requests: requestReducer, // Add the requestReducer to the root reducer
 
 });
 
@@ -29,10 +24,10 @@ const userInfoFromStorage = localStorage.getItem("userInfo")
 console.log(userInfoFromStorage)
 const isAuthenticated = userInfoFromStorage !== null;
 
-const documentItemsFromStorage = localStorage.getItem("docInfo")
-  ? JSON.parse(localStorage.getItem("docInfo"))
+const requestInfoFormStorage  = localStorage.getItem("data")
+  ? JSON.parse(localStorage.getItem("data"))
   : [];
-
+console.log(requestInfoFormStorage);
 const initialState = {
   userLogin: {
     userInfo: userInfoFromStorage,
@@ -45,9 +40,7 @@ const initialState = {
     success: false,
     error: null,
   },
-  document:{
-    docInfo:documentItemsFromStorage
-  }
+  
 };
 
 const middleware = [thunk];

@@ -1,47 +1,75 @@
-import React, { useState,useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux'
-import { Card, Form, Container,Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Card, Form, Container, Button } from "react-bootstrap";
 import Footer from "../components/Footer";
 import Header from "../components/HomeHeader";
 import { jsPDF } from "jspdf";
-import { documentRequest } from "../redux/actions/Document_Actions";
+import { createRequest } from "../redux/actions/requestAction";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 // import List from "../components/List";
 
 function Home() {
-  const dispatch = useDispatch()
-  const document_request = useSelector((state)=>state.document_request)
-  const {loading,error,docInfo}=document_request
+  const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState("");
+
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
+  const userInfoFromStorage = localStorage.getItem("userInfo")
+    ? localStorage.getItem("userInfo")
+    : null;
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    if (userInfoFromStorage) {
+      console.log(userInfoFromStorage.name);
+    }
+  }, [userInfoFromStorage]);
+
+  const handleSubmit = async (event) => {
+    // Mark the function as async
     event.preventDefault();
+    // Generate a unique ID using uuidv4
+    const uniqueId = uuidv4();
     // Access the form field values using event.target.elements
-  const fullName = event.target.elements.fullName.value;
-  const department = event.target.elements.department.value;
-  const purpose = event.target.elements.purpose.value;
-  const to = event.target.elements.to.value;
-  const documentType = event.target.elements.documentType.value;
+    const fullName = event.target.elements.fullName.value;
+    const department = event.target.elements.department.value;
+    const purpose = event.target.elements.purpose.value;
+    const to = event.target.elements.to.value;
+    const documentType = event.target.elements.documentType.value;
 
-  const data={
-    fullName,
-    department,
-    purpose,
-    to,
-    documentType
-  }
+    const data = {
+      id: uniqueId, // Include the unique ID in the data
+      fullName,
+      department,
+      purpose,
+      to,
+      documentType,
+    };
 
-  dispatch(documentRequest(data))
-  console.log(data);
+    dispatch(createRequest(data));
+    console.log(data);
 
-  // console.log("Full Name:", fullName);
-  // console.log("Department:", department);
-  // console.log("Purpose of Submission:", purpose);
-  // console.log("To:", to);
-  // console.log("Selected Document Type:", documentType);
+    // Display an alert with the tracking ID
+    window.alert(`This is your tracking ID: ${uniqueId}`);
 
+    // Create FormData object
+    const formData = new FormData();
+    formData.append("image", event.target.elements.imageDocument.files[0]);
+    try {
+      // Send the image file to the Flask server
+      const response = await axios.post("/process_image", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      // Access the extracted text from the response
+      const extractedText = response.data.text;
+      console.log(extractedText);
+    } catch (error) {
+      console.log(error);
+    }
     const doc = new jsPDF();
 
     // Generate the PDF content.
@@ -58,7 +86,7 @@ function Home() {
 
     // Save the PDF
 
-    doc.save("form.pdf");
+    //doc.save("form.pdf");
   };
 
   return (
@@ -73,6 +101,8 @@ function Home() {
                 type="text"
                 name="fullName"
                 placeholder="Enter your full name."
+                defaultValue={JSON.parse(userInfoFromStorage)?.name}
+                disabled
               />
             </Form.Group>
             <Form.Group>
@@ -100,7 +130,7 @@ function Home() {
                 <option>Department</option>
                 <option>College</option>
                 <option>HR</option>
-                <option>vice president</option>
+                <option>Vice President</option>
               </Form.Control>
             </Form.Group>
 
@@ -123,7 +153,11 @@ function Home() {
             {selectedOption === "3" && (
               <Form.Group>
                 <Form.Label>Upload image document</Form.Label>
-                <Form.Control type="file" name="imageDocument" />
+                <Form.Control
+                  type="file"
+                  name="imageDocument"
+                  accept="image/*"
+                />
               </Form.Group>
             )}
             {selectedOption === "1" && (
@@ -139,8 +173,9 @@ function Home() {
             )}
             <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label>Multiple files input example</Form.Label>
-              <Form.Control type="file" multiple />
+              <Form.Control type="file" accept="application/pdf" multiple />
             </Form.Group>
+
             <Button variant="secondary" type="submit">
               Submit
             </Button>
@@ -153,8 +188,3 @@ function Home() {
 }
 
 export default Home;
-
-//// next task create document_request_action.js
-///  constant.js
-/// reducer.js
-/// and store.js

@@ -16,11 +16,19 @@ dotenv.config();
 
 // Create Express app
 const app = express();
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+app.use(function (req,res,next){
+  res.header("Access-Control-Allow-Origin","http://localhost:3000");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//   })
+// );
 
 app.use(morgan("dev"));
 
@@ -54,6 +62,7 @@ app.use("/api/requests", requestRoutes);
 
 // Include the tracking routes
 app.use("/api", trackingRoutes);
+
 
 // Route to get a file by filename
 app.get("/api/files/:filename", async (req, res) => {
@@ -92,3 +101,4 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Internal Server Error" });
 });
+

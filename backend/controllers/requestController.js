@@ -1,4 +1,4 @@
-
+const asyncHandler = require('express-async-handler')
 const Request = require("../models/requests");
 const Tracking = require("../models/tracking");
 const Applied = require("../models/applied");
@@ -243,21 +243,26 @@ exports.getAllRequests = async (req, res) => {
 
 // Create a new request
 exports.createRequest = async (req, res) => {
-  const { from, by, DocumentType, purpose, To, filename, createdBy } = req.body;
+  const { fullName, department, documentType, purpose, to } = req.body;
 
   try {
+    // Create the request in the database
     const request = await Request.create({
-      from,
-      by,
-      DocumentType,
+      fullName,
+      department,
+      documentType,
       purpose,
-      To,
-      filename,
-      createdBy,
+      to,
     });
-
+    console.log(request);
+    // Return the created request as a response
     res.status(201).json(request);
+
   } catch (error) {
+        // Handle any errors that occur during the creation process
+    console.error("Error creating request:", error);
     res.status(500).json({ error: "An error occurred" });
   }
 };
+
+

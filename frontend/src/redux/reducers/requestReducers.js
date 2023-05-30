@@ -11,6 +11,7 @@ import {
   EDIT_REQUEST_SUCCESS,
   OPEN_FILE,
   CLEAR_FILTERS,
+  CREATE_REQUEST_FAIL,
 } from "../constants/requestConstants";
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   numOfPages: 0,
   editRequestId: null,
   error: null,
+  success:false
 };
 
 export const requestReducer = (state = initialState, action) => {
@@ -67,5 +69,61 @@ export const requestReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+// export const requestCreateReducer = (state={},action)=>{
+//   switch (action.type) {
+//     case CREATE_REQUEST_BEGIN:
+//       return {loading:true}
+//     case CREATE_REQUEST_SUCCESS:
+//       return {loading:false,data:action.payload}
+//     case CREATE_REQUEST_ERROR:
+//       return {loading:false,error:action.payload}      
+      
+  
+//     default:
+//       return state;
+//   }
+// }
+
+
+
+
+export const requestCreateReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case CREATE_REQUEST_BEGIN:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        success: false
+      };
+    case CREATE_REQUEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        success: true
+      };
+    case CREATE_REQUEST_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false
+      };
+    case CREATE_REQUEST_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false
+      };
+    default:
+      return state;
+  }
+};
+
+// export default requestReducer;
+
 
 // export default requestReducer;

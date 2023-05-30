@@ -1,6 +1,6 @@
 import cv2
 import pytesseract
-import re
+import numpy as np
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
