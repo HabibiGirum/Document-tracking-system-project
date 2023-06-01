@@ -43,6 +43,6 @@ const appliedSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Applied = mongoose.model("applied", appliedSchema);
+const Applied = mongoose.model("Applied", appliedSchema);
 
 module.exports = Applied;

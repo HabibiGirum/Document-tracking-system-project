@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const documentSchema = new mongoose.Schema(
+const Vice_PresidentSchema = new mongoose.Schema(
   {
     _id: {
       type: String,
@@ -43,6 +43,6 @@ const documentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Document = mongoose.model("Document", documentSchema);
+const Vice_President = mongoose.model("Vice_President", Vice_PresidentSchema);
 
-module.exports = Document;
+module.exports = Vice_President;

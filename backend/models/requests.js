@@ -2,22 +2,22 @@ const mongoose = require("mongoose");
 
 const documentSchema = new mongoose.Schema(
   {
-    _id: {
+    id: {
       type: String,
       required: true,//true
     },
-    from: {
+    department: {
       type: String,
       required: true,
     },
-    by: {
+    fullName: {
       type: String,
       required: true,
     },
     documentType: {
       type: String,
       required: true,
-      enum: ["Leave", "Recruitment", "Promotion"],
+      enum: ["2","Leave", "Recruitment", "Promotion"],
     },
     purpose: {
       type: String,
@@ -27,17 +27,17 @@ const documentSchema = new mongoose.Schema(
     to: {
       type: String,
       required: true,
-      enum: ["Department", "College", "HR", "Vice President"],
+      enum: ["1","Department", "College", "HR", "Vice President"],
       default: "Department",
     },
     filename: {
       type: String,
-      required: true,
+      required: false,
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }

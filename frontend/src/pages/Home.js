@@ -19,6 +19,7 @@ function Home() {
   const userInfoFromStorage = localStorage.getItem("userInfo")
     ? localStorage.getItem("userInfo")
     : null;
+  const department = JSON.parse(userInfoFromStorage)?.department;
 
   useEffect(() => {
     if (userInfoFromStorage) {
@@ -30,14 +31,19 @@ function Home() {
     // Mark the function as async
     event.preventDefault();
     // Generate a unique ID using uuidv4
-    const uniqueId = uuidv4();
+    const roll = JSON.parse(userInfoFromStorage)?.role;
+    const now = new Date();
+    const day = ("0" + now.getDate()).slice(-2); // Get the day with leading zero if necessary
+    const uuid = uuidv4().substring(0, 5); // Get the first 5 characters of the UUID
+    const uniqueId = `${day}_${uuid}`;
+    // const uniqueId = uuidv4();
     // Access the form field values using event.target.elements
     const fullName = event.target.elements.fullName.value;
     const department = event.target.elements.department.value;
     const purpose = event.target.elements.purpose.value;
     const to = event.target.elements.to.value;
     const documentType = event.target.elements.documentType.value;
-
+  
     const data = {
       id: uniqueId, // Include the unique ID in the data
       fullName,
@@ -45,17 +51,20 @@ function Home() {
       purpose,
       to,
       documentType,
+      roll,
     };
-
+  
     dispatch(createRequest(data));
     console.log(data);
-
+  
     // Display an alert with the tracking ID
     window.alert(`This is your tracking ID: ${uniqueId}`);
-
+  
     // Create FormData object
     const formData = new FormData();
-    formData.append("image", event.target.elements.imageDocument.files[0]);
+    if (event.target.elements.imageDocument) {
+      formData.append("image", event.target.elements.imageDocument.files[0]);
+    }
     try {
       // Send the image file to the Flask server
       const response = await axios.post("/process_image", formData, {
@@ -63,7 +72,7 @@ function Home() {
           "Content-Type": "multipart/form-data",
         },
       });
-
+  
       // Access the extracted text from the response
       const extractedText = response.data.text;
       console.log(extractedText);
@@ -71,21 +80,21 @@ function Home() {
       console.log(error);
     }
     const doc = new jsPDF();
-
+  
     // Generate the PDF content.
     const content = `
-  Name: ${event.target.elements.fullName.value}
-  Department: ${event.target.elements.department.value}
-  Purpose of Submission: ${event.target.elements.purpose.value}
-  To: ${event.target.elements.to.value}
-  Selected Document Type: ${event.target.elements.documentType.value}
-`;
-
+    Name: ${event.target.elements.fullName.value}
+    Department: ${event.target.elements.department.value}
+    Purpose of Submission: ${event.target.elements.purpose.value}
+    To: ${event.target.elements.to.value}
+    Selected Document Type: ${event.target.elements.documentType.value}
+  `;
+  
     // Add the content to the PDF
     doc.text(content, 10, 10);
-
+  
     // Save the PDF
-
+  
     //doc.save("form.pdf");
   };
 
@@ -100,7 +109,6 @@ function Home() {
               <Form.Control
                 type="text"
                 name="fullName"
-                placeholder="Enter your full name."
                 defaultValue={JSON.parse(userInfoFromStorage)?.name}
                 disabled
               />
@@ -110,7 +118,8 @@ function Home() {
               <Form.Control
                 type="text"
                 name="department"
-                placeholder="enter your department"
+                defaultValue={JSON.parse(userInfoFromStorage)?.department}
+                disabled
               />
             </Form.Group>
 
@@ -123,6 +132,31 @@ function Home() {
               />
               <Form.Text className="text-muted"></Form.Text>
             </Form.Group>
+            {department === "Electrical" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Electrical</option>
+                  <option>College</option>
+                  <option>HR</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Mechanical" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Mechanical</option>
+                  <option>College</option>
+                  <option>HR</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
             <Form.Group>
               <Form.Label>To:</Form.Label>
 
