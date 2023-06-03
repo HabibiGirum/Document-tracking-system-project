@@ -107,7 +107,7 @@ const Register = () => {
                     onChange={(e) => setDepartment(e.target.value)}
                   >
                     <option>Select user Department</option>
-                    <option value="1">
+                    <option >
                       Electrical and Computer Engineering
                     </option>
                     <option value="2">ElectroMechanical Engineering</option>

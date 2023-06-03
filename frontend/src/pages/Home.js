@@ -20,6 +20,8 @@ function Home() {
     ? localStorage.getItem("userInfo")
     : null;
   const department = JSON.parse(userInfoFromStorage)?.department;
+  const college = JSON.parse(userInfoFromStorage)?.college;
+  const roll = JSON.parse(userInfoFromStorage)?.role;
 
   useEffect(() => {
     if (userInfoFromStorage) {
@@ -43,7 +45,7 @@ function Home() {
     const purpose = event.target.elements.purpose.value;
     const to = event.target.elements.to.value;
     const documentType = event.target.elements.documentType.value;
-  
+
     const data = {
       id: uniqueId, // Include the unique ID in the data
       fullName,
@@ -53,13 +55,13 @@ function Home() {
       documentType,
       roll,
     };
-  
+
     dispatch(createRequest(data));
     console.log(data);
-  
+
     // Display an alert with the tracking ID
     window.alert(`This is your tracking ID: ${uniqueId}`);
-  
+
     // Create FormData object
     const formData = new FormData();
     if (event.target.elements.imageDocument) {
@@ -72,7 +74,7 @@ function Home() {
           "Content-Type": "multipart/form-data",
         },
       });
-  
+
       // Access the extracted text from the response
       const extractedText = response.data.text;
       console.log(extractedText);
@@ -80,7 +82,7 @@ function Home() {
       console.log(error);
     }
     const doc = new jsPDF();
-  
+
     // Generate the PDF content.
     const content = `
     Name: ${event.target.elements.fullName.value}
@@ -89,12 +91,12 @@ function Home() {
     To: ${event.target.elements.to.value}
     Selected Document Type: ${event.target.elements.documentType.value}
   `;
-  
+
     // Add the content to the PDF
     doc.text(content, 10, 10);
-  
+
     // Save the PDF
-  
+
     //doc.save("form.pdf");
   };
 
@@ -132,41 +134,304 @@ function Home() {
               />
               <Form.Text className="text-muted"></Form.Text>
             </Form.Group>
-            {department === "Electrical" && (
+            {roll === "Electrical And Mechanical Collage Dean" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+                <Form.Control name="to" as="select">
+                  <option>Electrical and Computer Department</option>
+                  <option>Electromechanical Department</option>
+                  <option>Mechanical Department</option>
+                  <option>Software Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+            {department === "Electrical and Computer Engineering" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select">
-                  <option>Electrical</option>
-                  <option>College</option>
-                  <option>HR</option>
+                  <option>Electrical And Mechanical Collage</option>
+                  <option>Electrical and Computer Department</option>
+                  <option>Human Resources</option>
                   <option>Vice President</option>
                 </Form.Control>
               </Form.Group>
             )}
 
-            {department === "Mechanical" && (
+            {department === "Mechanical Engineering" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select">
-                  <option>Mechanical</option>
-                  <option>College</option>
-                  <option>HR</option>
+                  <option>Electrical And Mechanical Collage</option>
+                  <option>Mechanical Department</option>
+                  <option>Human Resources</option>
                   <option>Vice President</option>
                 </Form.Control>
               </Form.Group>
             )}
-            <Form.Group>
-              <Form.Label>To:</Form.Label>
 
-              <Form.Control name="to" as="select">
-                <option>Department</option>
-                <option>College</option>
-                <option>HR</option>
-                <option>Vice President</option>
-              </Form.Control>
-            </Form.Group>
+            {department === "Electromechanical Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Electrical And Mechanical Collage</option>
+                  <option>Electromechanical Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {roll === "Biological And Chemical College Dean" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+                <Form.Control name="to" as="select">
+                  <option>Biotechnology Department</option>
+                  <option>Chemical Department</option>
+                  <option>Environmental Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Chemical Engineering" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Biological And Chemical Collage</option>
+                  <option>Chemical Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+            {department === "Biotechnology Engineering" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Biological And Chemical Collage</option>
+                  <option>Biotechnology Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Environmental Engineering" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Biological And Chemical Collage</option>
+                  <option>Environmental Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {roll === "Natural And Social College Dean" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Mathematics Department</option>
+                  <option>Language Department</option>
+                  <option>Physics and Statistics</option>
+                  <option>Social Sciences Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Mathematics Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Natural And Social Sciences College</option>
+                  <option>Mathematics Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Language Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>LNatural And Social College</option>
+                  <option>Language Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+            {department === "Physics and Statistics Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>LNatural And Social College</option>
+                  <option>Physics and Statistics Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+            {department === "Social Sciences Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>LNatural And Social College</option>
+                  <option>Social Sciences Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {roll === "Architecture And Civil College Dean " && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Architecture And Civil College</option>
+                  <option>Architecture Department</option>
+                  <option>Civil Department</option>
+                  <option>Mining Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Architecture Department " && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Architecture And Civil College</option>
+                  <option>Architecture Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+            {department === "Civil Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Architecture And Civil College</option>
+                  <option>Civil Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Mining Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Architecture And Civil College</option>
+                  <option>Mining Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {roll === "Applied College Dean" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+                <Form.Control name="to" as="select">
+                  <option>Applied Sciences College</option>
+                  <option>Geology Department</option>
+                  <option>Industrial Chemistry Department</option>
+                  <option>Food Science and Applied Nutrition Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Geology Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+                <Form.Control name="to" as="select">
+                  <option>Applied Sciences College</option>
+                  <option>Geology Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+            {department === "Industrial Chemistry Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+                <Form.Control name="to" as="select">
+                  <option>Applied Sciences College</option>
+                  <option>Industrial Chemistry Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Food Science and Applied Nutrition Department" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+                <Form.Control name="to" as="select">
+                  <option>Applied Sciences College</option>
+                  <option>Food Science and Applied Nutrition Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {roll === "Vice President" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>LNatural And Social College</option>
+                  <option>Biological And Chemical Collage</option>
+                  <option>Electrical And Mechanical Collage</option>
+                  <option>Applied Sciences Collage</option>
+                  <option>Natural And Social Sciences College</option>
+                  <option>Human Resources</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+            {roll === "Human Resources" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>LNatural And Social College</option>
+                  <option>Biological And Chemical Collage</option>
+                  <option>Electrical And Mechanical Collage</option>
+                  <option>Applied Sciences Collage</option>
+                  <option>Natural And Social Sciences College</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
 
             <Form.Group>
               <Form.Label>select document type</Form.Label>
@@ -177,7 +442,7 @@ function Home() {
                 name="documentType"
                 onChange={handleOptionChange}
               >
-                <option>Control document type</option>
+                <option>Select document type</option>
                 <option value="1">Leave</option>
                 <option value="2">Recruitment</option>
                 <option value="3">Promotion</option>

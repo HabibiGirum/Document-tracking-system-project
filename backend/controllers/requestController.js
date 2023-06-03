@@ -1,5 +1,5 @@
-const asyncHandler = require('express-async-handler')
-const StatusCodes = require('http-status-codes')
+const asyncHandler = require("express-async-handler");
+const StatusCodes = require("http-status-codes");
 const Request = require("../models/requests");
 const Tracking = require("../models/tracking");
 const Applied = require("../models/applied");
@@ -7,11 +7,10 @@ const Architecture_civil = require("../models/architecture_civil");
 const Biological_chemical = require("../models/biological_chemical");
 const Electrical = require("../models/electrical");
 const Natural_social = require("../models/natural_social");
-const Vice_PresidentSchema = require("../models/vicePresident")
-const BadRequestError  = require('../errors/bad-request');
-const Document = require('../models/requests');
-const User = require("../models/User");
-
+const Vice_PresidentSchema = require("../models/vicePresident");
+const BadRequestError = require("../errors/bad-request");
+const Document = require("../models/requests");
+const Human_Resources = require("../models/humanResource");
 
 exports.getTrackingById = async (req, res) => {
   try {
@@ -31,16 +30,14 @@ exports.getTrackingById = async (req, res) => {
   }
 };
 
-
-
 exports.getSentDocuments = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   try {
     const { by, documentType, status } = req.query;
 
     // Build the query object to filter documents
     const query = {
-      by:by, // Filter by specific user ID
+      by: by, // Filter by specific user ID
     };
 
     if (documentType) {
@@ -65,17 +62,17 @@ exports.getTrackingInfo = async (req, res) => {
     const { specificId } = req.params; // Assuming specificId is passed as a URL parameter
     // Find the tracking document by specificId
     const trackingInfo = await Tracking.findOne({
-      specificId
+      specificId,
     });
     if (!trackingInfo) {
-      return res.status(404).json({ error: 'Tracking information not found' });
+      return res.status(404).json({ error: "Tracking information not found" });
     }
 
     // Return the tracking information
     return res.json(trackingInfo);
   } catch (error) {
-    console.error('Error retrieving tracking information:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    console.error("Error retrieving tracking information:", error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -107,135 +104,128 @@ exports.updateTrackingById = async (req, res) => {
   }
 };
 
-
 // Get all requests
 exports.getAllRequests = async (req, res) => {
-  
   try {
-    const userInfo = JSON.parse(req.query.userInfo)
-    const College = userInfo.college
-    const role = userInfo.role
-    console.log(role)
-    console.log(typeof (College))
+    const userInfo = JSON.parse(req.query.userInfo);
+    const College = userInfo.college;
+    const role = userInfo.role;
+    console.log(role);
+    console.log(typeof College);
     let data = "";
     let query;
     const name = userInfo.name;
     const to = userInfo.department;
-    
+
     switch (role) {
       case "1":
-        
         query = { to: name };
-                  switch (College) {
-                    case "1":
-                      // code block
-                      data = await Request.find(query);
-                      break;
-                    case "2":
-                      // code block
-                      data = await Biological_chemical.find(query);
-                      break;
-                    case "3":
-                      // code block
-                      data = await Applied.find(query);
-                      break;
-                    case "4":
-                      // code block
-                      data = await Natural_social.find(query);
-                      break;
-                    case "5":
-                      data = await Architecture_civil.find(query);
-                      break;
-                    default:
-                    // code block
-                  }
-        break
+        switch (College) {
+          case "1":
+            // code block
+            data = await Request.find(query);
+            break;
+          case "2":
+            // code block
+            data = await Biological_chemical.find(query);
+            break;
+          case "3":
+            // code block
+            data = await Applied.find(query);
+            break;
+          case "4":
+            // code block
+            data = await Natural_social.find(query);
+            break;
+          case "5":
+            data = await Architecture_civil.find(query);
+            break;
+          default:
+          // code block
+        }
+        break;
       case "2":
         query = { to: to };
-                          switch (College) {
-                            case "1":
-                              // code block
-                              data = await Request.find(query);
-                              break;
-                            case "2":
-                              // code block 
-                              data = await Biological_chemical.find(query);
-                              break;
-                            case "3":
-                              // code block
-                              data = await Applied.find(query);
-                              break;
-                            case "4":
-                              // code block
-                              data = await Natural_social.find(query);
-                              break;
-                            case "5":
-                              data = await Architecture_civil.find(query);
-                              break;
-                            default:
-                            // code block
-                          }
-        break
+        switch (College) {
+          case "1":
+            // code block
+            data = await Request.find(query);
+            break;
+          case "2":
+            // code block
+            data = await Biological_chemical.find(query);
+            break;
+          case "3":
+            // code block
+            data = await Applied.find(query);
+            break;
+          case "4":
+            // code block
+            data = await Natural_social.find(query);
+            break;
+          case "5":
+            data = await Architecture_civil.find(query);
+            break;
+          default:
+          // code block
+        }
+        break;
       case "3":
-        to = userInfo.college
-                query = { to: to };
-                          switch (College) {
-                            case "1":
-                              // code block
-                              data = await Request.find(query);
-                              break;
-                            case "2":
-                              // code block 
-                              data = await Biological_chemical.find(query);
-                              break;
-                            case "3":
-                              // code block
-                              data = await Applied.find(query);
-                              break;
-                            case "4":
-                              // code block
-                              data = await Natural_social.find(query);
-                              break;
-                            case "5":
-                              data = await Architecture_civil.find(query);
-                              break;
-                            default:
-                            // code block
-                          }
-        break
+        to = userInfo.college;
+        query = { to: to };
+        switch (College) {
+          case "1":
+            // code block
+            data = await Request.find(query);
+            break;
+          case "2":
+            // code block
+            data = await Biological_chemical.find(query);
+            break;
+          case "3":
+            // code block
+            data = await Applied.find(query);
+            break;
+          case "4":
+            // code block
+            data = await Natural_social.find(query);
+            break;
+          case "5":
+            data = await Architecture_civil.find(query);
+            break;
+          default:
+          // code block
+        }
+        break;
       case "4":
-                query = { to: to };
-                          switch (College) {
-                            case "1":
-                              // code block
-                              data = await Request.find(query);
-                              break;
-                            case "2":
-                              // code block 
-                              data = await Biological_chemical.find(query);
-                              break;
-                            case "3":
-                              // code block
-                              data = await Applied.find(query);
-                              break;
-                            case "4":
-                              // code block
-                              data = await Natural_social.find(query);
-                              break;
-                            case "5":
-                              data = await Architecture_civil.find(query);
-                              break;
-                            default:
-                            // code block
-                          }
-
-
-
+        query = { to: to };
+        switch (College) {
+          case "1":
+            // code block
+            data = await Request.find(query);
+            break;
+          case "2":
+            // code block
+            data = await Biological_chemical.find(query);
+            break;
+          case "3":
+            // code block
+            data = await Applied.find(query);
+            break;
+          case "4":
+            // code block
+            data = await Natural_social.find(query);
+            break;
+          case "5":
+            data = await Architecture_civil.find(query);
+            break;
+          default:
+          // code block
+        }
     }
-    
 
-    console.log(College)
-    console.log(data)
+    console.log(College);
+    console.log(data);
     // const requests = await Request.find();
     // console.log(JSON.stringify(requests));
 
@@ -245,9 +235,18 @@ exports.getAllRequests = async (req, res) => {
   }
 };
 
-// Create a new 
+// Create a new
 exports.createRequest = async (req, res) => {
-  const { fullName, department, documentType, purpose, to,filename,roll,id } = req.body;
+  const {
+    fullName,
+    department,
+    documentType,
+    purpose,
+    to,
+    filename,
+    roll,
+    id,
+  } = req.body;
   //console.log(+ "this is request body");
 
   console.log(to);
@@ -259,47 +258,79 @@ exports.createRequest = async (req, res) => {
   console.log(filename);
   console.log(id);
 
-
-
-  if(!documentType || !purpose || !to){
-    throw new BadRequestError ('Please Provide All Values');
+  if (!documentType || !purpose || !to) {
+    throw new BadRequestError("Please Provide All Values");
   }
-
 
   let Applied_Collage;
   let Architecture_civil_Collage;
   let Biological_chemical_Collage;
   let Electrical_Collage;
   let Vice_PresidentSchema_Collage;
-  let Natural_social_Collage
-  let Documents
+  let Natural_social_Collage;
+  let Documents;
+  let HumanResources;
 
-
-  if (roll === "1" || to === "user"){
+  if (roll === "Lecturer" || to === "Lecturer") {
     Documents = await Document.create(req.body);
   }
-  
-  if (roll === 'Applied' || to === "Applied"){
-    Applied_Collage = await Applied.create(req.body)
+
+  if (
+    roll === "Applied Sciences College Dean" ||
+    to === "Applied Sciences College" ||
+    to === "Geology Department" ||
+    to === "Industrial Chemistry Department" ||
+    to === "Food Science and Applied Nutrition Department"
+  ) {
+    Applied_Collage = await Applied.create(req.body);
   }
 
-  if (roll === 'Architecture_civil' || to === 'Architecture_civil'){
-    Architecture_civil_Collage=await Architecture_civil.create(req.body)
+  if (
+    roll === "Architecture And Civil College Dean " ||
+    to === "Architecture And Civil College" ||
+    to === "Architecture Department" ||
+    to === "Civil Department" ||
+    to === "Mining Department"
+  ) {
+    Architecture_civil_Collage = await Architecture_civil.create(req.body);
   }
 
-  if (roll === 'Electrical' || to === "Electrical"){
-    Electrical_Collage = await Electrical.create(req.body)
+  if (
+    roll === "Electrical And Mechanical Collage Dean" ||
+    to === "Electrical And Mechanical Collage" ||
+    to === "Electrical and Computer Department" ||
+    to === "Electromechanical Department" ||
+    to === "Mechanical Department" ||
+    to === "Software Department"
+  ) {
+    Electrical_Collage = await Electrical.create(req.body);
   }
 
-  if (roll === "Biological_chemical" || to === "Biological_chemical"){
-    Biological_chemical_Collage = await Biological_chemical.create(req.body)
+  if (
+    roll === "Biological And Chemical College Dean" ||
+    to === "Biological And Chemical Collage" ||
+    to === "Biotechnology Department" ||
+    to === "Chemical Department" ||
+    to === "Environmental Department"
+  ) {
+    Biological_chemical_Collage = await Biological_chemical.create(req.body);
   }
 
-  if (roll === "Natural_social" || to === "Natural_social"){
-    Natural_social_Collage = await Natural_social.create(req.body)
+  if (
+    roll === "Natural And Social Sciences College Dean" ||
+    to === "Natural And Social Sciences College" ||
+    to === "Mathematics Department" ||
+    to === "Language Department" ||
+    to === "Physics and Statistics Department" ||
+    to === "Social Sciences Department"
+  ) {
+    Natural_social_Collage = await Natural_social.create(req.body);
   }
-  if (roll === "Vice_PresidentSchema" || to === "Vice President"){
-    Vice_PresidentSchema_Collage= await Vice_PresidentSchema.create(req.body)
+  if (roll === "Vice President" || to === "Vice President") {
+    Vice_PresidentSchema_Collage = await Vice_PresidentSchema.create(req.body);
+  }
+  if(roll === 'Human Resources' || to === 'Human Resources'){
+    HumanResources = await Human_Resources.create(req.body);
   }
 
   return res.status(StatusCodes.CREATED).json({
@@ -310,7 +341,6 @@ exports.createRequest = async (req, res) => {
     Architecture_civil_Collage,
     Applied_Collage,
     Documents,
+    HumanResources
   });
 };
-
-
