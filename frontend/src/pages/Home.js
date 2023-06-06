@@ -137,7 +137,7 @@ function Home() {
             {roll === "Electrical And Mechanical Collage Dean" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" placeholder="Select To">
                   <option>Electrical and Computer Department</option>
                   <option>Electromechanical Department</option>
                   <option>Mechanical Department</option>
@@ -173,13 +173,26 @@ function Home() {
               </Form.Group>
             )}
 
-            {department === "Electromechanical Department" && (
+            {department === "Electromechanical Engineering" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select">
                   <option>Electrical And Mechanical Collage</option>
                   <option>Electromechanical Department</option>
+                  <option>Human Resources</option>
+                  <option>Vice President</option>
+                </Form.Control>
+              </Form.Group>
+            )}
+
+            {department === "Software Engineering" && (
+              <Form.Group>
+                <Form.Label>To:</Form.Label>
+
+                <Form.Control name="to" as="select">
+                  <option>Electrical And Mechanical Collage</option>
+                  <option>Software Department</option>
                   <option>Human Resources</option>
                   <option>Vice President</option>
                 </Form.Control>
@@ -302,12 +315,12 @@ function Home() {
               </Form.Group>
             )}
 
-            {roll === "Architecture And Civil College Dean " && (
+            {roll === "Architecture And Civil College Dean" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select">
-                  <option>Architecture And Civil College</option>
+                  {/* <option>Architecture And Civil College</option> */}
                   <option>Architecture Department</option>
                   <option>Civil Department</option>
                   <option>Mining Department</option>
@@ -317,7 +330,7 @@ function Home() {
               </Form.Group>
             )}
 
-            {department === "Architecture Department " && (
+            {department === "Architecture Engineering" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
@@ -329,7 +342,7 @@ function Home() {
                 </Form.Control>
               </Form.Group>
             )}
-            {department === "Civil Department" && (
+            {department === "Civil Engineering" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
@@ -342,7 +355,7 @@ function Home() {
               </Form.Group>
             )}
 
-            {department === "Mining Department" && (
+            {department === "Mining Engineering" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
@@ -359,7 +372,7 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
                 <Form.Control name="to" as="select">
-                  <option>Applied Sciences College</option>
+                  {/* <option>Applied Sciences College</option> */}
                   <option>Geology Department</option>
                   <option>Industrial Chemistry Department</option>
                   <option>Food Science and Applied Nutrition Department</option>
@@ -441,11 +454,15 @@ function Home() {
                 as="select"
                 name="documentType"
                 onChange={handleOptionChange}
+                defaultValue="Select document type" // Add this line
+                placeholder="Select document type"
               >
-                <option>Select document type</option>
-                <option value="1">Leave</option>
-                <option value="2">Recruitment</option>
-                <option value="3">Promotion</option>
+                <option value="Select document type" disabled>
+                  Select document type
+                </option>
+                <option>Leave</option>
+                <option>Recruitment</option>
+                <option>Promotion</option>
               </Form.Control>
             </Form.Group>
 

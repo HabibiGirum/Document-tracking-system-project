@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button, Card, Container } from "react-bootstrap";
@@ -55,8 +54,6 @@ const Register = () => {
 
   console.log(name);
 
-  
-
   return (
     <>
       <Header />
@@ -83,17 +80,15 @@ const Register = () => {
                     onChange={(e) => setCollege(e.target.value)}
                   >
                     <option>Select user College</option>
-                    <option value="1">
+                    <option>
                       College of Electrical and Mechanical Engineering
                     </option>
-                    <option value="2">
+                    <option>
                       College of Biological and Chemical Engineering
                     </option>
-                    <option value="3">College of Applied Science</option>
-                    <option value="4">
-                      College of Natural and Social Science
-                    </option>
-                    <option value="5">
+                    <option>College of Applied Science</option>
+                    <option>College of Natural and Social Science</option>
+                    <option>
                       College of Architecture and Civil Engineering
                     </option>
                   </Form.Select>
@@ -107,22 +102,30 @@ const Register = () => {
                     onChange={(e) => setDepartment(e.target.value)}
                   >
                     <option>Select user Department</option>
-                    <option >
-                      Electrical and Computer Engineering
+
+                    <option>Electrical and Computer Engineering </option>
+                    <option>Electromechanical Engineering</option>
+                    <option>Mechanical Engineering</option>
+                    <option>Software Engineering</option>
+
+                    <option>Biotechnology Engineering</option>
+                    <option>Chemical Engineering</option>
+                    <option>Environmental Engineering</option>
+
+                    <option>Mathematics Department</option>
+                    <option>Language Department</option>
+                    <option>Physics and Statistics Department</option>
+                    <option>Social Sciences Department</option>
+
+                    <option>Architecture Engineering</option>
+                    <option>Civil Engineering</option>
+                    <option>Mining Engineering </option>
+
+                    <option>Geology Department</option>
+                    <option>Industrial Chemistry Department</option>
+                    <option>
+                      Food Science and Applied Nutrition Department
                     </option>
-                    <option value="2">ElectroMechanical Engineering</option>
-                    <option value="3">Mechanical Engineering</option>
-                    <option value="4">Software Engineering</option>
-                    <option value="5">Biotechnology</option>
-                    <option value="6">Chemical Engineering</option>
-                    <option value="7">Environmental Engineering</option>
-                    <option value="8">Geology</option>
-                    <option value="9">Industrial Chemistry</option>
-                    <option value="10">Food Science and Applied Science</option>
-                    <option value="11">Architecture</option>
-                    <option value="12">Civil Engineering Department</option>
-                    <option value="13">Mining Engineering</option>
-                    <option value="14">Mathematics </option>
                   </Form.Select>
                 </Form.Group>
                 <Form.Group className="mt-2" style={{ marginBottom: "40px" }}>
@@ -134,11 +137,16 @@ const Register = () => {
                     onChange={(e) => setRole(e.target.value)}
                   >
                     <option>Select the Role of the User</option>
-                    <option value="1">Lecturer</option>
-                    <option value="2">Department Head</option>
-                    <option value="3">College Dean</option>
-                    <option value="4">Vice President</option>
-                    <option value="5">Human Resources</option>
+                    <option>Lecturer</option>
+
+                    <option>Electrical And Mechanical Collage Dean</option>
+                    <option>Biological And Chemical College Dean</option>
+                    <option>Natural And Social College Dean</option>
+                    <option>Architecture And Civil College Dean</option>
+                    <option>Applied College Dean</option>
+                    <option>Department Head</option>
+                    <option>Vice President</option>
+                    <option>Human Resources</option>
                   </Form.Select>
                 </Form.Group>
                 {/* </Form> */}
