@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 const electricalSchema = new mongoose.Schema(
   {
-    _id: {
+    id: {
+      type: String,
+      required: true, //true
+    },
+    department: {
       type: String,
       required: true,
     },
-    from: {
-      type: String,
-      required: true,
-    },
-    by: {
+    fullName: {
       type: String,
       required: true,
     },
@@ -27,17 +27,26 @@ const electricalSchema = new mongoose.Schema(
     to: {
       type: String,
       required: true,
-      enum: ["Department", "College", "HR", "Vice President"],
-      default: "Department",
+      enum: [
+        "Electrical And Mechanical Collage Dean",
+        "Electrical And Mechanical Collage",
+        "Electrical and Computer Department",
+        "Electromechanical Department",
+        "Mechanical Department",
+        "Software Department",
+        "Human Resources",
+        "Vice President",
+      ],
+      default: "Lecturer",
     },
     filename: {
       type: String,
-      required: true,
+      required: false,
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }

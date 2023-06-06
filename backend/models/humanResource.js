@@ -4,7 +4,7 @@ const HumanResourcesSchema = new mongoose.Schema(
   {
     id: {
       type: String,
-      required: true,//true
+      required: true, //true
     },
     department: {
       type: String,
@@ -17,7 +17,7 @@ const HumanResourcesSchema = new mongoose.Schema(
     documentType: {
       type: String,
       required: true,
-      enum: ["2","Leave", "Recruitment", "Promotion"],
+      enum: ["Leave", "Recruitment", "Promotion"],
     },
     purpose: {
       type: String,
@@ -27,8 +27,8 @@ const HumanResourcesSchema = new mongoose.Schema(
     to: {
       type: String,
       required: true,
-      enum: ["1","Department", "College", "HR", "Vice President"],
-      default: "Department",
+      enum: ["Human Resources"],
+      default: "Lecturer",
     },
     filename: {
       type: String,

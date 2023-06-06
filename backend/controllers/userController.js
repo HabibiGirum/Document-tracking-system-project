@@ -12,6 +12,7 @@ const loginUser = async (req, res, next) => {
 
     if (!user) {
       res.status(401).json({ error: "Invalid email or password" });
+      console.log('Invalid email');
       return;
     }
 
@@ -20,13 +21,14 @@ const loginUser = async (req, res, next) => {
 
     if (!isPasswordValid) {
       res.status(401).json({ error: "Invalid email or password" });
+      console.log('invalid password');
       return;
     }
 
     // Generate JWT token
     const token = generateToken(user._id);
     
-    res.json({ token,user });
+    res.json({ token, user });
   } catch (error) {
     next(error);
   }
@@ -42,17 +44,31 @@ const logoutUser = (req, res) => {
 const registerUser = async (req, res, next) => {
   try {
     const { name, college, department, role, email, password } = req.body;
+    console.log(name);
+    console.log(college);
+    console.log(department);
+    console.log(role);
+    console.log(email);
+    console.log(password);
+
+    // Check if user didn't provide all values
+    if (!name || !college || !department || !role || !email || !password) {
+      res.status(400).json({ error: "Please provide all values" });
+      console.log('provide all value');
+      return;
+    }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       res.status(400).json({ error: "User already exists" });
+      console.log('Email is already Exist');
       return;
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    //const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
     const user = new User({
@@ -61,7 +77,7 @@ const registerUser = async (req, res, next) => {
       department,
       role,
       email,
-      password: hashedPassword,
+      password //: hashedPassword,
     });
     await user.save();
 

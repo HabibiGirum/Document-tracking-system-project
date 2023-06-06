@@ -131,13 +131,17 @@ function Home() {
                 as="textarea"
                 name="purpose"
                 placeholder="Enter email"
+                required
               />
               <Form.Text className="text-muted"></Form.Text>
             </Form.Group>
             {roll === "Electrical And Mechanical Collage Dean" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
-                <Form.Control name="to" as="select" placeholder="Select To">
+                <Form.Control name="to" as="select" placeholder="Select To" required>
+                  <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Electrical and Computer Department</option>
                   <option>Electromechanical Department</option>
                   <option>Mechanical Department</option>
@@ -151,7 +155,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                  <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Electrical And Mechanical Collage</option>
                   <option>Electrical and Computer Department</option>
                   <option>Human Resources</option>
@@ -164,7 +171,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                  <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Electrical And Mechanical Collage</option>
                   <option>Mechanical Department</option>
                   <option>Human Resources</option>
@@ -177,7 +187,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Electrical And Mechanical Collage</option>
                   <option>Electromechanical Department</option>
                   <option>Human Resources</option>
@@ -190,7 +203,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Electrical And Mechanical Collage</option>
                   <option>Software Department</option>
                   <option>Human Resources</option>
@@ -202,7 +218,10 @@ function Home() {
             {roll === "Biological And Chemical College Dean" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Biotechnology Department</option>
                   <option>Chemical Department</option>
                   <option>Environmental Department</option>
@@ -216,7 +235,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Biological And Chemical Collage</option>
                   <option>Chemical Department</option>
                   <option>Human Resources</option>
@@ -228,7 +250,7 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
                   <option>Biological And Chemical Collage</option>
                   <option>Biotechnology Department</option>
                   <option>Human Resources</option>
@@ -241,7 +263,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Biological And Chemical Collage</option>
                   <option>Environmental Department</option>
                   <option>Human Resources</option>
@@ -254,7 +279,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Mathematics Department</option>
                   <option>Language Department</option>
                   <option>Physics and Statistics</option>
@@ -269,7 +297,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Natural And Social Sciences College</option>
                   <option>Mathematics Department</option>
                   <option>Human Resources</option>
@@ -282,7 +313,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>LNatural And Social College</option>
                   <option>Language Department</option>
                   <option>Human Resources</option>
@@ -294,7 +328,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>LNatural And Social College</option>
                   <option>Physics and Statistics Department</option>
                   <option>Human Resources</option>
@@ -306,7 +343,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>LNatural And Social College</option>
                   <option>Social Sciences Department</option>
                   <option>Human Resources</option>
@@ -319,8 +359,11 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
                   {/* <option>Architecture And Civil College</option> */}
+                  <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Architecture Department</option>
                   <option>Civil Department</option>
                   <option>Mining Department</option>
@@ -334,7 +377,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Architecture And Civil College</option>
                   <option>Architecture Department</option>
                   <option>Human Resources</option>
@@ -346,7 +392,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Architecture And Civil College</option>
                   <option>Civil Department</option>
                   <option>Human Resources</option>
@@ -359,7 +408,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Architecture And Civil College</option>
                   <option>Mining Department</option>
                   <option>Human Resources</option>
@@ -371,8 +423,11 @@ function Home() {
             {roll === "Applied College Dean" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
                   {/* <option>Applied Sciences College</option> */}
+                  <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Geology Department</option>
                   <option>Industrial Chemistry Department</option>
                   <option>Food Science and Applied Nutrition Department</option>
@@ -385,7 +440,10 @@ function Home() {
             {department === "Geology Department" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Applied Sciences College</option>
                   <option>Geology Department</option>
                   <option>Human Resources</option>
@@ -396,7 +454,10 @@ function Home() {
             {department === "Industrial Chemistry Department" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Applied Sciences College</option>
                   <option>Industrial Chemistry Department</option>
                   <option>Human Resources</option>
@@ -408,7 +469,10 @@ function Home() {
             {department === "Food Science and Applied Nutrition Department" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>Applied Sciences College</option>
                   <option>Food Science and Applied Nutrition Department</option>
                   <option>Human Resources</option>
@@ -421,7 +485,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>LNatural And Social College</option>
                   <option>Biological And Chemical Collage</option>
                   <option>Electrical And Mechanical Collage</option>
@@ -435,7 +502,10 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
 
-                <Form.Control name="to" as="select">
+                <Form.Control name="to" as="select" required>
+                <option value=">Select send To" disabled>
+                    Select send To
+                  </option>
                   <option>LNatural And Social College</option>
                   <option>Biological And Chemical Collage</option>
                   <option>Electrical And Mechanical Collage</option>
@@ -454,8 +524,9 @@ function Home() {
                 as="select"
                 name="documentType"
                 onChange={handleOptionChange}
-                defaultValue="Select document type" // Add this line
+                defaultValue="Select document type" 
                 placeholder="Select document type"
+                required
               >
                 <option value="Select document type" disabled>
                   Select document type
@@ -466,7 +537,7 @@ function Home() {
               </Form.Control>
             </Form.Group>
 
-            {selectedOption === "3" && (
+            {selectedOption === "Promotion" && (
               <Form.Group>
                 <Form.Label>Upload image document</Form.Label>
                 <Form.Control
@@ -476,14 +547,14 @@ function Home() {
                 />
               </Form.Group>
             )}
-            {selectedOption === "1" && (
+            {selectedOption === "Leave" && (
               <Form.Group>
                 <Form.Label>Select Leave type:</Form.Label>
                 <Form.Control name="leaveType" as="select">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
+                  <option>Case 2</option>
+                  <option>case 1</option>
+                  <option>Health</option>
+                  <option>study leave</option>
                 </Form.Control>
               </Form.Group>
             )}

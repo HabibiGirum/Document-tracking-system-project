@@ -4,7 +4,7 @@ const documentSchema = new mongoose.Schema(
   {
     id: {
       type: String,
-      required: true,//true
+      required: true, //true
     },
     department: {
       type: String,
@@ -17,7 +17,7 @@ const documentSchema = new mongoose.Schema(
     documentType: {
       type: String,
       required: true,
-      enum: ["2","Leave", "Recruitment", "Promotion"],
+      enum: ["Leave", "Recruitment", "Promotion"],
     },
     purpose: {
       type: String,
@@ -27,8 +27,36 @@ const documentSchema = new mongoose.Schema(
     to: {
       type: String,
       required: true,
-      enum: ["1","Department", "College", "HR", "Vice President"],
-      default: "Department",
+      enum: [
+        "Electrical And Mechanical Collage Dean",
+        "Electrical And Mechanical Collage",
+        "Electrical and Computer Department",
+        "Electromechanical Department",
+        "Mechanical Department",
+        "Software Department",
+
+        "Human Resources",
+        "Vice President",
+
+        "Applied Sciences College Dean",
+        "Applied Sciences College",
+        "Geology Department",
+        "Industrial Chemistry Department",
+        "Food Science and Applied Nutrition Department",
+
+        "Architecture And Civil College Dean",
+        "Architecture And Civil College",
+        "Architecture Department",
+        "Civil Department",
+        "Mining Department",
+
+        "Biological And Chemical College Dean",
+        "Biological And Chemical Collage",
+        "Biotechnology Department",
+        "Chemical Department",
+        "Environmental Department",
+      ],
+      default: "Lecturer",
     },
     filename: {
       type: String,

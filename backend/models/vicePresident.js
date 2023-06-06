@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 const Vice_PresidentSchema = new mongoose.Schema(
   {
-    _id: {
+    id: {
+      type: String,
+      required: true, //true
+    },
+    department: {
       type: String,
       required: true,
     },
-    from: {
-      type: String,
-      required: true,
-    },
-    by: {
+    fullName: {
       type: String,
       required: true,
     },
@@ -27,17 +27,17 @@ const Vice_PresidentSchema = new mongoose.Schema(
     to: {
       type: String,
       required: true,
-      enum: ["Department", "College", "HR", "Vice President"],
-      default: "Department",
+      enum: ["Vice President"],
+      default: "Lecturer",
     },
     filename: {
       type: String,
-      required: true,
+      required: false,
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }

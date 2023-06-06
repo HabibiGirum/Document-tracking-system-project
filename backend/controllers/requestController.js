@@ -286,7 +286,7 @@ exports.createRequest = async (req, res) => {
   }
 
   if (
-    roll === "Architecture And Civil College Dean " ||
+    roll === "Architecture And Civil College Dean" ||
     to === "Architecture And Civil College" ||
     to === "Architecture Department" ||
     to === "Civil Department" ||
@@ -344,3 +344,4 @@ exports.createRequest = async (req, res) => {
     HumanResources
   });
 };
+
