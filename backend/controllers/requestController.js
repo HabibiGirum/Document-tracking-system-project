@@ -246,6 +246,7 @@ exports.createRequest = async (req, res) => {
     filename,
     roll,
     id,
+    college
   } = req.body;
   //console.log(+ "this is request body");
 
@@ -257,6 +258,7 @@ exports.createRequest = async (req, res) => {
   console.log(roll);
   console.log(filename);
   console.log(id);
+  console.log(college);
 
   if (!documentType || !purpose || !to) {
     throw new BadRequestError("Please Provide All Values");

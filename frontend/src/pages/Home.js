@@ -12,6 +12,11 @@ import axios from "axios";
 function Home() {
   const dispatch = useDispatch();
   const [selectedOption, setSelectedOption] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
@@ -32,8 +37,9 @@ function Home() {
   const handleSubmit = async (event) => {
     // Mark the function as async
     event.preventDefault();
+
     // Generate a unique ID using uuidv4
-    const roll = JSON.parse(userInfoFromStorage)?.role;
+
     const now = new Date();
     const day = ("0" + now.getDate()).slice(-2); // Get the day with leading zero if necessary
     const uuid = uuidv4().substring(0, 5); // Get the first 5 characters of the UUID
@@ -45,7 +51,7 @@ function Home() {
     const purpose = event.target.elements.purpose.value;
     const to = event.target.elements.to.value;
     const documentType = event.target.elements.documentType.value;
-
+    const filename = selectedFile.name;
     const data = {
       id: uniqueId, // Include the unique ID in the data
       fullName,
@@ -54,6 +60,8 @@ function Home() {
       to,
       documentType,
       roll,
+      filename,
+      college,
     };
 
     dispatch(createRequest(data));
@@ -62,25 +70,6 @@ function Home() {
     // Display an alert with the tracking ID
     window.alert(`This is your tracking ID: ${uniqueId}`);
 
-    // Create FormData object
-    const formData = new FormData();
-    if (event.target.elements.imageDocument) {
-      formData.append("image", event.target.elements.imageDocument.files[0]);
-    }
-    try {
-      // Send the image file to the Flask server
-      const response = await axios.post("/process_image", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      // Access the extracted text from the response
-      const extractedText = response.data.text;
-      console.log(extractedText);
-    } catch (error) {
-      console.log(error);
-    }
     const doc = new jsPDF();
 
     // Generate the PDF content.
@@ -98,6 +87,42 @@ function Home() {
     // Save the PDF
 
     //doc.save("form.pdf");
+
+    if (!selectedFile) {
+      alert("Please select a file to upload.");
+      return;
+    }
+    console.log(selectedFile.name);
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("college", college); 
+    formData.append("roll", roll);
+
+    if (college === "Electrical And Mechanical Collage") {
+      await axios.post(`http://localhost:5000/api/upload/ECE_MECH`, formData);
+    }
+    if (college === "College of Applied Sciences") {
+      await axios.post(
+        `http://localhost:5000/api/upload/Applied_Scinces`,
+        formData
+      );
+    }
+    if (college === "Biological And Chemical Collage") {
+      await axios.post(`http://localhost:5000/api/upload/BIO_CHEM`, formData);
+    }
+    if (college === "Architecture And Civil College") {
+      await axios.post(`http://localhost:5000/api/upload/ARCH_CIVIL`, formData);
+    }
+    if (college === "Natural And Social Sciences College") {
+      await axios.post(`http://localhost:5000/api/upload/NATU_SOCI`, formData);
+    }
+    if (roll === "Human Resources") {
+      await axios.post(`http://localhost:5000/api/upload/HR`, formData);
+    }
+    if (roll === "Vice President") {
+      await axios.post(`http://localhost:5000/api/upload/VP`, formData);
+    }
   };
 
   return (
@@ -138,7 +163,12 @@ function Home() {
             {roll === "Electrical And Mechanical Collage Dean" && (
               <Form.Group>
                 <Form.Label>To:</Form.Label>
-                <Form.Control name="to" as="select" placeholder="Select To" required>
+                <Form.Control
+                  name="to"
+                  as="select"
+                  placeholder="Select To"
+                  required
+                >
                   <option value=">Select send To" disabled>
                     Select send To
                   </option>
@@ -188,7 +218,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Electrical And Mechanical Collage</option>
@@ -204,7 +234,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Electrical And Mechanical Collage</option>
@@ -219,7 +249,7 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Biotechnology Department</option>
@@ -236,7 +266,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Biological And Chemical Collage</option>
@@ -264,7 +294,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Biological And Chemical Collage</option>
@@ -280,7 +310,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Mathematics Department</option>
@@ -298,7 +328,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Natural And Social Sciences College</option>
@@ -314,7 +344,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>LNatural And Social College</option>
@@ -329,7 +359,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>LNatural And Social College</option>
@@ -344,7 +374,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>LNatural And Social College</option>
@@ -378,7 +408,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Architecture And Civil College</option>
@@ -393,7 +423,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Architecture And Civil College</option>
@@ -409,7 +439,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Architecture And Civil College</option>
@@ -441,7 +471,7 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Applied Sciences College</option>
@@ -455,7 +485,7 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Applied Sciences College</option>
@@ -470,7 +500,7 @@ function Home() {
               <Form.Group>
                 <Form.Label>To:</Form.Label>
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>Applied Sciences College</option>
@@ -486,7 +516,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>LNatural And Social College</option>
@@ -503,7 +533,7 @@ function Home() {
                 <Form.Label>To:</Form.Label>
 
                 <Form.Control name="to" as="select" required>
-                <option value=">Select send To" disabled>
+                  <option value=">Select send To" disabled>
                     Select send To
                   </option>
                   <option>LNatural And Social College</option>
@@ -524,7 +554,7 @@ function Home() {
                 as="select"
                 name="documentType"
                 onChange={handleOptionChange}
-                defaultValue="Select document type" 
+                defaultValue="Select document type"
                 placeholder="Select document type"
                 required
               >
@@ -560,7 +590,12 @@ function Home() {
             )}
             <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label>Multiple files input example</Form.Label>
-              <Form.Control type="file" accept="application/pdf" multiple />
+              <Form.Control
+                type="file"
+                accept="application/pdf"
+                multiple
+                onChange={handleFileChange}
+              />
             </Form.Group>
 
             <Button variant="secondary" type="submit">
