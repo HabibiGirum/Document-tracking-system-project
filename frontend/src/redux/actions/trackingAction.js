@@ -3,6 +3,11 @@ import {
   FETCH_SENT_DOCUMENTS_REQUEST,
   FETCH_SENT_DOCUMENTS_SUCCESS,
 } from "../constants/trackingConstants";
+import {
+  ADD_DOCUMENT_REQUEST,
+  ADD_DOCUMENT_SUCCESS,
+  ADD_DOCUMENT_FAILURE,
+} from "../constants/trackingConstants";
 import axios from "axios";
 // Action Creators
 // export const fetchSentDocuments = (by, documentType, status) => {
@@ -26,30 +31,77 @@ import axios from "axios";
 //   };
 // };
 
+export const addDocumentRequest = () => {
+  return {
+    type: ADD_DOCUMENT_REQUEST,
+  };
+};
+
+export const addDocumentSuccess = (document) => {
+  return {
+    type: ADD_DOCUMENT_SUCCESS,
+    payload: document,
+  };
+};
+
+export const addDocumentFailure = (error) => {
+  return {
+    type: ADD_DOCUMENT_FAILURE,
+    payload: error,
+  };
+};
 
 
-export const fetchSentDocuments = (by, documentType, status) => {
+export const addDocument = (documentData) => {
+  return async (dispatch) => {
+    dispatch(addDocumentRequest());
+    console.log(documentData)
+    try {
+      console.log(documentData);
+      const data = {
+        specificId: documentData,
+      };
+      const response = await axios.post(
+        "http://localhost:5000/api/tracking",
+        data
+      );
+      console.log(response)
+
+      const document = response.data;
+      console.log(document)
+
+      dispatch(addDocumentSuccess(document));
+    } catch (error) {
+      console.error("Error adding document:", error);
+      dispatch(addDocumentFailure(error.message));
+    }
+  };
+};
+
+
+
+export const fetchSentDocuments = (fullName, documentType, status) => {
   return async (dispatch) => {
     dispatch(fetchSentDocumentsRequest());
 
     try {
       const response = await axios.get(`http://localhost:5000/api/sent`, {
         params: {
-          by,
+          fullName,
           documentType,
           status,
         },
       });
 
       const documents = response.data.documents;
-      const documentIds = documents.map((document) => document._id);
+      const documentIds = documents.map((document) => document.id);
 
       const statusResponses = await Promise.all(
         documentIds.map((documentId) =>
           axios.get(`http://localhost:5000/api/tracking/${documentId}`)
         )
       );
-
+      console.log(statusResponses)
       const documentsWithStatus = documents.map((document, index) => {
         const trackingInfo = statusResponses[index].data;
         const { department, college, vicepresident, humanResource } =

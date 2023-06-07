@@ -9,9 +9,15 @@ const SentPage = () => {
     (state) => state.sentDocuments
   );
 
+  const userInfoFromStorage = localStorage.getItem("userInfo")
+    ? localStorage.getItem("userInfo")
+    : null;
+  const userInfo = JSON.parse(userInfoFromStorage);
+  const name = userInfo.name;
+
   useEffect(() => {
-    const by = "Emily"; // Replace with the desired user ID
-    dispatch(fetchSentDocuments(by, "", ""));
+    const fullName = name; // Replace with the desired user ID
+    dispatch(fetchSentDocuments(fullName, "", ""));
   }, [dispatch]);
 
   if (loading) {
@@ -22,13 +28,10 @@ const SentPage = () => {
     return <div>Error: {error}</div>;
   }
 
-  const hasRejectedStatus = documents.some(
-    (document) =>
-      !document.status.department ||
-      !document.status.college ||
-      !document.status.vicepresident ||
-      !document.status.humanResource
-  );
+  const formatCreatedAt = (dateString) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(dateString).toLocaleString(undefined, options);
+  };
 
   return (
     <div>
@@ -49,12 +52,43 @@ const SentPage = () => {
               <td>{document.title}</td>
               <td>{document.documentType}</td>
               <td>
-                <div
-                  className={`status-icon ${
-                    hasRejectedStatus ? "status-icon-red" : "status-icon-green"
-                  }`}
-                >
-                  {hasRejectedStatus ? "Rejected" : "Accepted"}
+                <div className="status-icons">
+                  <div
+                    className={`status-icon ${
+                      document.status.department
+                        ? "status-icon-green"
+                        : "status-icon-red"
+                    }`}
+                  >
+                    Department
+                  </div>
+                  <div
+                    className={`status-icon ${
+                      document.status.college
+                        ? "status-icon-green"
+                        : "status-icon-red"
+                    }`}
+                  >
+                    College
+                  </div>
+                  <div
+                    className={`status-icon ${
+                      document.status.vicepresident
+                        ? "status-icon-green"
+                        : "status-icon-red"
+                    }`}
+                  >
+                    Vice President
+                  </div>
+                  <div
+                    className={`status-icon ${
+                      document.status.humanResource
+                        ? "status-icon-green"
+                        : "status-icon-red"
+                    }`}
+                  >
+                    Human Resource
+                  </div>
                 </div>
               </td>
               <td>
@@ -64,7 +98,7 @@ const SentPage = () => {
                   {document.filename}
                 </button>
               </td>
-              <td>{document.createdAt}</td>
+              <td>{formatCreatedAt(document.createdAt)}</td>
             </tr>
           ))}
         </tbody>

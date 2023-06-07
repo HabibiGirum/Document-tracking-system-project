@@ -30,14 +30,48 @@ exports.getTrackingById = async (req, res) => {
   }
 };
 
+exports.startTracking = async (req, res) => {
+  try {
+    const { specificId } = req.body; // Assuming specificId is provided in the request body
+
+    // Create a new tracking document
+    console.log(specificId,"start tra")
+    const trackingInfo = new Tracking({
+      specificId,
+      department: false,
+      college: false,
+      vicepresident: false,
+      humanResource: false,
+    });
+
+    // Save the tracking document
+    await trackingInfo.save();
+
+    // Create a new document
+    // const document = new Document({
+    //   // Populate document fields based on your requirements
+    // });
+
+    // // Save the document
+    // await document.save();
+
+    res
+      .status(201)
+      .json({ message: "Tracking started and document added successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 exports.getSentDocuments = async (req, res) => {
   console.log(req.body);
   try {
-    const { by, documentType, status } = req.query;
+    const { fullName, documentType, status } = req.query;
 
     // Build the query object to filter documents
     const query = {
-      by: by, // Filter by specific user ID
+      fullName: fullName, // Filter by specific user ID
     };
 
     if (documentType) {
@@ -48,8 +82,8 @@ exports.getSentDocuments = async (req, res) => {
       query.status = status;
     }
 
-    const documents = await Request.find(query);
-
+    const documents = await Electrical.find(query);
+    console.log(documents)
     res.json({ documents });
   } catch (error) {
     console.error("Error fetching documents:", error);
@@ -60,6 +94,7 @@ exports.getSentDocuments = async (req, res) => {
 exports.getTrackingInfo = async (req, res) => {
   try {
     const { specificId } = req.params; // Assuming specificId is passed as a URL parameter
+    console.log(specificId,"-------------")
     // Find the tracking document by specificId
     const trackingInfo = await Tracking.findOne({
       specificId,
@@ -68,8 +103,10 @@ exports.getTrackingInfo = async (req, res) => {
       return res.status(404).json({ error: "Tracking information not found" });
     }
 
-    // Return the tracking information
+    // Return the tracking information'
+    console.log(trackingInfo);
     return res.json(trackingInfo);
+    
   } catch (error) {
     console.error("Error retrieving tracking information:", error);
     return res.status(500).json({ error: "Internal server error" });

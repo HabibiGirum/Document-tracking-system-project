@@ -21,6 +21,7 @@
 .status-icons {
   display: flex;
   justify-content: center;
+  margin: 1px;
 }
 
 .status-icon {
@@ -31,6 +32,7 @@
   font-weight: bold;
   text-align: center;
   width: fit-content;
+  margin: 1.5px;
 }
 
 .status-icon-green {

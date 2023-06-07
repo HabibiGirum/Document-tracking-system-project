@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import Header from "../components/HomeHeader";
 import { jsPDF } from "jspdf";
 import { createRequest } from "../redux/actions/requestAction";
+import { addDocument } from "../redux/actions/trackingAction"
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 // import List from "../components/List";
@@ -65,6 +66,8 @@ function Home() {
     };
 
     dispatch(createRequest(data));
+    console.log(uniqueId)
+    dispatch(addDocument(uniqueId))
     console.log(data);
 
     // Display an alert with the tracking ID
