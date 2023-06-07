@@ -4,16 +4,16 @@ import thunk from "redux-thunk";
 import { userLoginReducer, registerReducer } from "./reducers/userReducers";
 
 
-import { requestReducer,requestCreateReducer } from "./reducers/requestReducers";
+import { requestCreateReducer } from "./reducers/requestReducers";
 
 import sentReducer from "./reducers/sentReducer";
-
+import { uploadFileReducer } from "./reducers/uploadFileReducer";
 const rootReducer = combineReducers({
   sentDocuments: sentReducer,
   userLogin: userLoginReducer,
   userRegister: registerReducer,
-
   requestCreate:requestCreateReducer,
+  uploadFile:uploadFileReducer,
   //requests: requestReducer, // Add the requestReducer to the root reducer
 
 });

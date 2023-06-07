@@ -1,6 +1,4 @@
-import { switchClasses } from "@mui/base";
 import axios from "axios";
-import { json } from "react-router-dom";
 import { API_BASE_URL } from "../../config";
 
 import {
@@ -21,6 +19,7 @@ import {
   LOGOUT_USER,
   REQUEST_ERROR,
   CREATE_REQUEST_FAIL,
+  
 } from "../constants/requestConstants";
 
 export const clearAlert = () => {
@@ -52,31 +51,28 @@ const removeUserFromLocalStorage = () => {
   localStorage.removeItem("department");
 };
 
-
-
-
 export const createRequestBegin = () => ({
-  type: CREATE_REQUEST_BEGIN
+  type: CREATE_REQUEST_BEGIN,
 });
 
 export const createRequestSuccess = () => ({
-  type: CREATE_REQUEST_SUCCESS
+  type: CREATE_REQUEST_SUCCESS,
 });
 
 export const createRequestFail = (error) => ({
   type: CREATE_REQUEST_FAIL,
-  payload: error
+  payload: error,
 });
 
 export const createRequestError = (error) => ({
   type: CREATE_REQUEST_ERROR,
-  payload: error
+  payload: error,
 });
 
 export const createRequest = (requestData) => {
   return (dispatch) => {
     dispatch(createRequestBegin());
-console.log(requestData);
+    console.log(requestData);
     axios
       .post(`${API_BASE_URL}/requests`, requestData)
       .then((response) => {
@@ -89,8 +85,6 @@ console.log(requestData);
       });
   };
 };
-
-
 
 export const getRequests = () => {
   return async (dispatch, getState) => {
@@ -105,9 +99,9 @@ export const getRequests = () => {
       switch (college) {
         case "1":
           // code block
-           url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
-             JSON.stringify(userInfo)
-           )}`;
+          url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
+            JSON.stringify(userInfo)
+          )}`;
           break;
         case "2":
           // code block
@@ -132,7 +126,7 @@ export const getRequests = () => {
     if (search) {
       url = url + `&search=${search}`;
     }
-    console.log(url)
+    console.log(url);
     dispatch({ type: GET_REQUESTS_BEGIN });
 
     try {
@@ -140,7 +134,7 @@ export const getRequests = () => {
         headers: { "Content-Type": "application/json" },
         data: JSON.stringify(userInfo),
       });
-      console.log(response)
+      console.log(response);
       console.log(response, "response");
       // const { response.data, totalRequests, numOfPages } = response;
       // console.log(requests)
@@ -242,3 +236,4 @@ export const clearFilters = () => {
     dispatch({ type: CLEAR_FILTERS });
   };
 };
+

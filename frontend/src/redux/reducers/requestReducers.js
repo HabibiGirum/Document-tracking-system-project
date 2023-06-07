@@ -21,7 +21,8 @@ const initialState = {
   numOfPages: 0,
   editRequestId: null,
   error: null,
-  success:false
+  success:false,
+  
 };
 
 export const requestReducer = (state = initialState, action) => {
@@ -70,21 +71,6 @@ export const requestReducer = (state = initialState, action) => {
   }
 };
 
-// export const requestCreateReducer = (state={},action)=>{
-//   switch (action.type) {
-//     case CREATE_REQUEST_BEGIN:
-//       return {loading:true}
-//     case CREATE_REQUEST_SUCCESS:
-//       return {loading:false,data:action.payload}
-//     case CREATE_REQUEST_ERROR:
-//       return {loading:false,error:action.payload}      
-      
-  
-//     default:
-//       return state;
-//   }
-// }
-
 
 
 
@@ -123,7 +109,3 @@ export const requestCreateReducer = (state = initialState, action) => {
   }
 };
 
-// export default requestReducer;
-
-
-// export default requestReducer;

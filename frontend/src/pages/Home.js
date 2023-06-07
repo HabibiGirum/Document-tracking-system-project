@@ -4,6 +4,7 @@ import { Card, Form, Container, Button } from "react-bootstrap";
 import Footer from "../components/Footer";
 import Header from "../components/HomeHeader";
 import { jsPDF } from "jspdf";
+import { uploadFile } from "../redux/actions/uploadFile";
 import { createRequest } from "../redux/actions/requestAction";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
@@ -41,9 +42,15 @@ function Home() {
     // Generate a unique ID using uuidv4
 
     const now = new Date();
-    const day = ("0" + now.getDate()).slice(-2); // Get the day with leading zero if necessary
-    const uuid = uuidv4().substring(0, 5); // Get the first 5 characters of the UUID
-    const uniqueId = `${day}_${uuid}`;
+    const year = now.getFullYear();
+    const month = ("0" + (now.getMonth() + 1)).slice(-2);
+    const day = ("0" + now.getDate()).slice(-2);
+    const hours = ("0" + now.getHours()).slice(-2);
+    const minutes = ("0" + now.getMinutes()).slice(-2);
+    const seconds = ("0" + now.getSeconds()).slice(-2);
+
+    const uniqueId = `${year}${month}${day}_${hours}${minutes}${seconds}`;
+
     // const uniqueId = uuidv4();
     // Access the form field values using event.target.elements
     const fullName = event.target.elements.fullName.value;
@@ -52,6 +59,8 @@ function Home() {
     const to = event.target.elements.to.value;
     const documentType = event.target.elements.documentType.value;
     const filename = selectedFile.name;
+    const concatenatedFilename = `${uniqueId}_${filename}`;
+    
     const data = {
       id: uniqueId, // Include the unique ID in the data
       fullName,
@@ -60,7 +69,7 @@ function Home() {
       to,
       documentType,
       roll,
-      filename,
+      filename:concatenatedFilename,
       college,
     };
 
@@ -88,41 +97,7 @@ function Home() {
 
     //doc.save("form.pdf");
 
-    if (!selectedFile) {
-      alert("Please select a file to upload.");
-      return;
-    }
-    console.log(selectedFile.name);
-
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("college", college); 
-    formData.append("roll", roll);
-
-    if (college === "Electrical And Mechanical Collage") {
-      await axios.post(`http://localhost:5000/api/upload/ECE_MECH`, formData);
-    }
-    if (college === "College of Applied Sciences") {
-      await axios.post(
-        `http://localhost:5000/api/upload/Applied_Scinces`,
-        formData
-      );
-    }
-    if (college === "Biological And Chemical Collage") {
-      await axios.post(`http://localhost:5000/api/upload/BIO_CHEM`, formData);
-    }
-    if (college === "Architecture And Civil College") {
-      await axios.post(`http://localhost:5000/api/upload/ARCH_CIVIL`, formData);
-    }
-    if (college === "Natural And Social Sciences College") {
-      await axios.post(`http://localhost:5000/api/upload/NATU_SOCI`, formData);
-    }
-    if (roll === "Human Resources") {
-      await axios.post(`http://localhost:5000/api/upload/HR`, formData);
-    }
-    if (roll === "Vice President") {
-      await axios.post(`http://localhost:5000/api/upload/VP`, formData);
-    }
+    dispatch(uploadFile(selectedFile, college, roll));
   };
 
   return (
