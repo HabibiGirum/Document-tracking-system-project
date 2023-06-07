@@ -13,18 +13,14 @@ def process_image():
     file = request.files['image']
     image = cv2.imdecode(np.frombuffer(file.read(), np.uint8), cv2.IMREAD_COLOR)
 
-    # Resize the image
-    image = cv2.resize(image, None, fx=2, fy=2)  # Adjust the scaling factor as needed
-
-    # Convert the image to grayscale
+    # Preprocess the image
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-    # Apply image filters
     filtered_image = cv2.medianBlur(gray, 3)
 
+    # Perform OCR using pytesseract
     extracted_text = pytesseract.image_to_string(filtered_image)
 
     return jsonify({'text': extracted_text})
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5001)

@@ -11,6 +11,9 @@ const Vice_PresidentSchema = require("../models/vicePresident");
 const BadRequestError = require("../errors/bad-request");
 const Document = require("../models/requests");
 const Human_Resources = require("../models/humanResource");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 exports.getTrackingById = async (req, res) => {
   try {
@@ -246,19 +249,19 @@ exports.createRequest = async (req, res) => {
     filename,
     roll,
     id,
-    college
+    college,
   } = req.body;
   //console.log(+ "this is request body");
 
-  console.log(to);
-  console.log(department);
-  console.log(fullName);
-  console.log(documentType);
-  console.log(purpose);
-  console.log(roll);
-  console.log(filename);
-  console.log(id);
-  console.log(college);
+  // console.log(to);
+  // console.log(department);
+  // console.log(fullName);
+  // console.log(documentType);
+  // console.log(purpose);
+  // console.log(roll);
+  // console.log(filename);
+  // console.log(id);
+  // console.log(college);
 
   if (!documentType || !purpose || !to) {
     throw new BadRequestError("Please Provide All Values");
@@ -331,7 +334,7 @@ exports.createRequest = async (req, res) => {
   if (roll === "Vice President" || to === "Vice President") {
     Vice_PresidentSchema_Collage = await Vice_PresidentSchema.create(req.body);
   }
-  if(roll === 'Human Resources' || to === 'Human Resources'){
+  if (roll === "Human Resources" || to === "Human Resources") {
     HumanResources = await Human_Resources.create(req.body);
   }
 
@@ -343,7 +346,9 @@ exports.createRequest = async (req, res) => {
     Architecture_civil_Collage,
     Applied_Collage,
     Documents,
-    HumanResources
+    HumanResources,
   });
 };
+
+
 

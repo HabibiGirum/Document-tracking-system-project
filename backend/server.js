@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const requestRoutes = require("./routes/requestRoutes");
 const trackingRoutes = require("./routes/trackingRoutes");
+const routes = require('./routes/uploadRoutes');
 const cors = require("cors");
 const morgan = require("morgan");
 const fs = require("fs");
@@ -17,64 +18,6 @@ dotenv.config();
 /******************* this is file upload */
 const app = express();
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const college = req.body.college;
-    const roll = req.body.roll;
-    console.log(college, "this is college");
-    console.log(roll, "this is roll");
-
-    let destinationFolder = "uploads/"; // Default destination folder
-
-    try {
-      // Update destinationFolder based on college and roll values
-      if (college === "Electrical And Mechanical Collage") {
-        destinationFolder += "ECE_MECH/";
-      } else if (college === "College of Applied Sciences") {
-        destinationFolder += "Applied_Scinces/";
-      } else if (college === "Biological And Chemical Collage") {
-        destinationFolder += "BIO_CHEM/";
-      } else if (college === "Architecture And Civil College") {
-        destinationFolder += "ARCH_CIVIL/";
-      } else if (college === "Natural And Social Sciences College") {
-        destinationFolder += "NATU_SOCI/";
-      }
-
-      if (roll === "Human Resources") {
-        destinationFolder += "HR/";
-      } else if (roll === "Vice President") {
-        destinationFolder += "VP/";
-      }
-    } catch (error) {
-      console.error("Error retrieving college and roll:", error);
-    }
-
-    cb(null, destinationFolder); // Set the destination folder
-  },
-  filename: function (req, file, cb) {
-    const originalname = file.originalname;
-    cb(null, originalname); // Use the original filename
-  },
-});
-
-const upload = multer({ storage: storage }); // Use the custom storage configuration
-
-// File upload route
-app.post("/api/upload", upload.single("file"), (req, res) => {
-  // Access the uploaded file via req.file
-  console.log(req.file);
-
-  // Access the original filename
-  const originalFilename = req.file.originalname;
-  console.log("Original Filename:", originalFilename);
-
-  // Handle further processing, e.g., save the file path to a database, perform additional operations, etc.
-
-  res.sendStatus(200); // Send a success status code
-});
-
-
-/** the end of file upload */
 
 // CORS middleware
 app.use(function (req, res, next) {
@@ -110,6 +53,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use(routes);
 app.use("/api/requests", requestRoutes);
 app.use("/api", trackingRoutes);
 
