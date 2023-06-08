@@ -6,7 +6,8 @@ const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const requestRoutes = require("./routes/requestRoutes");
 const trackingRoutes = require("./routes/trackingRoutes");
-const routes = require('./routes/uploadRoutes');
+const ImageRoutes = require("./routes/ImageUpload");
+const docRoutes = require("./routes/uploadRoutes");
 const cors = require("cors");
 const morgan = require("morgan");
 const fs = require("fs");
@@ -17,7 +18,6 @@ dotenv.config();
 
 /******************* this is file upload */
 const app = express();
-
 
 // CORS middleware
 app.use(function (req, res, next) {
@@ -53,7 +53,8 @@ app.use(express.json());
 
 // Routes
 app.use("/api/users", userRoutes);
-app.use(routes);
+app.use("/api",docRoutes);
+app.use("/api", ImageRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api", trackingRoutes);
 

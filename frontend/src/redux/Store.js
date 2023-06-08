@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { userLoginReducer, registerReducer } from "./reducers/userReducers";
-
+import { uploadImageReducer } from "./reducers/uploadImageReducer";
 
 import { requestCreateReducer } from "./reducers/requestReducers";
 
@@ -14,6 +14,7 @@ const rootReducer = combineReducers({
   userRegister: registerReducer,
   requestCreate:requestCreateReducer,
   uploadFile:uploadFileReducer,
+  uploadImage:uploadImageReducer,
   //requests: requestReducer, // Add the requestReducer to the root reducer
 
 });

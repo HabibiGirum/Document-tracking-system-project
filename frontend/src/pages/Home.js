@@ -1,22 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Form, Container, Button } from "react-bootstrap";
-import Footer from "../components/Footer";
-import Header from "../components/HomeHeader";
+// import Footer from "../components/Footer";
+// import Header from "../components/HomeHeader";
 import { jsPDF } from "jspdf";
 import { uploadFile } from "../redux/actions/uploadFile";
 import { createRequest } from "../redux/actions/requestAction";
+import { Footer, Header } from "../components";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import { uploadImage } from "../redux/actions/uploadImageAction";
 // import List from "../components/List";
 
 function Home() {
   const dispatch = useDispatch();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const uploading = useSelector((state) => state.uploading);
+  const uploadError = useSelector((state) => state.uploadError);
+
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
+  };
+
+  const handleImageChange = (event) => {
+    setSelectedImage(event.target.files[0]);
   };
 
   const handleOptionChange = (event) => {
@@ -60,7 +70,7 @@ function Home() {
     const documentType = event.target.elements.documentType.value;
     const filename = selectedFile.name;
     const concatenatedFilename = `${uniqueId}_${filename}`;
-    
+
     const data = {
       id: uniqueId, // Include the unique ID in the data
       fullName,
@@ -69,11 +79,12 @@ function Home() {
       to,
       documentType,
       roll,
-      filename:concatenatedFilename,
+      filename: concatenatedFilename,
       college,
     };
 
     dispatch(createRequest(data));
+    dispatch(uploadFile(selectedFile, college, roll));
     console.log(data);
 
     // Display an alert with the tracking ID
@@ -97,7 +108,8 @@ function Home() {
 
     //doc.save("form.pdf");
 
-    dispatch(uploadFile(selectedFile, college, roll));
+
+    dispatch(uploadImage(selectedImage));
   };
 
   return (
@@ -549,7 +561,10 @@ function Home() {
                   type="file"
                   name="imageDocument"
                   accept="image/*"
+                  onChange={handleImageChange}
                 />
+                {uploading ? "Uploading..." : "Upload"}
+                {uploadError && <p>Failed to upload image.</p>}
               </Form.Group>
             )}
             {selectedOption === "Leave" && (

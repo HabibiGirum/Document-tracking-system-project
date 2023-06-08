@@ -1,4 +1,5 @@
 import axios from "axios";
+import { API_BASE_URL } from "../../config";
 
 export const uploadFile = (selectedFile, college, roll) => {
   return async (dispatch) => {
@@ -16,13 +17,13 @@ export const uploadFile = (selectedFile, college, roll) => {
       let url = "";
       if (roll === "Human Resources") {
         const rollFormatted = roll.replace(/ /g, "_");
-        url = `http://localhost:5000/api/upload/${rollFormatted}`;
+        url = `${API_BASE_URL}/upload/${rollFormatted}`;
       } else if (roll === "Vice President") {
         const rollFormatted = roll.replace(/ /g, "_");
-        url = `http://localhost:5000/api/upload/${rollFormatted}`;
+        url = `${API_BASE_URL}/upload/${rollFormatted}`;
       } else {
         const collegeFormatted = college.replace(/ /g, "_");
-        url = `http://localhost:5000/api/upload/${collegeFormatted}`;
+        url = `${API_BASE_URL}/upload/${collegeFormatted}`;
       }
 
       await axios.post(url, formData);
