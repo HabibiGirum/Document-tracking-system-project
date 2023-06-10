@@ -6,10 +6,7 @@ import { jsPDF } from "jspdf";
 import { uploadFile } from "../redux/actions/uploadFile";
 import { createRequest } from "../redux/actions/requestAction";
 import { Footer, Header } from "../components";
-import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
 import { uploadImage } from "../redux/actions/uploadImageAction";
-// import List from "../components/List";
 
 function Home() {
   const dispatch = useDispatch();
@@ -28,8 +25,14 @@ function Home() {
   const performOcr = () => {
     Tesseract.recognize(image, "eng")
       .then((response) => {
-        setResult(response.data.text);
-      })
+        const extractedText = response.data.text;
+        const regex = /ETS\d+\/\d+/; // Regular expression to match "ETS0489/11" pattern
+        const match = extractedText.match(regex);
+        if (match) {
+          setResult(match[0]);
+        } else {
+          setResult('Pattern not found');
+        }      })
       .catch((error) => {
         console.error("Error performing OCR: ", error);
       });
@@ -77,9 +80,6 @@ function Home() {
     const seconds = ("0" + now.getSeconds()).slice(-2);
 
     const uniqueId = `${year}${month}${day}_${hours}${minutes}${seconds}`;
-
-    // const uniqueId = uuidv4();
-    // Access the form field values using event.target.elements
     const fullName = event.target.elements.fullName.value;
     const department = event.target.elements.department.value;
     const purpose = event.target.elements.purpose.value;
