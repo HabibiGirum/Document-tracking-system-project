@@ -5,12 +5,14 @@ import thunk from "redux-thunk";
 import sentReducer from "./reducers/sentReducer";
 import trackingReducer from "./reducers/trackingReducer";
 import { userLoginReducer, registerReducer } from "./reducers/userReducers";
+import {requestReducer} from "../redux/reducers/requestReducers";
 
 const rootReducer = combineReducers({
   sentDocuments: sentReducer,
   tracking: trackingReducer,
   userLogin: userLoginReducer,
   userRegister: registerReducer,
+  requests: requestReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

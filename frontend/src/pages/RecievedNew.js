@@ -63,7 +63,6 @@ const ReceivedPage = () => {
         <thead>
           <tr>
             <th>From</th>
-            <th>By</th>
             <th>Document Type</th>
             <th>Purpose</th>
             <th>To</th>
@@ -79,8 +78,7 @@ const ReceivedPage = () => {
         <tbody>
           {sortedRequests.map((request) => (
             <tr key={request._id}>
-              <td>{request.from}</td>
-              <td>{request.by}</td>
+              <td>{request.fullName}</td>
               <td>{request.documentType}</td>
               <td>{request.purpose}</td>
               <td>{request.to}</td>

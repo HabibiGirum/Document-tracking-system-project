@@ -158,7 +158,7 @@ function Home() {
               <Form.Control
                 as="textarea"
                 name="purpose"
-                placeholder="Enter email"
+                placeholder="Enter the purpose"
                 required
               />
               <Form.Text className="text-muted"></Form.Text>

@@ -7,7 +7,7 @@ const Architecture_civil = require("../models/architecture_civil");
 const Biological_chemical = require("../models/biological_chemical");
 const Electrical = require("../models/electrical");
 const Natural_social = require("../models/natural_social");
-const Vice_PresidentSchema = require("../models/vicePresident");
+const Vice_President = require("../models/vicePresident");
 const BadRequestError = require("../errors/bad-request");
 const Document = require("../models/requests");
 const Human_Resources = require("../models/humanResource");
@@ -35,7 +35,7 @@ exports.startTracking = async (req, res) => {
     const { specificId } = req.body; // Assuming specificId is provided in the request body
 
     // Create a new tracking document
-    console.log(specificId,"start tra")
+    console.log(specificId, "start tra");
     const trackingInfo = new Tracking({
       specificId,
       department: false,
@@ -83,7 +83,7 @@ exports.getSentDocuments = async (req, res) => {
     }
 
     const documents = await Electrical.find(query);
-    console.log(documents)
+    console.log(documents);
     res.json({ documents });
   } catch (error) {
     console.error("Error fetching documents:", error);
@@ -94,7 +94,7 @@ exports.getSentDocuments = async (req, res) => {
 exports.getTrackingInfo = async (req, res) => {
   try {
     const { specificId } = req.params; // Assuming specificId is passed as a URL parameter
-    console.log(specificId,"-------------")
+    console.log(specificId, "-------------");
     // Find the tracking document by specificId
     const trackingInfo = await Tracking.findOne({
       specificId,
@@ -106,7 +106,6 @@ exports.getTrackingInfo = async (req, res) => {
     // Return the tracking information'
     console.log(trackingInfo);
     return res.json(trackingInfo);
-    
   } catch (error) {
     console.error("Error retrieving tracking information:", error);
     return res.status(500).json({ error: "Internal server error" });
@@ -145,124 +144,117 @@ exports.updateTrackingById = async (req, res) => {
 exports.getAllRequests = async (req, res) => {
   try {
     const userInfo = JSON.parse(req.query.userInfo);
-    const College = userInfo.college;
+    const College = userInfo.college.replace(/\s/g, "").toLowerCase();
     const role = userInfo.role;
     console.log(role);
-    console.log(typeof College);
+    console.log(College);
     let data = "";
     let query;
     const name = userInfo.name;
-    const to = userInfo.department;
-
+    let to = userInfo.department; // Use let instead of const for 'to'
+    console.log(name);
+    console.log(to);
+    console.log(role, "role of the user");
     switch (role) {
-      case "1":
+      case "Lecturer":
         query = { to: name };
         switch (College) {
-          case "1":
+          case "collegeofelectricalandmechanicalengineering":
             // code block
-            data = await Request.find(query);
+            console.log("triggered");
+            data = await Electrical.find(query);
             break;
-          case "2":
+          case "collegeofbiologicalandchemicalengineering":
             // code block
             data = await Biological_chemical.find(query);
             break;
-          case "3":
+          case "collegeofappliedscience":
             // code block
             data = await Applied.find(query);
             break;
-          case "4":
+          case "collegeofnaturalandsocialscience":
             // code block
             data = await Natural_social.find(query);
             break;
-          case "5":
+          case "collegeofarchitectureandcivilengineering":
             data = await Architecture_civil.find(query);
             break;
           default:
-          // code block
+            // code block
+            break;
         }
         break;
-      case "2":
+      case "Department Head":
+        to = "Electrical and Computer Department";
         query = { to: to };
         switch (College) {
-          case "1":
+          case "collegeofelectricalandmechanicalengineering":
             // code block
-            data = await Request.find(query);
+            data = await Electrical.find(query);
             break;
-          case "2":
+          case "collegeofbiologicalandchemicalengineering":
             // code block
             data = await Biological_chemical.find(query);
             break;
-          case "3":
+          case "collegeofappliedscience":
             // code block
             data = await Applied.find(query);
             break;
-          case "4":
+          case "collegeofnaturalandsocialscience":
             // code block
             data = await Natural_social.find(query);
             break;
-          case "5":
+          case "collegeofarchitectureandcivilengineering":
             data = await Architecture_civil.find(query);
             break;
           default:
-          // code block
+            // code block
+            break;
         }
         break;
       case "3":
         to = userInfo.college;
         query = { to: to };
         switch (College) {
-          case "1":
+          case "collegeofelectricalandmechanicalengineering":
             // code block
-            data = await Request.find(query);
+            data = await Electrical.find(query);
             break;
-          case "2":
+          case "collegeofbiologicalandchemicalengineering":
             // code block
             data = await Biological_chemical.find(query);
             break;
-          case "3":
+          case "collegeofappliedscience":
             // code block
             data = await Applied.find(query);
             break;
-          case "4":
+          case "collegeofnaturalandsocialscience":
             // code block
             data = await Natural_social.find(query);
             break;
-          case "5":
+          case "collegeofarchitectureandcivilengineering":
             data = await Architecture_civil.find(query);
             break;
           default:
-          // code block
+            // code block
+            break;
         }
         break;
-      case "4":
+      case "Vice President":
+        to = "Vice President";
         query = { to: to };
-        switch (College) {
-          case "1":
-            // code block
-            data = await Request.find(query);
-            break;
-          case "2":
-            // code block
-            data = await Biological_chemical.find(query);
-            break;
-          case "3":
-            // code block
-            data = await Applied.find(query);
-            break;
-          case "4":
-            // code block
-            data = await Natural_social.find(query);
-            break;
-          case "5":
-            data = await Architecture_civil.find(query);
-            break;
-          default:
-          // code block
-        }
+        data = await Vice_President.find(query);
+        break;
+      case "Human Resources":
+        to = "Human Resources";
+        query = { to: to };
+        data = await Human_Resources.find(query);
+        break;
+      default:
+        break;
     }
 
     console.log(College);
-    console.log(data);
     // const requests = await Request.find();
     // console.log(JSON.stringify(requests));
 
@@ -283,7 +275,7 @@ exports.createRequest = async (req, res) => {
     filename,
     roll,
     id,
-    college
+    college,
   } = req.body;
   //console.log(+ "this is request body");
 
@@ -368,7 +360,7 @@ exports.createRequest = async (req, res) => {
   if (roll === "Vice President" || to === "Vice President") {
     Vice_PresidentSchema_Collage = await Vice_PresidentSchema.create(req.body);
   }
-  if(roll === 'Human Resources' || to === 'Human Resources'){
+  if (roll === "Human Resources" || to === "Human Resources") {
     HumanResources = await Human_Resources.create(req.body);
   }
 
@@ -380,7 +372,6 @@ exports.createRequest = async (req, res) => {
     Architecture_civil_Collage,
     Applied_Collage,
     Documents,
-    HumanResources
+    HumanResources,
   });
 };
-
