@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Form, Container, Button } from "react-bootstrap";
-// import Footer from "../components/Footer";
-// import Header from "../components/HomeHeader";
+import Tesseract from "tesseract.js";
 import { jsPDF } from "jspdf";
 import { uploadFile } from "../redux/actions/uploadFile";
 import { createRequest } from "../redux/actions/requestAction";
@@ -17,6 +16,24 @@ function Home() {
   const [selectedImage, setSelectedImage] = useState(null);
   const uploading = useSelector((state) => state.uploading);
   const uploadError = useSelector((state) => state.uploadError);
+
+  const [image, setImage] = useState(null);
+  const [result, setResult] = useState("");
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    setImage(URL.createObjectURL(file));
+  };
+
+  const performOcr = () => {
+    Tesseract.recognize(image, "eng")
+      .then((response) => {
+        setResult(response.data.text);
+      })
+      .catch((error) => {
+        console.error("Error performing OCR: ", error);
+      });
+  };
 
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -107,7 +124,6 @@ function Home() {
     // Save the PDF
 
     //doc.save("form.pdf");
-
 
     dispatch(uploadImage(selectedImage));
   };
@@ -565,6 +581,22 @@ function Home() {
                 />
                 {uploading ? "Uploading..." : "Upload"}
                 {uploadError && <p>Failed to upload image.</p>}
+              </Form.Group>
+            )}
+
+            {selectedOption === "Leave" && (
+              <Form.Group>
+                <Form.Label>Upload Image</Form.Label>
+                <Form.Control type="file" onChange={handleImageUpload} />
+                <Button onClick={performOcr}>Perform OCR</Button>
+                {image && (
+                  <img
+                    src={image}
+                    style={{ width: "100px", height: "100px" }}
+                    alt="Upload"
+                  />
+                )}
+                {result && <p>{result}</p>}
               </Form.Group>
             )}
             {selectedOption === "Leave" && (
