@@ -9,9 +9,7 @@ import { requestCreateReducer } from "./reducers/requestReducers";
 import sentReducer from "./reducers/sentReducer";
 import { uploadFileReducer } from "./reducers/uploadFileReducer";
 
-import sentReducer from "./reducers/sentReducer";
 import trackingReducer from "./reducers/trackingReducer";
-import { userLoginReducer, registerReducer } from "./reducers/userReducers";
 import {requestReducer} from "../redux/reducers/requestReducers";
 
 const rootReducer = combineReducers({
