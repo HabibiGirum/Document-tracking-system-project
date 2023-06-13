@@ -89,55 +89,80 @@ export const createRequest = (requestData) => {
 export const getRequests = () => {
   return async (dispatch, getState) => {
     const { search, searchType, sort, userLogin } = getState();
-    const userInfo = JSON.parse(userLogin.userInfo);
+    const userInfo = userLogin.userInfo;
     const role = userInfo.role;
     const college = userInfo.college;
-    const email = userInfo.to;
-    console.log(userInfo);
+    const to = userInfo.to;
+
     let url = "";
-    if (role === "1") {
-      switch (college) {
-        case "1":
-          // code block
-          url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
-            JSON.stringify(userInfo)
-          )}`;
-          break;
-        case "2":
-          // code block
-          url = `http://localhost:5000/api/biological_chemical?DocumentType=${searchType}&sort=${sort}`;
-          break;
-        case "3":
-          // code block
-          url = `http://localhost:5000/api/apllied?DocumentType=${searchType}&sort=${sort}`;
-          break;
-        case "4":
-          // code block
-          url = `http://localhost:5000/api/natural_social?DocumentType=${searchType}&sort=${sort}`;
-          break;
-        case "5":
-          url = `http://localhost:5000/api/architecture_civil?DocumentType=${searchType}&sort=${sort}`;
-          break;
-        default:
-        // code block
-      }
+    switch (role) {
+      case "Lecturer":
+        switch (college) {
+          case "College of Electrical and Mechanical Engineering":
+            url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
+              JSON.stringify(userInfo)
+            )}`;
+            break;
+          case "2":
+            url = `http://localhost:5000/api/biological_chemical?DocumentType=${searchType}&sort=${sort}`;
+            break;
+          case "3":
+            url = `http://localhost:5000/api/apllied?DocumentType=${searchType}&sort=${sort}`;
+            break;
+          case "4":
+            url = `http://localhost:5000/api/natural_social?DocumentType=${searchType}&sort=${sort}`;
+            break;
+          case "5":
+            url = `http://localhost:5000/api/architecture_civil?DocumentType=${searchType}&sort=${sort}`;
+            break;
+          default:
+            // Handle the default case if necessary
+            break;
+        }
+        break;
+      case "Department Head":
+        switch (college) {
+          case "College of Electrical and Mechanical Engineering":
+            url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
+              JSON.stringify(userInfo)
+            )}`;
+            break;
+          case "2":
+            url = `http://localhost:5000/api/biological_chemical?DocumentType=${searchType}&sort=${sort}`;
+            break;
+          case "3":
+            url = `http://localhost:5000/api/apllied?DocumentType=${searchType}&sort=${sort}`;
+            break;
+          case "4":
+            url = `http://localhost:5000/api/natural_social?DocumentType=${searchType}&sort=${sort}`;
+            break;
+          case "5":
+            url = `http://localhost:5000/api/architecture_civil?DocumentType=${searchType}&sort=${sort}`;
+            break;
+          default:
+            // Handle the default case if necessary
+            break;
+        }
+        break;
+      // Handle other role cases if necessary
+      default:
+        // Handle the default case if necessary
+        break;
+
     }
 
     if (search) {
       url = url + `&search=${search}`;
     }
-    console.log(url);
+
     dispatch({ type: GET_REQUESTS_BEGIN });
 
     try {
+      console.log(url)
       const response = await axios.get(url, {
         headers: { "Content-Type": "application/json" },
-        data: JSON.stringify(userInfo),
       });
-      console.log(response);
-      console.log(response, "response");
-      // const { response.data, totalRequests, numOfPages } = response;
-      // console.log(requests)
+
       const totalRequests = 5;
       const numOfPages = 3;
 
@@ -151,9 +176,12 @@ export const getRequests = () => {
       });
     } catch (error) {
       console.error("Error fetching requests:", error);
+      // Dispatch an action to handle the error if necessary
     }
   };
 };
+
+
 
 export const setEditRequest = (id) => {
   return (dispatch) => {

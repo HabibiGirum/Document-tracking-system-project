@@ -27,16 +27,12 @@ const electricalSchema = new mongoose.Schema(
     to: {
       type: String,
       required: true,
-      enum: [
-        "Electrical And Mechanical Collage Dean",
-        "Electrical And Mechanical Collage",
-        "Electrical and Computer Department",
-        "Electromechanical Department",
-        "Mechanical Department",
-        "Software Department",
-        "Human Resources",
-        "Vice President",
-      ],
+      // enum: [
+      //   "Lecturer",
+      //   "College Dean",
+      //   "Human Resources",
+      //   "Vice President",
+      // ],
       default: "Lecturer",
     },
     filename: {

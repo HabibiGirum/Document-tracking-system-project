@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
@@ -26,6 +26,17 @@ const UserSchema = new mongoose.Schema(
     },
     role: {
       type: String,
+      enum: [
+        "Lecturer",
+        "Electrical And Mechanical Collage Dean",
+        "Biological And Chemical College Dean",
+        "Natural And Social College Dean",
+        "Architecture And Civil College Dean",
+        "Applied College Dean",
+        "Department Head",
+        "Vice President",
+        "Human Resources",
+      ],
       required: true,
     },
   },
@@ -34,15 +45,17 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-UserSchema.pre('save', async function(){
-  if(!this.isModified('password')) return 
-  
-  const salt= await bcrypt.genSalt(10);
-  this.password=await bcrypt.hash(this.password,salt)
-})
-UserSchema.methods.createJWT = function(){
-  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_LIFETIME,});
-}
+UserSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+UserSchema.methods.createJWT = function () {
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
+};
 
 UserSchema.methods.comparePassword = async function (candidatePassword) {
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
@@ -52,4 +65,3 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
 const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
-

@@ -5,8 +5,15 @@ import Tesseract from "tesseract.js";
 import { jsPDF } from "jspdf";
 import { uploadFile } from "../redux/actions/uploadFile";
 import { createRequest } from "../redux/actions/requestAction";
+
 import { Footer, Header } from "../components";
 import { uploadImage } from "../redux/actions/uploadImageAction";
+
+import { addDocument } from "../redux/actions/trackingAction"
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+// import List from "../components/List";
+
 
 function Home() {
   const dispatch = useDispatch();
@@ -101,7 +108,12 @@ function Home() {
     };
 
     dispatch(createRequest(data));
+
     dispatch(uploadFile(selectedFile, college, roll));
+
+    console.log(uniqueId)
+    dispatch(addDocument(uniqueId))
+
     console.log(data);
 
     // Display an alert with the tracking ID
@@ -158,7 +170,7 @@ function Home() {
               <Form.Control
                 as="textarea"
                 name="purpose"
-                placeholder="Enter email"
+                placeholder="Enter the purpose"
                 required
               />
               <Form.Text className="text-muted"></Form.Text>
