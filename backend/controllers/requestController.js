@@ -11,6 +11,45 @@ const Vice_President = require("../models/vicePresident");
 const BadRequestError = require("../errors/bad-request");
 const Document = require("../models/requests");
 const Human_Resources = require("../models/humanResource");
+exports.sendAcceptanceMessage = asyncHandler(async (req, res) => {
+  console.log(req.body);
+  const { id, role } = req.body;
+  // Check if the request ID is provided
+  if (!id) {
+    throw new BadRequestError("Request ID is required");
+  }
+
+  // Find the request by ID
+  const request = await Tracking.findOne({
+    specificId: id,
+  });
+
+  // Check if the request exists
+  if (!request) {
+    return res.status(404).json({ error: "Request not found" });
+  }
+
+  switch (role) {
+    case "Department Head":
+      request.department = true;
+      break;
+    case "College Dean":
+      request.college = true;
+      break;
+    case "Vice President":
+      request.humanResource = true;
+      break;
+    default:
+      break;
+  }
+
+  // Save the updated request
+  await request.save();
+
+  res
+    .status(StatusCodes.OK)
+    .json({ message: "Acceptance message sent successfully" });
+});
 
 exports.getTrackingById = async (req, res) => {
   try {
@@ -266,6 +305,7 @@ exports.getAllRequests = async (req, res) => {
 
 // Create a new
 exports.createRequest = async (req, res) => {
+  console.log(req.body);
   const {
     fullName,
     department,
@@ -273,7 +313,7 @@ exports.createRequest = async (req, res) => {
     purpose,
     to,
     filename,
-    roll,
+    role,
     id,
     college,
   } = req.body;
@@ -284,7 +324,7 @@ exports.createRequest = async (req, res) => {
   console.log(fullName);
   console.log(documentType);
   console.log(purpose);
-  console.log(roll);
+  console.log(role);
   console.log(filename);
   console.log(id);
   console.log(college);
@@ -302,65 +342,52 @@ exports.createRequest = async (req, res) => {
   let Documents;
   let HumanResources;
 
-  if (roll === "Lecturer" || to === "Lecturer") {
+  if (role === "Lecturer" || to === "Lecturer") {
     Documents = await Document.create(req.body);
   }
 
   if (
-    roll === "Applied Sciences College Dean" ||
-    to === "Applied Sciences College" ||
-    to === "Geology Department" ||
-    to === "Industrial Chemistry Department" ||
-    to === "Food Science and Applied Nutrition Department"
+    role === "Applied Sciences College Dean" ||
+    (college === "College of Applied Science")
   ) {
     Applied_Collage = await Applied.create(req.body);
   }
 
   if (
-    roll === "Architecture And Civil College Dean" ||
-    to === "Architecture And Civil College" ||
-    to === "Architecture Department" ||
-    to === "Civil Department" ||
-    to === "Mining Department"
+    role === "Architecture And Civil College Dean" ||
+    (
+      college === "College of Architecture and Civil Engineering")
   ) {
     Architecture_civil_Collage = await Architecture_civil.create(req.body);
   }
 
   if (
-    roll === "Electrical And Mechanical Collage Dean" ||
-    to === "Electrical And Mechanical Collage" ||
-    to === "Electrical and Computer Department" ||
-    to === "Electromechanical Department" ||
-    to === "Mechanical Department" ||
-    to === "Software Department"
+    role === "Electrical And Mechanical Collage Dean" ||
+    (
+      college === "College of Electrical and Mechanical Engineering")
   ) {
     Electrical_Collage = await Electrical.create(req.body);
   }
 
   if (
-    roll === "Biological And Chemical College Dean" ||
-    to === "Biological And Chemical Collage" ||
-    to === "Biotechnology Department" ||
-    to === "Chemical Department" ||
-    to === "Environmental Department"
+    role === "Biological And Chemical College Dean" ||
+    (
+      college === "College of Biological and Chemical Engineering")
   ) {
     Biological_chemical_Collage = await Biological_chemical.create(req.body);
   }
 
   if (
-    roll === "Natural And Social Sciences College Dean" ||
-    to === "Natural And Social Sciences College" ||
-    to === "Mathematics Department" ||
-    to === "Language Department" ||
-    to === "Physics and Statistics Department" ||
-    to === "Social Sciences Department"
+    role === "Natural And Social Sciences College Dean" ||
+    (
+      college === "College of Natural and Social Science")
   ) {
     Natural_social_Collage = await Natural_social.create(req.body);
   }
-  if (roll === "Vice President" || to === "Vice President") {
+  if (role === "Vice President" || to === "Vice President") {
     Vice_PresidentSchema_Collage = await Vice_PresidentSchema.create(req.body);
   }
-  if (roll === "Human Resources" || to === "Human Resources") {
+  if (role === "Human Resources" || to === "Human Resources") {
     HumanResources = await Human_Resources.create(req.body);
   }
 

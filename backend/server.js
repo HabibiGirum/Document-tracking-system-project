@@ -16,7 +16,7 @@ dotenv.config();
 
 /******************* this is file upload */
 const app = express();
-
+app.use(cors());
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const college = req.body.college;

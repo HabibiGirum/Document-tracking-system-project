@@ -15,4 +15,6 @@ router.get("/sent", requestController.getSentDocuments);
 
 // router.get("/api/tracking/:id", requestController.getTrackingById);
 
+router.post("/tracking/updateRole", requestController.sendAcceptanceMessage);
+
 module.exports = router;

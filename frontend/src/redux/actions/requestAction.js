@@ -98,7 +98,7 @@ export const getRequests = () => {
     const userInfo = userLogin.userInfo;
     const role = userInfo.role;
     const college = userInfo.college;
-    const email = userInfo.to;
+    const to = userInfo.to;
 
     let url = "";
 
