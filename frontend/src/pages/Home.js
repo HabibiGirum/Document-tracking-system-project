@@ -690,7 +690,10 @@ function Home() {
               <Button
                 variant="secondary"
                 type="submit"
-                disabled={!response || !response.similarity}
+                disabled={
+                  selectedOption === "Promotion" &&
+                  (!response || !response.similarity)
+                }
               >
                 Submit
               </Button>
