@@ -37,7 +37,7 @@ export const addDocumentFailure = (error) => {
 
 // Action to send acceptance message and update tracking
 export const sendAcceptanceMessage =
-  (userData, messageId) => async (dispatch) => {
+  (userData) => async (dispatch) => {
     try {
       // Determine the recipient role and update the corresponding tracking field to true
       // let recipient = "";
@@ -59,6 +59,7 @@ export const sendAcceptanceMessage =
       const body = {
         role: userData.role,
         id: userData.id,// Add the received message ID to the request body
+        accepted: userData.accepted,
       };
 
       const response = await axios.post(
@@ -111,20 +112,7 @@ export const addDocument = (documentData, buttonPressed, userRole) => {
       if (buttonPressed === "accept") {
         dispatch({ type: UPDATE_TRACKING_DEPARTMENT });
 
-        if (userRole === "Electrical And Mechanical College Dean") {
-          // Send acceptance message to the Vice President
-          dispatch({ type: SEND_ACCEPTANCE_MESSAGE });
-        } else if (userRole === "Biological And Chemical College Dean") {
-          // Send acceptance message to the Vice President
-          dispatch({ type: SEND_ACCEPTANCE_MESSAGE });
-        } else if (userRole === "Natural And Social College Dean") {
-          // Send acceptance message to the Vice President
-          dispatch({ type: SEND_ACCEPTANCE_MESSAGE });
-        } else if (userRole === "Architecture And Civil College Dean") {
-          // Send acceptance message to the Vice President
-          dispatch({ type: SEND_ACCEPTANCE_MESSAGE });
-        } else if (userRole === "Applied College Dean") {
-          // Send acceptance message to the Vice President
+        if (userRole === "College Dean"){
           dispatch({ type: SEND_ACCEPTANCE_MESSAGE });
         } else if (userRole === "Department Head") {
           // Send acceptance message to the College Dean
@@ -181,8 +169,14 @@ export const fetchSentDocuments = (fullName, documentType, status) => {
 
       const documentsWithStatus = documents.map((document, index) => {
         const trackingInfo = statusResponses[index].data;
-        const { department, college, vicepresident, humanResource } =
-          trackingInfo;
+        const {
+          department,
+          college,
+          vicepresident,
+          humanResource,
+          rejected,
+          accepted,
+        } = trackingInfo;
 
         return {
           ...document,
@@ -191,6 +185,8 @@ export const fetchSentDocuments = (fullName, documentType, status) => {
             college,
             vicepresident,
             humanResource,
+            rejected,
+            accepted,
           },
         };
       });

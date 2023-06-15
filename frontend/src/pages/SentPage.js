@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./SentPage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSentDocuments } from "../redux/actions/trackingAction";
+import Layout from "./Layout";
 
 const SentPage = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const SentPage = () => {
   useEffect(() => {
     const fullName = name; // Replace with the desired user ID
     dispatch(fetchSentDocuments(fullName, "", ""));
-  }, [dispatch]);
+  }, [dispatch, name]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -33,75 +34,76 @@ const SentPage = () => {
     return new Date(dateString).toLocaleString(undefined, options);
   };
 
+  const renderStatusIcon = (status) => {
+    if (status.rejected) {
+      return <div className="status-icon rejected">Rejected</div>;
+    } else if (status.accepted) {
+      return <div className="status-icon accepted">Accepted</div>;
+    } else {
+      return (
+        <div className="status-icons">
+          <div
+            className={`status-icon ${
+              status.department ? "status-icon-green" : "status-icon-red"
+            }`}
+          >
+            Department
+          </div>
+          <div
+            className={`status-icon ${
+              status.college ? "status-icon-green" : "status-icon-red"
+            }`}
+          >
+            College
+          </div>
+          <div
+            className={`status-icon ${
+              status.vicepresident ? "status-icon-green" : "status-icon-red"
+            }`}
+          >
+            Vice President
+          </div>
+          <div
+            className={`status-icon ${
+              status.humanResource ? "status-icon-green" : "status-icon-red"
+            }`}
+          >
+            Human Resource
+          </div>
+        </div>
+      );
+    }
+  };
+
+  const renderDocuments = () => {
+    return documents.map((document) => (
+      <tr key={document._id}>
+        <td>{document.documentType}</td>
+        {userInfo.role === "Lecturer" && (
+          <td>{renderStatusIcon(document.status)}</td>
+        )}
+        <td>
+          <button onClick={() => window.open(document.filename, "_blank")}>
+            {document.filename}
+          </button>
+        </td>
+        <td>{formatCreatedAt(document.createdAt)}</td>
+      </tr>
+    ));
+  };
+
   return (
-    <div>
-      <h1>Sent Documents</h1>
+    <div className="sent-page-container">
       <table className="sent-table">
         <thead>
           <tr>
-            <th>Title</th>
             <th>Document Type</th>
-            <th>Status</th>
+            {userInfo.role === "Lecturer" && <th>Status</th>}
             <th>Filename</th>
             <th>Date Created</th>
           </tr>
         </thead>
-        <tbody>
-          {documents.map((document) => (
-            <tr key={document._id}>
-              <td>{document.title}</td>
-              <td>{document.documentType}</td>
-              <td>
-                <div className="status-icons">
-                  <div
-                    className={`status-icon ${
-                      document.status.department
-                        ? "status-icon-green"
-                        : "status-icon-red"
-                    }`}
-                  >
-                    Department
-                  </div>
-                  <div
-                    className={`status-icon ${
-                      document.status.college
-                        ? "status-icon-green"
-                        : "status-icon-red"
-                    }`}
-                  >
-                    College
-                  </div>
-                  <div
-                    className={`status-icon ${
-                      document.status.vicepresident
-                        ? "status-icon-green"
-                        : "status-icon-red"
-                    }`}
-                  >
-                    Vice President
-                  </div>
-                  <div
-                    className={`status-icon ${
-                      document.status.humanResource
-                        ? "status-icon-green"
-                        : "status-icon-red"
-                    }`}
-                  >
-                    Human Resource
-                  </div>
-                </div>
-              </td>
-              <td>
-                <button
-                  onClick={() => window.open(document.filename, "_blank")}
-                >
-                  {document.filename}
-                </button>
-              </td>
-              <td>{formatCreatedAt(document.createdAt)}</td>
-            </tr>
-          ))}
-        </tbody>
+        <tbody>{renderDocuments()}</tbody>
       </table>
     </div>
   );

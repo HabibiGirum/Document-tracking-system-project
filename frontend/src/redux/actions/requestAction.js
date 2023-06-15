@@ -264,4 +264,3 @@ export const clearFilters = () => {
     dispatch({ type: CLEAR_FILTERS });
   };
 };
-

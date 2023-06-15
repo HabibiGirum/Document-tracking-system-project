@@ -149,7 +149,7 @@ function Home() {
 
   return (
     <>
-      <Header />
+      
       <Container className="justify-container-center mt-5 text-primary">
         <Card>
           <Form onSubmit={handleSubmit}>
@@ -646,7 +646,7 @@ function Home() {
           </Form>
         </Card>
       </Container>
-      <Footer />
+     
     </>
   );
 }

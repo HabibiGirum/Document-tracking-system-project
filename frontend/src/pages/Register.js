@@ -139,12 +139,8 @@ const Register = () => {
                     <option>Select the Role of the User</option>
                     <option>Lecturer</option>
 
-                    <option>Electrical And Mechanical Collage Dean</option>
-                    <option>Biological And Chemical College Dean</option>
-                    <option>Natural And Social College Dean</option>
-                    <option>Architecture And Civil College Dean</option>
-                    <option>Applied College Dean</option>
                     <option>Department Head</option>
+                    <option>College Dean</option>
                     <option>Vice President</option>
                     <option>Human Resources</option>
                   </Form.Select>
