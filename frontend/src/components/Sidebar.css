@@ -1,58 +1,81 @@
 .sidebar {
-  width: 250px;
+  width: 200px;
+  background-color: #f2f2f2;
+  padding: 20px;
   height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #f8f9fa;
-  transition: transform 0.3s;
-  transform: translateX(-250px);
 }
 
-.sidebar.open {
-  transform: translateX(0);
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.toggle-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #f8f9fa;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  font-size: 24px;
+.logo h2 {
+  color: #333;
+  font-size: 20px;
 }
 
-.menu-items {
+.sidebar-menu {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.menu-item {
-  padding: 10px 20px;
-  border-bottom: 1px solid #e9ecef;
+.sidebar-menu li {
+  margin-bottom: 10px;
 }
 
-.menu-item:last-child {
-  border-bottom: none;
-}
-
-.menu-item a {
-  color: #212529;
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: #555;
   text-decoration: none;
 }
 
-.sub-menu {
-  list-style-type: none;
-  padding-left: 20px;
-  margin: 10px 0;
+.sidebar-menu a:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.sidebar-menu a svg {
+  margin-right: 8px;
+}
+
+.layout-container.wrapped .sidebar-menu {
   display: none;
 }
 
-.menu-item.open .sub-menu {
-  display: block;
+.layout-container.wrapped .hamburger-menu {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 10px;
+  color: #555;
+  cursor: pointer;
+}
+
+.layout-container.wrapped .hamburger-menu svg {
+  font-size: 18px;
+  color: red;
+  cursor: pointer;
+}
+
+.wrapped {
+  width: 80px;
+  display: flex;
+  justify-content: left;
+  margin: 0;
+  cursor: pointer;
+}
+
+.hamburger-menu.cancel {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.hamburger-menu.cancel svg {
+  font-size: 18px;
+  color: red;
 }

@@ -28,11 +28,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       enum: [
         "Lecturer",
-        "Electrical And Mechanical Collage Dean",
-        "Biological And Chemical College Dean",
-        "Natural And Social College Dean",
-        "Architecture And Civil College Dean",
-        "Applied College Dean",
+        "College Dean",
         "Department Head",
         "Vice President",
         "Human Resources",

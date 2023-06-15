@@ -1,0 +1,60 @@
+.profile-container {
+  width: 500px;
+  margin: 40px auto 0;
+  padding: 20px;
+  background-color: #eaf2ff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-header h2 {
+  font-size: 24px;
+  color: #333;
+}
+
+.profile-field {
+  margin-bottom: 12px;
+}
+
+.profile-field label {
+  font-weight: bold;
+  display: inline-block;
+  width: 120px;
+}
+
+.profile-field span {
+  display: inline-block;
+  color: #777;
+}
+
+/* Additional styling for aesthetics */
+.profile-container {
+  font-family: Arial, sans-serif;
+}
+
+.profile-body {
+  padding: 10px;
+  background-color: #fff;
+}
+
+.profile-field label {
+  color: #555;
+}
+
+.profile-field span {
+  font-weight: bold;
+}
+
+.profile-field:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
+
+.profile-field:not(:last-child) label {
+  margin-bottom: 6px;
+}

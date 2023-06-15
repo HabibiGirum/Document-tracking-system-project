@@ -4,22 +4,20 @@ import { getRequests, openFile } from "../redux/actions/requestAction";
 import { sendAcceptanceMessage } from "../redux/actions/trackingAction";
 import { createRequest } from "../redux/actions/requestAction";
 import { Table, Modal, Button, Form } from "react-bootstrap";
-import SideBar from "../components/SideBar";
+import Layout from "./Layout";
+import "./receivedPage.css";
 
 const ReceivedPage = () => {
   const dispatch = useDispatch();
-  const userInfoFromStorage = localStorage.getItem("userInfo")
-    ? localStorage.getItem("userInfo")
-    : null;
-  const userInfo = JSON.parse(userInfoFromStorage);
-  const role = userInfo.role;
-  const { requests, isLoading, error } = useSelector((state) => state.requests);
   const [sortedRequests, setSortedRequests] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [showModal, setShowModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [additionalComments, setAdditionalComments] = useState("");
   const [accepted, setAccepted] = useState(null);
+
+  const { requests, isLoading, error } = useSelector((state) => state.requests);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   useEffect(() => {
     dispatch(getRequests());
@@ -64,13 +62,11 @@ const ReceivedPage = () => {
   const handleConfirmAction = () => {
     // Perform the accepted/rejected action here
     console.log(selectedRequest);
-    const { id: id } = selectedRequest; // Extract the ID and role from the selected request
-    // Access the form field values using event.target.elements
+    const { id } = selectedRequest; // Extract the ID from the selected request
     const fullName = userInfo.name;
     const department = userInfo.department;
 
     let to;
-    console.log(accepted);
     if (accepted === true) {
       if (userInfo.role === "Department Head") {
         to = "College Dean";
@@ -79,7 +75,6 @@ const ReceivedPage = () => {
       } else if (userInfo.role === "") {
         to = "Human Resources";
       }
-          dispatch(sendAcceptanceMessage({ id, role }));
     } else if (accepted === false) {
       if (userInfo.role === "Department Head") {
         to = selectedRequest.fullName;
@@ -97,19 +92,19 @@ const ReceivedPage = () => {
     const college = userInfo.college;
     const purpose = additionalComments;
     const data = {
-      id, // Include the unique ID in the data
+      id,
       fullName,
       department,
       purpose,
       to,
       documentType,
-      role,
+      role: userInfo.role,
       filename,
       college,
     };
     console.log(data);
+    dispatch(sendAcceptanceMessage({ id, role: userInfo.role, accepted }));
     dispatch(createRequest(data));
-
 
     setShowModal(false);
   };
@@ -124,10 +119,8 @@ const ReceivedPage = () => {
   };
 
   return (
-    <div>
-      <h1>Received Requests</h1>
-      <SideBar />
-      <Table striped bordered>
+    <div className="received-page-container">
+      <Table striped bordered className="received-page-table">
         <thead>
           <tr>
             <th>From</th>
@@ -141,7 +134,7 @@ const ReceivedPage = () => {
             </th>
             <th>Created Time</th>
             <th>Filename</th>
-            <th>Actions</th>
+            {userInfo.role === "Lecturer" ? null : <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -154,31 +147,54 @@ const ReceivedPage = () => {
               <td>{formatDateTime(request.createdAt).split(",")[0]}</td>
               <td>{formatDateTime(request.createdAt).split(",")[1]}</td>
               <td>
-                <button onClick={() => handleFileOpen(request.filename)}>
+                <button
+                  className="received-page-button"
+                  onClick={() => handleFileOpen(request.filename)}
+                >
                   {request.filename}
                 </button>
               </td>
-              <td>
-                <Button variant="success" onClick={() => handleAccept(request)}>
-                  Accept
-                </Button>{" "}
-                <Button variant="danger" onClick={() => handleReject(request)}>
-                  Reject
-                </Button>
-              </td>
+              {userInfo.role === "Lecturer" ? null : (
+                <td>
+                  <Button
+                    variant="success"
+                    onClick={() => handleAccept(request)}
+                  >
+                    Accept
+                  </Button>{" "}
+                  <Button
+                    variant="danger"
+                    onClick={() => handleReject(request)}
+                  >
+                    Reject
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
       </Table>
 
-      <Modal show={showModal} onHide={handleCloseModal}>
+      <Modal
+        show={showModal}
+        onHide={handleCloseModal}
+        dialogClassName="received-page-modal-dialog"
+        contentClassName="received-page-modal-content"
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Confirmation</Modal.Title>
+          <Modal.Title className="received-page-modal-title">
+            Confirmation
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Are you sure you want to perform this action?
-          <Form.Group controlId="additionalComments">
-            <Form.Label>Additional Comments:</Form.Label>
+          <Form.Group
+            controlId="additionalComments"
+            className="received-page-form-group"
+          >
+            <Form.Label className="received-page-modal-body-label">
+              Additional Comments:
+            </Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -187,11 +203,19 @@ const ReceivedPage = () => {
             />
           </Form.Group>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
+        <Modal.Footer className="received-page-modal-footer">
+          <Button
+            variant="secondary"
+            onClick={handleCloseModal}
+            className="received-page-modal-footer-button"
+          >
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleConfirmAction}>
+          <Button
+            variant="primary"
+            onClick={handleConfirmAction}
+            className="received-page-modal-footer-button"
+          >
             Confirm
           </Button>
         </Modal.Footer>

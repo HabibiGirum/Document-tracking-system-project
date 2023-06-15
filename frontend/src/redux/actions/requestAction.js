@@ -96,66 +96,12 @@ export const getRequests = () => {
   return async (dispatch, getState) => {
     const { search, searchType, sort, userLogin } = getState();
     const userInfo = userLogin.userInfo;
-    const role = userInfo.role;
-    const college = userInfo.college;
-    const to = userInfo.to;
 
-    let url = "";
 
-    switch (role) {
-      case "Lecturer":
-        switch (college) {
-          case "College of Electrical and Mechanical Engineering":
-            url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
-              JSON.stringify(userInfo)
-            )}`;
-            break;
-          case "2":
-            url = `http://localhost:5000/api/biological_chemical?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "3":
-            url = `http://localhost:5000/api/apllied?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "4":
-            url = `http://localhost:5000/api/natural_social?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "5":
-            url = `http://localhost:5000/api/architecture_civil?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          default:
-            // Handle the default case if necessary
-            break;
-        }
-        break;
-      case "Department Head":
-        switch (college) {
-          case "College of Electrical and Mechanical Engineering":
-            url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
-              JSON.stringify(userInfo)
-            )}`;
-            break;
-          case "2":
-            url = `http://localhost:5000/api/biological_chemical?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "3":
-            url = `http://localhost:5000/api/apllied?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "4":
-            url = `http://localhost:5000/api/natural_social?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "5":
-            url = `http://localhost:5000/api/architecture_civil?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          default:
-            // Handle the default case if necessary
-            break;
-        }
-        break;
-      // Handle other role cases if necessary
-      default:
-        // Handle the default case if necessary
-        break;
-    }
+let url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
+  JSON.stringify(userInfo)
+)}`;
+
 
     if (search) {
       url = url + `&search=${search}`;

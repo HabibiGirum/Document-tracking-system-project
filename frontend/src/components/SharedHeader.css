@@ -1,0 +1,39 @@
+.navbar {
+  background-color: #00163f;
+  height: 80px;
+  padding: 10px 0;
+  margin: 0;
+}
+
+.nav {
+
+    display: flex;
+    align-items: center;
+
+}
+
+.logo {
+  margin-right: 10px;
+    
+}
+
+.nav-link {
+  color: #fff;
+  margin-left: 15px;
+}
+
+.nav-link:hover {
+  color: #f9f9f9;
+}
+
+.toggle-btn {
+  border-color: #fff;
+}
+
+.toggle-btn:focus {
+  box-shadow: none;
+}
+
+.nav-icon {
+  margin-right: 5px;
+}

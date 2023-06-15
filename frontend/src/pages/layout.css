@@ -1,0 +1,30 @@
+/* layout.css */
+.layout-top {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: row;
+  height: 90vh;
+}
+
+.header {
+  background-color: #f0f0f0;
+  padding: 10px;
+
+}
+
+.sidebar {
+  background-color: #e0e0e0;
+  padding: 10px;
+  flex: 1;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+
+}

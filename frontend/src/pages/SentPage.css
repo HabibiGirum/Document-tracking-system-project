@@ -1,48 +1,94 @@
+.sent-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  background-color: #f5f5f5;
+}
+
 .sent-table {
   width: 100%;
+  max-width: 100%;
+
   border-collapse: collapse;
-  border: 1px solid #ddd;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sent-table th,
 .sent-table td {
-  padding: 12px;
+  padding: 12px 16px;
   text-align: left;
+  border-bottom: 1px solid #ddd;
 }
 
 .sent-table th {
   background-color: #f2f2f2;
+  font-weight: bold;
+  color: #333;
 }
 
-.sent-table tr:nth-child(even) {
+.sent-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
 .status-icons {
   display: flex;
-  justify-content: center;
-  margin: 1px;
 }
 
 .status-icon {
   display: inline-block;
   padding: 4px 8px;
-  border-radius: 4px;
-  color: white;
+  margin-right: 8px;
+  font-size: 12px;
   font-weight: bold;
+  color: #fff;
+  border-radius: 4px;
   text-align: center;
-  width: fit-content;
-  margin: 1.5px;
 }
 
-.status-icon-green {
-  background-color: green;
+.status-icon.status-icon-red{
+  background-color: rgb(119, 0, 255);
 }
 
-.status-icon-red {
-  background-color: red;
+.status-icon.status-icon-green{
+  background-color: rgb(0, 255, 179);
 }
 
-.rejected-document {
-  background-color: #ffe6e6; /* Light red background */
+.status-icon.department {
+  background-color: #ff5555;
+}
+
+.status-icon.college {
+  background-color: #55ff55;
+}
+
+.status-icon.vicepresident {
+  background-color: #5555ff;
+}
+
+.status-icon.humanResource {
+  background-color: #ff55ff;
+}
+
+.status-icon.accepted {
+  background-color: #55ff55;
+}
+
+.status-icon.rejected {
+  background-color: #ff5555;
+}
+
+button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
 }

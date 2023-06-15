@@ -2,9 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { Login, Error, Register, Home, Landing } from "./pages";
+import ProfilePage from "./pages/UserProfile";
 import RecievedNew from "./pages/RecievedNew";
 import SentPage from "./pages/SentPage";
-
+import Layout from "./pages/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App({ isAuthenticated }) {
@@ -15,33 +16,10 @@ function App({ isAuthenticated }) {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/home"
-          element={
-            <ProtectedRoute
-              children={<Home />}
-              isAuthenticated={isAuthenticated}
-            />
-          }
-        />
-        <Route
-          path="/received"
-          element={
-            <ProtectedRoute
-              children={<RecievedNew />}
-              isAuthenticated={isAuthenticated}
-            />
-          }
-        />
-        <Route
-          path="/sent"
-          element={
-            <ProtectedRoute
-              children={<SentPage />}
-              isAuthenticated={isAuthenticated}
-            />
-          }
-        />
+        <Route path="/home" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Layout><Home /></Layout></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Layout><ProfilePage /></Layout></ProtectedRoute>} />
+        <Route path="/received" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Layout><RecievedNew /></Layout></ProtectedRoute>} />
+        <Route path="/sent" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Layout><SentPage /></Layout></ProtectedRoute>} />
         <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>

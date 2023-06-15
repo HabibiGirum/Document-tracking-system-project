@@ -13,7 +13,7 @@ const Document = require("../models/requests");
 const Human_Resources = require("../models/humanResource");
 exports.sendAcceptanceMessage = asyncHandler(async (req, res) => {
   console.log(req.body);
-  const { id, role } = req.body;
+  const { id, role,accepted } = req.body;
   // Check if the request ID is provided
   if (!id) {
     throw new BadRequestError("Request ID is required");
@@ -28,20 +28,28 @@ exports.sendAcceptanceMessage = asyncHandler(async (req, res) => {
   if (!request) {
     return res.status(404).json({ error: "Request not found" });
   }
-
-  switch (role) {
-    case "Department Head":
-      request.department = true;
-      break;
-    case "College Dean":
-      request.college = true;
-      break;
-    case "Vice President":
-      request.humanResource = true;
-      break;
-    default:
-      break;
+  if (accepted === true) {
+      switch (role) {
+        case "Department Head":
+          request.department = true;
+          break;
+        case "College Dean":
+          request.college = true;
+          break;
+        case "Vice President":
+          request.vicepresident = true;
+          break;
+        case "Human Resources":
+          request.humanResource = true
+          request.accepted = true
+          break;
+        default:
+          break;
+      }
+  } else if (accepted === false) {
+    request.rejected = true
   }
+
 
   // Save the updated request
   await request.save();
@@ -251,7 +259,7 @@ exports.getAllRequests = async (req, res) => {
             break;
         }
         break;
-      case "3":
+      case "College Dean":
         to = userInfo.college;
         query = { to: to };
         switch (College) {

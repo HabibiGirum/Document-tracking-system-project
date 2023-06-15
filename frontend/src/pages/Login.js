@@ -1,6 +1,14 @@
-import { Button,  Col, Form, Card, Image, Row ,Container} from "react-bootstrap";
+import React, { useState } from "react";
+import {
+  Button,
+  Col,
+  Form,
+  Card,
+  Image,
+  Row,
+  Container,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/userActions";
 import FormContainer from "../components/FormContainer";
@@ -9,53 +17,74 @@ import Loader from "../components/Loader";
 import myImage from "../assets/images/AASTU.jpg";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Home from "./Home";
+import "./Login.css";
 
 const Login = () => {
   const isAuthenticated = useSelector(
     (state) => state.userLogin.isAuthenticated
   );
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error } = userLogin;
-  console.log("trigereed")
-  const submitHandler = (e) => {
-      console.log("trigereed");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(email, password))
-      .then(() => {
-        if (isAuthenticated) {
-          console.log(isAuthenticated,'login')
-          navigate("/home");
-        }
-        // Redirect to the home page after successful login
-        
 
-      })
-      .catch((error) => {
-        // Handle login error
-        console.log(error);
-      });;
-    // console.log(email);
-    // console.log(password);
+    // Clear previous errors
+    setEmailError("");
+    setPasswordError("");
+
+    // Perform basic validation
+    let isValid = true;
+
+    if (email.trim() === "") {
+      setEmailError("Email is required");
+      isValid = false;
+    }
+    if (!email.includes("@")) {
+      setEmailError("Email format incorrect")
+      isValid = false
+    }
+
+    if (password.trim() === "") {
+      setPasswordError("Password is required");
+      isValid = false;
+    }
+
+    if (isValid) {
+      dispatch(login(email, password))
+        .then(() => {
+          if (isAuthenticated) {
+            navigate("/home");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
-  return (
-    <Row>
-      <Col>
-        <div
-          className="d-flex justify-content-center align-items-center md"
-          style={{ height: "100vh" }}
-        >
-          <FormContainer>
-            <Image className="mx-5" src={myImage} height="90px" />
 
-            <h1>Sign In</h1>
+  return (
+    <Row
+      className="justify-content-center align-items-center"
+      style={{ height: "100vh" }}
+    >
+      <Col md={4}>
+        <Card>
+          <Card.Body>
+            <Container className="d-flex justify-content-center align-items-center">
+              <Image src={myImage} height="90px" className="mr-3" />
+            </Container>
             {error && <Message variant="danger">{error}</Message>}
             {loading && <Loader />}
-            <Form onSubmit={submitHandler}>
+            <Form onSubmit={onSubmit}>
               <Form.Group controlId="email">
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
@@ -63,7 +92,8 @@ const Login = () => {
                   placeholder="Enter email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                ></Form.Control>
+                />
+                {emailError && <span className="error-text">{emailError}</span>}
               </Form.Group>
 
               <Form.Group controlId="password">
@@ -73,15 +103,18 @@ const Login = () => {
                   placeholder="Enter password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                ></Form.Control>
+                />
+                {passwordError && (
+                  <span className="error-text">{passwordError}</span>
+                )}
               </Form.Group>
 
-              <button type="submit" className="button col-md-12 p-3 my-2">
+              <Button type="submit" className="btn-block mb-3">
                 Sign In
-              </button>
+              </Button>
             </Form>
-          </FormContainer>
-        </div>
+          </Card.Body>
+        </Card>
       </Col>
     </Row>
   );
