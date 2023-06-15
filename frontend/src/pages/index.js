@@ -3,5 +3,5 @@ import Home from "./Home";
 import Landing from "./Landing";
 import Login from "./Login";
 import Register from "./Register";
-
-export {Home, Error, Login ,Register,Landing};
+import UploadImageForm from './UploadImageForm';
+export {UploadImageForm,Home, Error, Login ,Register,Landing};

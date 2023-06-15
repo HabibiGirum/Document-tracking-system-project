@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
-import { Login, Error, Register, Home, Landing } from "./pages";
+import { Login, Error, Register, Home, Landing ,UploadImageForm} from "./pages";
 import RecievedNew from "./pages/RecievedNew";
 import SentPage from "./pages/SentPage";
 
@@ -42,6 +42,7 @@ function App({ isAuthenticated }) {
             />
           }
         />
+        <Route path="/text" element ={<UploadImageForm />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>

@@ -5,48 +5,29 @@ import Tesseract from "tesseract.js";
 import { jsPDF } from "jspdf";
 import { uploadFile } from "../redux/actions/uploadFile";
 import { createRequest } from "../redux/actions/requestAction";
-
+import { API_BASE_URL } from "../config";
 import { Footer, Header } from "../components";
 import { uploadImage } from "../redux/actions/uploadImageAction";
 
-import { addDocument } from "../redux/actions/trackingAction"
+import { addDocument } from "../redux/actions/trackingAction";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 // import List from "../components/List";
 
-
 function Home() {
   const dispatch = useDispatch();
-  const [selectedImage, setSelectedImage] = useState(null);
-  const uploading = useSelector((state) => state.uploading);
-  const uploadError = useSelector((state) => state.uploadError);
 
+  const response = useSelector((state) => state.uploadImage.data);
+  const uploadError = useSelector((state) => state.uploadImage.uploadError);
+  const error = useSelector((state) => state.uploadImage.error);
+
+  const [selectedImage, setSelectedImage] = useState(null);
   const [image, setImage] = useState(null);
   const [result, setResult] = useState("");
-
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setImage(URL.createObjectURL(file));
-  };
-
-  const performOcr = () => {
-    Tesseract.recognize(image, "eng")
-      .then((response) => {
-        const extractedText = response.data.text;
-        const regex = /ETS\d+\/\d+/; // Regular expression to match "ETS0489/11" pattern
-        const match = extractedText.match(regex);
-        if (match) {
-          setResult(match[0]);
-        } else {
-          setResult('Pattern not found');
-        }      })
-      .catch((error) => {
-        console.error("Error performing OCR: ", error);
-      });
-  };
-
+  const [tagNo, setTagNo] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [similarity, setSimilarity] = useState(null);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -54,6 +35,8 @@ function Home() {
 
   const handleImageChange = (event) => {
     setSelectedImage(event.target.files[0]);
+    const file = event.target.files[0];
+    setImage(URL.createObjectURL(file));
   };
 
   const handleOptionChange = (event) => {
@@ -93,6 +76,7 @@ function Home() {
     const to = event.target.elements.to.value;
     const documentType = event.target.elements.documentType.value;
     const filename = selectedFile.name;
+    const tagNo = event.target.elements.tagNo.value;
     const concatenatedFilename = `${uniqueId}_${filename}`;
 
     const data = {
@@ -111,8 +95,8 @@ function Home() {
 
     dispatch(uploadFile(selectedFile, college, roll));
 
-    console.log(uniqueId)
-    dispatch(addDocument(uniqueId))
+    console.log(uniqueId);
+    dispatch(addDocument(uniqueId));
 
     console.log(data);
 
@@ -137,7 +121,30 @@ function Home() {
 
     //doc.save("form.pdf");
 
-    dispatch(uploadImage(selectedImage));
+    dispatch(uploadImage(selectedImage, tagNo));
+    console.log("this is tagNo: ", tagNo);
+  };
+
+  useEffect(() => {
+    dispatch(uploadImage(image, tagNo));
+  }, [dispatch]);
+
+  const performOcr = () => {
+    Tesseract.recognize(image, "eng")
+      .then((response) => {
+        const extractedText = response.data.text;
+        const regex = /NO:(\d+)/;
+        const match = extractedText.match(regex);
+        if (match) {
+          const extractedTagNo = match[1];
+          setTagNo(extractedTagNo);
+        } else {
+          setTagNo("Pattern not found");
+        }
+      })
+      .catch((error) => {
+        console.error("Error performing OCR: ", error);
+      });
   };
 
   return (
@@ -591,15 +598,6 @@ function Home() {
                   accept="image/*"
                   onChange={handleImageChange}
                 />
-                {uploading ? "Uploading..." : "Upload"}
-                {uploadError && <p>Failed to upload image.</p>}
-              </Form.Group>
-            )}
-
-            {selectedOption === "Leave" && (
-              <Form.Group>
-                <Form.Label>Upload Image</Form.Label>
-                <Form.Control type="file" onChange={handleImageUpload} />
                 <Button onClick={performOcr}>Perform OCR</Button>
                 {image && (
                   <img
@@ -611,17 +609,27 @@ function Home() {
                 {result && <p>{result}</p>}
               </Form.Group>
             )}
-            {selectedOption === "Leave" && (
+
+            {selectedOption === "Promotion" && (
               <Form.Group>
-                <Form.Label>Select Leave type:</Form.Label>
-                <Form.Control name="leaveType" as="select">
-                  <option>Case 2</option>
-                  <option>case 1</option>
-                  <option>Health</option>
-                  <option>study leave</option>
-                </Form.Control>
+                <Form.Label>ID:</Form.Label>
+                <Form.Control type="text" name="tagNo" value={tagNo} disabled />
               </Form.Group>
             )}
+            <div>
+              {uploadError && <p>Error: {error}</p>}
+              {response && (
+                <div>
+                  <h1>Response:</h1>
+                  <p>Extracted Text: {response.extractedText}</p>
+                  <p>
+                    Similarity: {response.similarity ? "True" : "False"}
+                  </p>{" "}
+                </div>
+              )}
+              {!uploadError && !response && <p>Loading...</p>}
+            </div>
+
             <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label>Multiple files input example</Form.Label>
               <Form.Control
