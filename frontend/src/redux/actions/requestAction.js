@@ -1,4 +1,6 @@
+import { switchClasses } from "@mui/base";
 import axios from "axios";
+import { json } from "react-router-dom";
 import { API_BASE_URL } from "../../config";
 
 import {
@@ -19,7 +21,6 @@ import {
   LOGOUT_USER,
   REQUEST_ERROR,
   CREATE_REQUEST_FAIL,
-  
 } from "../constants/requestConstants";
 
 export const clearAlert = () => {
@@ -90,66 +91,10 @@ export const getRequests = () => {
   return async (dispatch, getState) => {
     const { search, searchType, sort, userLogin } = getState();
     const userInfo = userLogin.userInfo;
-    const role = userInfo.role;
-    const college = userInfo.college;
-    const to = userInfo.to;
 
-    let url = "";
-    switch (role) {
-      case "Lecturer":
-        switch (college) {
-          case "College of Electrical and Mechanical Engineering":
-            url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
-              JSON.stringify(userInfo)
-            )}`;
-            break;
-          case "2":
-            url = `http://localhost:5000/api/biological_chemical?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "3":
-            url = `http://localhost:5000/api/apllied?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "4":
-            url = `http://localhost:5000/api/natural_social?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "5":
-            url = `http://localhost:5000/api/architecture_civil?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          default:
-            // Handle the default case if necessary
-            break;
-        }
-        break;
-      case "Department Head":
-        switch (college) {
-          case "College of Electrical and Mechanical Engineering":
-            url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
-              JSON.stringify(userInfo)
-            )}`;
-            break;
-          case "2":
-            url = `http://localhost:5000/api/biological_chemical?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "3":
-            url = `http://localhost:5000/api/apllied?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "4":
-            url = `http://localhost:5000/api/natural_social?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          case "5":
-            url = `http://localhost:5000/api/architecture_civil?DocumentType=${searchType}&sort=${sort}`;
-            break;
-          default:
-            // Handle the default case if necessary
-            break;
-        }
-        break;
-      // Handle other role cases if necessary
-      default:
-        // Handle the default case if necessary
-        break;
-
-    }
+    let url = `http://localhost:5000/api/requests?DocumentType=${searchType}&sort=${sort}&userInfo=${encodeURIComponent(
+      JSON.stringify(userInfo)
+    )}`;
 
     if (search) {
       url = url + `&search=${search}`;
@@ -158,7 +103,7 @@ export const getRequests = () => {
     dispatch({ type: GET_REQUESTS_BEGIN });
 
     try {
-      console.log(url)
+      console.log(url);
       const response = await axios.get(url, {
         headers: { "Content-Type": "application/json" },
       });
@@ -180,8 +125,6 @@ export const getRequests = () => {
     }
   };
 };
-
-
 
 export const setEditRequest = (id) => {
   return (dispatch) => {
@@ -234,11 +177,37 @@ export const deleteRequest = (requestId) => {
   };
 };
 
-export const openFile = (filename) => async (dispatch) => {
+export const openFile = (filename, role) => async (dispatch) => {
   try {
     // Make an API call to open the file
+    let filenameArr = filename.split(",");
+    const college = filenameArr[1].split(" ").join("_");
+    const file = filenameArr[0];
+
+    let destinationFolder = "uploads/";
+    if (college === "College_of_Electrical_and_Mechanical_Engineering") {
+      destinationFolder += "ECE_MECH/";
+    } else if (college === "College_of_Applied_Science") {
+      destinationFolder += "Applied_Sciences/";
+    } else if (college === "College_of_Biological_and_Chemical_Engineering") {
+      destinationFolder += "BIO_CHEM/";
+    } else if (college === "College_of_Architecture_and_Civil_Engineering") {
+      destinationFolder += "ARCH_CIVIL/";
+    } else if (college === "College_of_Natural_and_Social_Science") {
+      destinationFolder += "NATU_SOCI/";
+    }
+
+    if (role === "Human_Resources") {
+      destinationFolder += "HR/";
+    } else if (role === "Vice President") {
+      destinationFolder += "VP/";
+    }
+    filenameArr[1] = destinationFolder;
+    filename = filenameArr.join(",");
+
+    const encodedFilename = encodeURIComponent(filename);
     const response = await axios.get(
-      `http://localhost:5000/api/files/${filename}`,
+      `http://localhost:5000/api/files/${encodedFilename}`,
       {
         responseType: "blob",
       }
@@ -258,6 +227,7 @@ export const openFile = (filename) => async (dispatch) => {
     });
   }
 };
+
 
 export const clearFilters = () => {
   return (dispatch) => {

@@ -28,7 +28,7 @@ const ReceivedPage = () => {
   }, [requests]);
 
   const handleFileOpen = (filename) => {
-    dispatch(openFile(filename));
+    dispatch(openFile(filename,userInfo.role));
   };
 
   const handleSort = (key) => {
@@ -149,7 +149,7 @@ const ReceivedPage = () => {
               <td>
                 <button
                   className="received-page-button"
-                  onClick={() => handleFileOpen(request.filename)}
+                  onClick={() => handleFileOpen(request.filename+","+userInfo.college)}
                 >
                   {request.filename}
                 </button>
