@@ -1,7 +1,8 @@
-const alert =()=>{
-    return (
-        <></>
-    )
-}
+// import
+// const alert =()=>{
+//     return (
+//         <></>
+//     )
+// }
 
-export default alert 
+// export default alert 

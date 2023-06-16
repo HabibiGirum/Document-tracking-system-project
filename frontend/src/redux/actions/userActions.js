@@ -1,4 +1,8 @@
 import { useNavigate, useHistory } from "react-router-dom";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -12,7 +16,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../../config";
 
 const addUserToLocalStorage = ({ user, token }) => {
-  console.log(user,token)
+  console.log(user, token);
   localStorage.setItem("userInfo", JSON.stringify(user));
   localStorage.setItem("token", token);
   // localStorage.setItem("department", department);
@@ -25,7 +29,7 @@ const removeUserFromLocalStorage = () => {
 };
 // const navigate = useNavigate()
 export const login = (email, password) => async (dispatch) => {
-
+  const notify = () => toast("Wow so easy!");
 
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
@@ -41,7 +45,7 @@ export const login = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-      console.log(data.user)
+    console.log(data.user);
     // Check if the login was successful
     if (data.token) {
       dispatch({
@@ -51,16 +55,34 @@ export const login = (email, password) => async (dispatch) => {
 
       // Set the user data in local storage
       // localStorage.setItem("userInfo", JSON.stringify(data.token));
-      addUserToLocalStorage({user:data.user,token:data.token})
       console.log(data);
-      // Redirect to the home page or the desired protected route
-      window.location.href = "/home";
+      addUserToLocalStorage({ user: data.user, token: data.token });
 
+      toast.success("Login Successful!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
+      });
+
+      console.log(data);
+      setTimeout(() => {
+        if (data.user.role === "Lecturer") {
+          window.location.href = "/home";
+        } else {
+          window.location.href = "/received";
+        }
+      }, 3000);
+      // Redirect to the home page or the desired protected route
+      //
     } else {
       // Handle login failure
       dispatch({
         type: USER_LOGIN_FAIL,
         payload: data.message,
+      });
+
+      toast.error("Login Failed!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 3000,
       });
     }
   } catch (error) {
@@ -70,6 +92,11 @@ export const login = (email, password) => async (dispatch) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    });
+
+    toast.error("Login Failed!", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
     });
   }
 };
@@ -86,9 +113,17 @@ export const registerUser = (userData) => async (dispatch) => {
 
     // Handle the response
     dispatch({ type: USER_REGISTER_SUCCESS, payload: response.data.token });
+    toast.success("Registration Successful!", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+    });
     // Optionally, you can dispatch additional actions or handle the response here
   } catch (error) {
     dispatch({ type: USER_REGISTER_FAIL, payload: error.message });
+    toast.error("Registration Failed!", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+    });
     // Optionally, you can dispatch additional actions or handle the error here
   }
 };
@@ -96,5 +131,9 @@ export const registerUser = (userData) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: USER_LOGOUT });
+  toast.info("Logged out successfully!", {
+    position: toast.POSITION.TOP_RIGHT,
+    autoClose: 3000,
+  });
   document.location.href = "/login";
 };

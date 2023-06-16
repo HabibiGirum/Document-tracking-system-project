@@ -2,6 +2,8 @@ import { switchClasses } from "@mui/base";
 import axios from "axios";
 import { json } from "react-router-dom";
 import { API_BASE_URL } from "../../config";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   CREATE_REQUEST_BEGIN,
@@ -17,21 +19,10 @@ import {
   OPEN_FILE,
   CLEAR_FILTERS,
   CLEAR_VALUES,
-  CLEAR_ALERT,
   LOGOUT_USER,
   REQUEST_ERROR,
   CREATE_REQUEST_FAIL,
 } from "../constants/requestConstants";
-
-export const clearAlert = () => {
-  return (dispatch) => {
-    setTimeout(() => {
-      dispatch({
-        type: CLEAR_ALERT,
-      });
-    }, 3000);
-  };
-};
 
 export const logoutUser = () => {
   return (dispatch) => {
@@ -78,10 +69,18 @@ export const createRequest = (requestData) => {
       .post(`${API_BASE_URL}/requests`, requestData)
       .then((response) => {
         dispatch(createRequestSuccess());
+        toast.success("Request Created Successfully!", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
         // Handle any additional actions or logic after successful request creation
       })
       .catch((error) => {
         dispatch(createRequestFail(error));
+        toast.error("Failed to Create Request!", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 3000,
+        });
         // Handle any error actions or logic
       });
   };
@@ -157,7 +156,6 @@ export const editRequest = () => {
       });
     }
 
-    dispatch(clearAlert());
   };
 };
 
@@ -227,7 +225,6 @@ export const openFile = (filename, role) => async (dispatch) => {
     });
   }
 };
-
 
 export const clearFilters = () => {
   return (dispatch) => {

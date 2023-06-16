@@ -1,5 +1,6 @@
 import React from "react";
 import "./UserProfile.css";
+import {ToastContainer } from "react-toastify";
 
 const UserProfile = () => {
     const userInfoFromStorage = localStorage.getItem("userInfo")
@@ -33,6 +34,7 @@ const UserProfile = () => {
           <span>{user.role}</span>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

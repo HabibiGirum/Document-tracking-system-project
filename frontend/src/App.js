@@ -16,10 +16,46 @@ function App({ isAuthenticated }) {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Layout><Home /></Layout></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Layout><ProfilePage /></Layout></ProtectedRoute>} />
-        <Route path="/received" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Layout><RecievedNew /></Layout></ProtectedRoute>} />
-        <Route path="/sent" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Layout><SentPage /></Layout></ProtectedRoute>} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Layout>
+                <Home />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Layout>
+                <ProfilePage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/received"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Layout>
+                <RecievedNew />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sent"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <Layout>
+                <SentPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>

@@ -12,6 +12,8 @@ import { uploadImage } from "../redux/actions/uploadImageAction";
 import { addDocument } from "../redux/actions/trackingAction";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+import {ToastContainer } from "react-toastify";
+
 // import List from "../components/List";
 
 function Home() {
@@ -702,6 +704,7 @@ function Home() {
         </Card>
       </Container>
       <Footer />
+      <ToastContainer />
     </>
   );
 }

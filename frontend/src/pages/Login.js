@@ -18,6 +18,7 @@ import myImage from "../assets/images/AASTU.jpg";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Home from "./Home";
 import "./Login.css";
+import {ToastContainer } from "react-toastify";
 
 const Login = () => {
   const isAuthenticated = useSelector(
@@ -49,8 +50,8 @@ const Login = () => {
       isValid = false;
     }
     if (!email.includes("@")) {
-      setEmailError("Email format incorrect")
-      isValid = false
+      setEmailError("Email format incorrect");
+      isValid = false;
     }
 
     if (password.trim() === "") {
@@ -72,51 +73,55 @@ const Login = () => {
   };
 
   return (
-    <Row
-      className="justify-content-center align-items-center"
-      style={{ height: "100vh" }}
-    >
-      <Col md={4}>
-        <Card>
-          <Card.Body>
-            <Container className="d-flex justify-content-center align-items-center">
-              <Image src={myImage} height="90px" className="mr-3" />
-            </Container>
-            {error && <Message variant="danger">{error}</Message>}
-            {loading && <Loader />}
-            <Form onSubmit={onSubmit}>
-              <Form.Group controlId="email">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {emailError && <span className="error-text">{emailError}</span>}
-              </Form.Group>
+    <>
+      <Row
+        className="justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        <Col md={4}>
+          <Card>
+            <Card.Body>
+              <Container className="d-flex justify-content-center align-items-center">
+                <Image src={myImage} height="90px" className="mr-3" />
+              </Container>
+              {loading && <Loader />}
+              <Form onSubmit={onSubmit}>
+                <Form.Group controlId="email">
+                  <Form.Label>Email Address</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  {emailError && (
+                    <span className="error-text">{emailError}</span>
+                  )}
+                </Form.Group>
 
-              <Form.Group controlId="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {passwordError && (
-                  <span className="error-text">{passwordError}</span>
-                )}
-              </Form.Group>
+                <Form.Group controlId="password">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  {passwordError && (
+                    <span className="error-text">{passwordError}</span>
+                  )}
+                </Form.Group>
 
-              <Button type="submit" className="btn-block mb-3">
-                Sign In
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+                <Button type="submit" className="btn-block mb-3">
+                  Sign In
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+      <ToastContainer />
+    </>
   );
 };
 

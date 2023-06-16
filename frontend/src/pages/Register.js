@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import {ToastContainer } from "react-toastify";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -189,6 +190,7 @@ const Register = () => {
         </Row>
       </Container>
       <Footer />
+      <ToastContainer />
     </>
   );
 };
