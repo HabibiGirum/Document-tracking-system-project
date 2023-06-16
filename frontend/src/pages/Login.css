@@ -27,6 +27,13 @@ h1 {
 
 .btn-block {
   width: 100%;
+  
+  background-color:rgb(0, 0, 124) ;
+}
+
+.btn-block:hover {
+
+  background-color: rgb(0, 0, 88);
 }
 
 @media (min-width: 576px) {

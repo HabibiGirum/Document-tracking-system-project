@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import "./SentPage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSentDocuments } from "../redux/actions/trackingAction";
-import Layout from "./Layout";
+import { openFile } from "../redux/actions/requestAction";
 
 const SentPage = () => {
   const dispatch = useDispatch();
@@ -15,10 +15,11 @@ const SentPage = () => {
     : null;
   const userInfo = JSON.parse(userInfoFromStorage);
   const name = userInfo.name;
+  const college = userInfo.college;
 
   useEffect(() => {
     const fullName = name; // Replace with the desired user ID
-    dispatch(fetchSentDocuments(fullName, "", ""));
+    dispatch(fetchSentDocuments(fullName, college, "", ""));
   }, [dispatch, name]);
 
   if (loading) {
@@ -32,6 +33,10 @@ const SentPage = () => {
   const formatCreatedAt = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleString(undefined, options);
+  };
+
+  const handleOpenFile = (filename) => {
+    dispatch(openFile(filename));
   };
 
   const renderStatusIcon = (status) => {
@@ -79,12 +84,17 @@ const SentPage = () => {
     return documents.map((document) => (
       <tr key={document._id}>
         <td>{document.documentType}</td>
+        {userInfo.role !== "Lecturer" && <td>{document.purpose}</td>}
         {userInfo.role === "Lecturer" && (
           <td>{renderStatusIcon(document.status)}</td>
         )}
         <td>
-          <button onClick={() => window.open(document.filename, "_blank")}>
-            {document.filename}
+          <button
+            onClick={() =>
+              handleOpenFile(document.filename + "," + userInfo.college)
+            }
+          >
+            {document.filename.split("_")[(document.filename.split("_")).length - 1]}
           </button>
         </td>
         <td>{formatCreatedAt(document.createdAt)}</td>
@@ -99,6 +109,7 @@ const SentPage = () => {
           <tr>
             <th>Document Type</th>
             {userInfo.role === "Lecturer" && <th>Status</th>}
+            {userInfo.role !== "Lecturer" && <th>Purpose</th>}
             <th>Filename</th>
             <th>Date Created</th>
           </tr>

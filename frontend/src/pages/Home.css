@@ -6,6 +6,7 @@
 .home-page-container {
   height: calc(100vh - 60px); /* Adjust the height as needed */
   overflow-y: auto;
+
 }
 
 .card{
@@ -18,6 +19,7 @@
 
 .form-group {
   margin-bottom: 20px;
+
 }
 
 .form-label {
@@ -95,3 +97,4 @@ select.form-control {
 .alert-danger hr {
   border-top-color: #bd2130;
 }
+  

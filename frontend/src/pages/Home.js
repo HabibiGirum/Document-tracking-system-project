@@ -78,7 +78,7 @@ function Home() {
     const to = event.target.elements.to.value;
     const documentType = event.target.elements.documentType.value;
     const filename = selectedFile.name;
-    const tagNo = event.target.elements.tagNo.value;
+    const tagNo = event.target.elements.tagNo?.value;
     const concatenatedFilename = `${uniqueId}_${filename}`;
 
     const data = {

@@ -145,7 +145,7 @@ export const addDocument = (documentData, buttonPressed, userRole) => {
   };
 };
 
-export const fetchSentDocuments = (fullName, documentType, status) => {
+export const fetchSentDocuments = (fullName,college, documentType,status) => {
   return async (dispatch) => {
     dispatch(fetchSentDocumentsRequest());
 
@@ -153,12 +153,14 @@ export const fetchSentDocuments = (fullName, documentType, status) => {
       const response = await axios.get(`http://localhost:5000/api/sent`, {
         params: {
           fullName,
+          college,
           documentType,
           status,
+
         },
       });
-
-      const documents = response.data.documents;
+      console.log(response.data.data)
+      const documents = response.data.data;
       const documentIds = documents.map((document) => document.id);
 
       const statusResponses = await Promise.all(

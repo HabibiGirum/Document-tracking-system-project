@@ -55,8 +55,12 @@ export const login = (email, password) => async (dispatch) => {
 
       // Set the user data in local storage
       // localStorage.setItem("userInfo", JSON.stringify(data.token));
+
       console.log(data);
       addUserToLocalStorage({ user: data.user, token: data.token });
+
+      // 
+
 
       toast.success("Login Successful!", {
         position: toast.POSITION.TOP_RIGHT,
