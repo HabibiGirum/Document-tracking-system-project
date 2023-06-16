@@ -149,7 +149,7 @@ const ReceivedPage = () => {
               <td>
                 <button
                   className="received-page-button"
-                  onClick={() => handleFileOpen(request.filename)}
+                  onClick={() => openFile(request.filename)}
                 >
                   {request.filename}
                 </button>
