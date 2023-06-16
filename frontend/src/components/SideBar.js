@@ -1,16 +1,38 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FaUser, FaPaperPlane, FaInbox, FaHome, FaBars } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
+import {
+  FaUser,
+  FaPaperPlane,
+  FaInbox,
+  FaHome,
+  FaBars,
+  FaUserPlus,
+} from "react-icons/fa";
 import "./Sidebar.css";
 
 const Sidebar = () => {
   const [isSidebarWrapped, setIsSidebarWrapped] = useState(false);
+  const location = useLocation();
+
   const userInfoFromStorage = localStorage.getItem("userInfo")
     ? localStorage.getItem("userInfo")
     : null;
   const userInfo = JSON.parse(userInfoFromStorage);
+
   const handleSidebarToggle = () => {
     setIsSidebarWrapped(!isSidebarWrapped);
+  };
+
+  const isActive = (path) => {
+    return location.pathname === path ? "active" : "";
+  };
+
+  const getSidebarIcon = (path) => {
+    if (path === "/home") return <FaHome />;
+    if (path === "/received") return <FaInbox />;
+    if (path === "/sent") return <FaPaperPlane />;
+    if (path === "/register") return <FaUserPlus />;
+    return null;
   };
 
   return (
@@ -20,34 +42,39 @@ const Sidebar = () => {
           <FaBars />
         </div> */}
         <div className="logo">
-          <h2>My App</h2>
+          <h2>{getSidebarIcon(location.pathname)}</h2>
         </div>
         <ul className="sidebar-menu">
           {!isSidebarWrapped && (
             <>
-              <li>
-                <Link to="/home">
-                  <FaHome /> Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/sent">
-                  <FaPaperPlane /> Sent
-                </Link>
-              </li>
-              <li>
-                <Link to="/received">
-                  <FaInbox /> Received
-                </Link>
-              </li>
-              {userInfo.role === "Human Resources" ? (
-                <li>
-                  <Link to="/register">
-                    <FaInbox /> Register
+              {userInfo.role === "Lecturer" && (
+                <li className={isActive("/home")}>
+                  <Link to="/home">
+                    <FaHome />
+                    Home
                   </Link>
                 </li>
-              ) : (
-                ""  
+              )}
+              <li className={isActive("/received")}>
+                <Link to="/received">
+                  <FaInbox />
+                  Received
+                </Link>
+              </li>
+              <li className={isActive("/sent")}>
+                <Link to="/sent">
+                  <FaPaperPlane />
+                  Sent
+                </Link>
+              </li>
+
+              {userInfo.role === "Human Resources" && (
+                <li className={isActive("/register")}>
+                  <Link to="/register">
+                    <FaUserPlus />
+                    Register
+                  </Link>
+                </li>
               )}
             </>
           )}

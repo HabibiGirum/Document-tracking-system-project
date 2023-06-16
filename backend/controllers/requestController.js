@@ -115,7 +115,7 @@ exports.getSentDocuments = async (req, res) => {
   try {
     const { fullName, college, documentType, status } = req.query;
 
-    console.log(fullName)
+    console.log(fullName);
     // Build the query object to filter documents
     const query = {
       fullName: fullName, // Filter by specific user ID
@@ -128,33 +128,51 @@ exports.getSentDocuments = async (req, res) => {
     if (status) {
       query.status = status;
     }
-            switch (college.replace(/\s/g, "").toLowerCase()) {
-              case "collegeofelectricalandmechanicalengineering":
-                // code block
-                console.log("triggered");
-                data = await Electrical.find(query);
-                break;
-              case "collegeofbiologicalandchemicalengineering":
-                // code block
-                data = await Biological_chemical.find(query);
-                break;
-              case "collegeofappliedscience":
-                // code block
-                data = await Applied.find(query);
-                break;
-              case "collegeofnaturalandsocialscience":
-                // code block
-                data = await Natural_social.find(query);
-                break;
-              case "collegeofarchitectureandcivilengineering":
-                data = await Architecture_civil.find(query);
-                break;
-              default:
-                // code block
-                break;
-            }
-    data = data.slice(0,10)
-    console.log(data)
+    let data = [];
+    switch (college.replace(/\s/g, "").toLowerCase()) {
+      case "collegeofelectricalandmechanicalengineering":
+        // code block
+        console.log("triggered");
+        data = await Electrical.find(query);
+        break;
+      case "collegeofbiologicalandchemicalengineering":
+        // code block
+        data = await Biological_chemical.find(query);
+        break;
+      case "collegeofappliedscience":
+        // code block
+        data = await Applied.find(query);
+        break;
+      case "collegeofnaturalandsocialscience":
+        // code block
+        data = await Natural_social.find(query);
+        break;
+      case "collegeofarchitectureandcivilengineering":
+        data = await Architecture_civil.find(query);
+        break;
+      case "VicePresident":
+        data += await Vice_President.find(query);
+        data += await Electrical.find(query);
+        data += await Biological_chemical.find(query);
+        data += await Applied.find(query);
+        data += await Natural_social.find(query);
+        data += await Architecture_civil.find(query);
+        break;
+      case "HumanResources":
+        data = await Human_Resources.find(query);
+        data += await Vice_President.find(query);
+        data += await Electrical.find(query);
+        data += await Biological_chemical.find(query);
+        data += await Applied.find(query);
+        data += await Natural_social.find(query);
+        data += await Architecture_civil.find(query);
+        break;
+      default:
+        // code block
+        break;
+    }
+
+    console.log(data);
     res.json({ data });
   } catch (error) {
     console.error("Error fetching documents:", error);
@@ -217,15 +235,10 @@ exports.getAllRequests = async (req, res) => {
     const userInfo = JSON.parse(req.query.userInfo);
     const College = userInfo.college.replace(/\s/g, "").toLowerCase();
     const role = userInfo.role;
-    console.log(role);
-    console.log(College);
     let data = "";
     let query;
     const name = userInfo.name;
     let to = userInfo.department; // Use let instead of const for 'to'
-    console.log(name);
-    console.log(to);
-    console.log(role, "role of the user");
     switch (role) {
       case "Lecturer":
         query = { to: name };

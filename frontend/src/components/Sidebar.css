@@ -79,3 +79,8 @@
   font-size: 18px;
   color: red;
 }
+
+.sidebar-menu li.active {
+  background-color: hsla(240, 100%, 17%, 0.356);
+  color: white;
+}

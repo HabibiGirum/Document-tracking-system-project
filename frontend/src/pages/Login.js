@@ -28,7 +28,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error } = userLogin;
-
+  console.log(userLogin);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -47,10 +47,9 @@ const Login = () => {
     if (email.trim() === "") {
       setEmailError("Email is required");
       isValid = false;
-    }
-    else if (!email.includes("@")) {
-      setEmailError("Email format incorrect")
-      isValid = false
+    } else if (!email.includes("@")) {
+      setEmailError("Email format incorrect");
+      isValid = false;
     }
 
     if (password.trim() === "") {
@@ -60,11 +59,7 @@ const Login = () => {
 
     if (isValid) {
       dispatch(login(email, password))
-        .then(() => {
-          if (isAuthenticated) {
-            navigate("/home");
-          }
-        })
+        .then()
         .catch((error) => {
           console.log(error);
         });

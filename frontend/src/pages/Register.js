@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import "./Register.css";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -56,12 +57,11 @@ const Register = () => {
 
   return (
     <>
-      <Header />
-      <Container className="justify-content-center h-500">
+      <Container className="register-container">
         <Row>
-          <Form className="p-4 d-flex" onSubmit={handleSubmit}>
-            <Col ml={5} style={{ width: "500px" }}>
-              <Card ml={5} className="mt-5 p-2">
+          <Form className="register-form" onSubmit={handleSubmit}>
+            <Col ml={5} className="register-column">
+              <Card ml={5} className="register-card">
                 <Form.Group className="mt-2">
                   <Form.Label>User Name</Form.Label>
                   <Form.Control
@@ -91,6 +91,8 @@ const Register = () => {
                     <option>
                       College of Architecture and Civil Engineering
                     </option>
+                    <option>Vice President</option>
+                    <option>Human Resources</option>
                   </Form.Select>
                 </Form.Group>
                 <Form.Group className="mt-2">
@@ -126,6 +128,8 @@ const Register = () => {
                     <option>
                       Food Science and Applied Nutrition Department
                     </option>
+                    <option>Vice President</option>
+                    <option>Human Resources</option>
                   </Form.Select>
                 </Form.Group>
                 <Form.Group className="mt-2" style={{ marginBottom: "40px" }}>
@@ -148,8 +152,8 @@ const Register = () => {
                 {/* </Form> */}
               </Card>
             </Col>
-            <Col ml={5} style={{ width: "500px" }}>
-              <Card ml={5} className="mt-5 p-2 mb-2">
+            <Col ml={5} className="register-column">
+              <Card className="register-card">
                 {/* <Form className="p-4"> */}
                 <Form.Group className="mt-2">
                   <Form.Label>Email Address</Form.Label>
@@ -188,7 +192,6 @@ const Register = () => {
           </Form>
         </Row>
       </Container>
-      <Footer />
     </>
   );
 };

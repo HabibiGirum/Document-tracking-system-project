@@ -1,19 +1,19 @@
 .sent-page-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 60vh;
   background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
 }
 
 .sent-table {
   width: 100%;
   max-width: 100%;
-
   border-collapse: collapse;
   font-family: Arial, sans-serif;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 1rem;
 }
 
 .sent-table th,
@@ -48,11 +48,11 @@
   text-align: center;
 }
 
-.status-icon.status-icon-red{
+.status-icon.status-icon-red {
   background-color: rgb(119, 0, 255);
 }
 
-.status-icon.status-icon-green{
+.status-icon.status-icon-green {
   background-color: rgb(0, 255, 179);
 }
 

@@ -51,10 +51,16 @@ export const login = (email, password) => async (dispatch) => {
 
       // Set the user data in local storage
       // localStorage.setItem("userInfo", JSON.stringify(data.token));
+      console.log(data)
       addUserToLocalStorage({user:data.user,token:data.token})
       console.log(data);
+      if (data.user.role === "Lecturer" ) {
+        window.location.href = "/home";
+      } else {
+        window.location.href = "/received";
+      }
       // Redirect to the home page or the desired protected route
-      window.location.href = "/home";
+      // 
 
     } else {
       // Handle login failure
