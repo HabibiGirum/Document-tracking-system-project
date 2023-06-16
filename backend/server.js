@@ -53,17 +53,22 @@ app.use(express.json());
 
 // Routes
 app.use("/api/users", userRoutes);
-app.use("/api",docRoutes);
+app.use("/api", docRoutes);
 app.use("/api", ImageRoutes);
 app.use("/api/requests", requestRoutes);
 app.use("/api", trackingRoutes);
 
 // Route to get a file by filename
 app.get("/api/files/:filename", async (req, res) => {
-  const { filename } = req.params;
+  const encodedFilename = req.params.filename;
+  let filename = decodeURIComponent(encodedFilename);
+
+  filename = filename.split(",");
+  const destinationFolder = filename[1];
+  const file = filename[0];
 
   // Construct the file path
-  const filePath = path.join(__dirname, "./store", filename);
+  const filePath = path.join(__dirname, destinationFolder, file);
 
   try {
     // Check if the file exists
