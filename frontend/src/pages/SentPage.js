@@ -3,6 +3,7 @@ import "./SentPage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchSentDocuments } from "../redux/actions/trackingAction";
 import Layout from "./Layout";
+import { openFile } from "../redux/actions/requestAction";
 
 const SentPage = () => {
   const dispatch = useDispatch();
@@ -15,10 +16,11 @@ const SentPage = () => {
     : null;
   const userInfo = JSON.parse(userInfoFromStorage);
   const name = userInfo.name;
+  const college = userInfo.college
 
   useEffect(() => {
     const fullName = name; // Replace with the desired user ID
-    dispatch(fetchSentDocuments(fullName, "", ""));
+    dispatch(fetchSentDocuments(fullName,college, "", ""));
   }, [dispatch, name]);
 
   if (loading) {
@@ -33,6 +35,10 @@ const SentPage = () => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleString(undefined, options);
   };
+
+  const handleOpenFile = (filename) => {
+    dispatch(openFile(filename))
+  }
 
   const renderStatusIcon = (status) => {
     if (status.rejected) {
@@ -83,7 +89,11 @@ const SentPage = () => {
           <td>{renderStatusIcon(document.status)}</td>
         )}
         <td>
-          <button onClick={() => window.open(document.filename, "_blank")}>
+          <button
+            onClick={() =>
+              handleOpenFile(document.filename + "," + userInfo.college)
+            }
+          >
             {document.filename}
           </button>
         </td>

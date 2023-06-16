@@ -5,7 +5,10 @@ import "./Sidebar.css";
 
 const Sidebar = () => {
   const [isSidebarWrapped, setIsSidebarWrapped] = useState(false);
-
+  const userInfoFromStorage = localStorage.getItem("userInfo")
+    ? localStorage.getItem("userInfo")
+    : null;
+  const userInfo = JSON.parse(userInfoFromStorage);
   const handleSidebarToggle = () => {
     setIsSidebarWrapped(!isSidebarWrapped);
   };
@@ -37,6 +40,15 @@ const Sidebar = () => {
                   <FaInbox /> Received
                 </Link>
               </li>
+              {userInfo.role === "Human Resources" ? (
+                <li>
+                  <Link to="/register">
+                    <FaInbox /> Register
+                  </Link>
+                </li>
+              ) : (
+                ""  
+              )}
             </>
           )}
         </ul>

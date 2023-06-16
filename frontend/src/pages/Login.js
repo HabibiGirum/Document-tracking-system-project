@@ -48,7 +48,7 @@ const Login = () => {
       setEmailError("Email is required");
       isValid = false;
     }
-    if (!email.includes("@")) {
+    else if (!email.includes("@")) {
       setEmailError("Email format incorrect")
       isValid = false
     }

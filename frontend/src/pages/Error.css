@@ -1,0 +1,31 @@
+.full-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.error-icon {
+  font-size: 48px;
+  color: #f00; /* You can change the color to your liking */
+  margin-bottom: 20px;
+}
+
+.full-page h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.full-page p {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.full-page a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
