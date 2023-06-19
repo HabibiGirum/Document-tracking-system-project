@@ -109,6 +109,8 @@ function Home() {
 
     // Generate the PDF content.
     const content = `
+                                                                     ${year}/${month}/${day}
+    Addis Ababa Science and Technology University ${event.target.elements.documentType.value} form 
     Name: ${event.target.elements.fullName.value}
     Department: ${event.target.elements.department.value}
     Purpose of Submission: ${event.target.elements.purpose.value}
@@ -121,7 +123,7 @@ function Home() {
 
     // Save the PDF
 
-    //doc.save("form.pdf");
+    doc.save(`${event.target.elements.documentType.valu}.pdf`);
 
     dispatch(uploadImage(selectedImage, tagNo));
     console.log("this is tagNo: ", tagNo);
@@ -653,7 +655,7 @@ function Home() {
                     <Form.Control
                       type="text"
                       name="tagNo"
-                      value={tagNo}
+                      defaultValue={tagNo}
                       disabled
                     />
                     <Button onClick={performOcr}>Check </Button>

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { API_BASE_URL } from "../../config";
 import { UPLOAD_FAILED, UPLOAD_SUCCESS } from "../constants/imageUpload";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export const uploadImage = (image, tagNo) => {
   return async (dispatch) => {
     try {
@@ -21,7 +23,11 @@ export const uploadImage = (image, tagNo) => {
       );
       const { data } = response;
 
-      console.log("response", data);
+      if (data.similarity) {
+        toast.success("The document is similar!");
+      } else {
+        toast.error("The document is not similar!");
+      }
       if (data.errorMessage) {
         throw new Error(data.errorMessage);
       }

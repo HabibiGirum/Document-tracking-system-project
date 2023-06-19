@@ -19,6 +19,10 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import Home from "./Home";
 import "./Login.css";
 import {ToastContainer } from "react-toastify";
+import LoginHeader from "../components/LoginHeader";
+import { Footer } from "../components";
+
+
 
 const Login = () => {
   const isAuthenticated = useSelector(
@@ -72,19 +76,21 @@ const Login = () => {
 
   return (
     <>
+    <LoginHeader />
       <Row
         className="justify-content-center align-items-center"
         style={{ height: "100vh" }}
       >
-        <Col md={4}>
-          <Card>
-            <Card.Body>
+        <Col md={3}>
+          <Card className="my-2 my-card">
+            
               <Container className="d-flex justify-content-center align-items-center">
                 <Image src={myImage} height="90px" className="mr-3" />
               </Container>
               {loading && <Loader />}
               <Form onSubmit={onSubmit}>
-                <Form.Group controlId="email">
+              <h2 className="mb-2 text-center">Login</h2>
+                <Form.Group controlId="email" className="col-md-9">
                   <Form.Label>Email Address</Form.Label>
                   <Form.Control
                     type="email"
@@ -97,7 +103,7 @@ const Login = () => {
                   )}
                 </Form.Group>
 
-                <Form.Group controlId="password">
+                <Form.Group controlId="password" className="col-md-9">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
@@ -110,15 +116,16 @@ const Login = () => {
                   )}
                 </Form.Group>
 
-                <Button type="submit" className="btn-block mb-3">
+                <Button type="submit" className="mx-2 my-2  btn-block col-md-9">
                   Sign In
                 </Button>
               </Form>
-            </Card.Body>
+          
           </Card>
         </Col>
       </Row>
       <ToastContainer />
+      <Footer />
     </>
   );
 };

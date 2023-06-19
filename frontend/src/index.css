@@ -1,4 +1,4 @@
-.nav{
+ .nav{
   text-align: center;
   color: #a87b32;
 }
@@ -32,7 +32,7 @@ h1{
 .lottie-player {
   width: 400px;
   height: 400px;
-}
+} 
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {
@@ -107,5 +107,4 @@ h2 {
     font-size: 2.5vw;
   }
 }
-
-
+ 

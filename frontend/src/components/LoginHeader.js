@@ -3,15 +3,10 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import {Image} from 'react-bootstrap'
 import myImage from "../assets/images/AASTU.jpg";
-const Header = () => {
-  function handleLogout() {
-    // Remove user info from local storage
-    localStorage.removeItem("userInfo");
-    localStorage.removeItem("cartItems")
+const LoginHeader = () => {
+ 
 
-    // Perform any other logout actions (e.g. redirect to login page)
-    // ...
-  }
+    
 
   return (
     <header>
@@ -25,13 +20,7 @@ const Header = () => {
         
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <LinkContainer to="/login">
-                <Nav.Link>
-                  login
-                </Nav.Link>
-              </LinkContainer>
-            </Nav>
+            
           </Navbar.Collapse>
         </Container>
       </Navbar>
@@ -39,4 +28,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default LoginHeader;
