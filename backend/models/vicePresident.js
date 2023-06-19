@@ -4,7 +4,7 @@ const Vice_PresidentSchema = new mongoose.Schema(
   {
     id: {
       type: String,
-      required: true, //true
+      required: true,
     },
     department: {
       type: String,
@@ -27,7 +27,7 @@ const Vice_PresidentSchema = new mongoose.Schema(
     to: {
       type: String,
       required: true,
-      enum: ["Vice President"],
+      // enum: ["Vice President"],
       default: "Lecturer",
     },
     filename: {
@@ -43,6 +43,6 @@ const Vice_PresidentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Vice_President = mongoose.model("Vice_President", Vice_PresidentSchema);
+const VicePresident = mongoose.model("VicePresident", Vice_PresidentSchema);
 
-module.exports = Vice_President;
+module.exports = VicePresident;

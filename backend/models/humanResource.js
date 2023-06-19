@@ -27,7 +27,7 @@ const HumanResourcesSchema = new mongoose.Schema(
     to: {
       type: String,
       required: true,
-      enum: ["Human Resources"],
+      // enum: ["Human Resources"],
       default: "Lecturer",
     },
     filename: {

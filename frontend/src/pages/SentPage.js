@@ -88,15 +88,23 @@ const SentPage = () => {
         {userInfo.role === "Lecturer" && (
           <td>{renderStatusIcon(document.status)}</td>
         )}
-        <td>
-          <button
-            onClick={() =>
-              handleOpenFile(document.filename + "," + userInfo.college)
-            }
-          >
-            {document.filename.split("_")[(document.filename.split("_")).length - 1]}
-          </button>
-        </td>
+        {userInfo.role != "Vice President" &&
+        userInfo.role != "Human Resources" ? (
+          <td>
+            <button
+              onClick={() =>
+                handleOpenFile(document.filename + "," + userInfo.college)
+              }
+            >
+              {
+                document.filename.split("_")[
+                  document.filename.split("_").length - 1
+                ]
+              }
+            </button>
+          </td>
+        ) : null}
+
         <td>{formatCreatedAt(document.createdAt)}</td>
       </tr>
     ));
@@ -110,7 +118,7 @@ const SentPage = () => {
             <th>Document Type</th>
             {userInfo.role === "Lecturer" && <th>Status</th>}
             {userInfo.role !== "Lecturer" && <th>Purpose</th>}
-            <th>Filename</th>
+            {userInfo.role != "Vice President" && userInfo.role != "Human Resources" ?<th>Filename</th>:null}
             <th>Date Created</th>
           </tr>
         </thead>
