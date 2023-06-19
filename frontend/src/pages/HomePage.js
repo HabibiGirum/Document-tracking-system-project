@@ -16,7 +16,7 @@ import {ToastContainer } from "react-toastify";
 
 // import List from "../components/List";
 
-function Home() {
+function HomePage() {
   const dispatch = useDispatch();
 
   const response = useSelector((state) => state.uploadImage.data);
@@ -620,64 +620,12 @@ function Home() {
                     <option value="Select document type" disabled>
                       Select document type
                     </option>
-                    <option>Leave</option>
                     <option>Recruitment</option>
-                    <option>Promotion</option>
                   </Form.Control>
                 </Form.Group>
               </Col>
-              <Col>
-                {selectedOption === "Promotion" && (
-                  <Form.Group>
-                    <Form.Label>Upload image document</Form.Label>
-                    <Form.Control
-                      type="file"
-                      name="imageDocument"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                    />
-                    <Button onClick={Extract_Tag_ID}>Extract TagID</Button>
-                    {image && (
-                      <img
-                        src={image}
-                        style={{ width: "100px", height: "100px" }}
-                        alt="Upload"
-                      />
-                    )}
-                    {result && <p>{result}</p>}
-                  </Form.Group>
-                )}
-              </Col>
-              <Col>
-                {selectedOption === "Promotion" && (
-                  <Form.Group>
-                    <Form.Label>ID:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="tagNo"
-                      defaultValue={tagNo}
-                      disabled
-                    />
-                    <Button onClick={performOcr}>Check </Button>
-                  </Form.Group>
-                )}
-              </Col>
-              <Col>
-                <Form.Group>
-                  {response && (
-                    // <Form.Label>Similarity</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="similarity"
-                      value={
-                        response.similarity
-                          ? "Congratulation Original document"
-                          : "sorry can't access this document, it is forgery"
-                      }
-                    ></Form.Control>
-                  )}
-                </Form.Group>
-              </Col>
+          
+              
               <Col>
                 <Form.Group controlId="formFileMultiple" className="mb-3">
                   <Form.Label>Multiple files input example</Form.Label>
@@ -710,4 +658,4 @@ function Home() {
     </>
   );
 }
-export default Home;
+export default HomePage;
