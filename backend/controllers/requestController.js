@@ -7,7 +7,7 @@ const Architecture_civil = require("../models/architecture_civil");
 const Biological_chemical = require("../models/biological_chemical");
 const Electrical = require("../models/electrical");
 const Natural_social = require("../models/natural_social");
-const Vice_President = require("../models/vicePresident");
+const VicePresident = require("../models/vicePresident");
 const BadRequestError = require("../errors/bad-request");
 const Document = require("../models/requests");
 const Human_Resources = require("../models/humanResource");
@@ -111,12 +111,14 @@ exports.startTracking = async (req, res) => {
 };
 
 exports.getSentDocuments = async (req, res) => {
-  console.log(req.body);
+  console.log(req.query);
+
   try {
     const { fullName, college, documentType, status } = req.query;
 
-    console.log(fullName);
+    console.log(fullName, "full name");
     // Build the query object to filter documents
+
     const query = {
       fullName: fullName, // Filter by specific user ID
     };
@@ -150,22 +152,13 @@ exports.getSentDocuments = async (req, res) => {
       case "collegeofarchitectureandcivilengineering":
         data = await Architecture_civil.find(query);
         break;
-      case "VicePresident":
-        data += await Vice_President.find(query);
-        data += await Electrical.find(query);
-        data += await Biological_chemical.find(query);
-        data += await Applied.find(query);
-        data += await Natural_social.find(query);
-        data += await Architecture_civil.find(query);
+      case "vicepresident":
+        data = await VicePresident.find(query);
+
         break;
-      case "HumanResources":
+      case "humanresources":
         data = await Human_Resources.find(query);
-        data += await Vice_President.find(query);
-        data += await Electrical.find(query);
-        data += await Biological_chemical.find(query);
-        data += await Applied.find(query);
-        data += await Natural_social.find(query);
-        data += await Architecture_civil.find(query);
+ 
         break;
       default:
         // code block
@@ -173,7 +166,7 @@ exports.getSentDocuments = async (req, res) => {
     }
 
     console.log(data);
-    res.json({ data });
+    res.json({data} );
   } catch (error) {
     console.error("Error fetching documents:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -297,7 +290,7 @@ exports.getAllRequests = async (req, res) => {
         }
         break;
       case "College Dean":
-        to = userInfo.college;
+        to = "College Dean";
         query = { to: to };
         switch (College) {
           case "collegeofelectricalandmechanicalengineering":
@@ -327,7 +320,8 @@ exports.getAllRequests = async (req, res) => {
       case "Vice President":
         to = "Vice President";
         query = { to: to };
-        data = await Vice_President.find(query);
+        console.log(query);
+        data = await VicePresident.find(query);
         break;
       case "Human Resources":
         to = "Human Resources";
@@ -351,7 +345,7 @@ exports.getAllRequests = async (req, res) => {
 // Create a new
 exports.createRequest = async (req, res) => {
   console.log(req.body);
-  const {
+  let {
     fullName,
     department,
     documentType,
@@ -363,7 +357,9 @@ exports.createRequest = async (req, res) => {
     college,
   } = req.body;
   //console.log(+ "this is request body");
-
+  if (college === 'Human Resources') {
+    to = 'Human Resources'
+  }
   console.log(to);
   console.log(department);
   console.log(fullName);
@@ -426,7 +422,7 @@ exports.createRequest = async (req, res) => {
     Natural_social_Collage = await Natural_social.create(req.body);
   }
   if (role === "Vice President" || to === "Vice President") {
-    Vice_PresidentSchema_Collage = await Vice_PresidentSchema.create(req.body);
+    Vice_PresidentSchema_Collage = await VicePresident.create(req.body);
   }
   if (role === "Human Resources" || to === "Human Resources") {
     HumanResources = await Human_Resources.create(req.body);

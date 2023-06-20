@@ -1,75 +1,45 @@
-.register-container {
-  justify-content: center;
-  height: 500px;
-}
+/* Register.css */
 
+.register-container {
+  margin:10px auto
+}
+.card{
+  margin: 0 0 0 50px;
+  padding: 10px;
+}
 .register-form {
-  padding: 4px;
   display: flex;
+  justify-content: center;
 }
 
 .register-column {
-  width: 500px;
+  padding: 0px 10px;
 }
 
 .register-card {
-  border-radius: 3px;
-  margin-top: 5px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  background-color: #f8f8f8;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
 }
 
-.register-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+.register-card .form-group {
+  margin-bottom: 20px;
 }
 
-.register-form-label {
-  font-weight: bold;
+.register-card .form-label {
+  margin-bottom: 5px;
 }
 
-.register-form-control {
-  border-radius: 5px;
-  border: 1px solid #ffffff;
-  padding: 8px 12px;
-  transition: border-color 0.3s ease;
+.register-card .form-select {
   width: 100%;
 }
 
-.register-form-control:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0px 0px 4px rgba(0, 123, 255, 0.4);
-}
-
-.register-select {
-  border-radius: 5px;
-  border: 1px solid #fffdfd;
-  padding: 8px 12px;
-  transition: border-color 0.3s ease;
-  background-color: #fff;
+.register-card .btn {
   width: 100%;
 }
 
-.register-select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0px 0px 4px rgba(0, 123, 255, 0.4);
-}
-
-.register-submit-btn {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.register-submit-btn:hover {
-  background-color: #0056b3;
+@media (max-width: 768px) {
+  .register-column {
+    margin-top: 20px;
+  }
 }

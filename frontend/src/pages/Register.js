@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Row, Col, Button, Card, Container } from "react-bootstrap";
 import { registerUser } from "../redux/actions/userActions";
@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import "./Register.css"; // Import the custom CSS file
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -15,24 +16,23 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+   const [showMessage, setShowMessage] = useState(false);
 
   const dispatch = useDispatch();
 
   const register = useSelector((state) => state.userRegister);
   const { loading, error, success } = register;
-  console.log(
-    role,
-    password,
-    confirmPassword,
-    email,
-    name,
-    college,
-    department
-  );
-
+  useEffect(() => {
+    if (success || error) {
+      setShowMessage(true);
+      const timer = setTimeout(() => {
+        setShowMessage(false);
+      }, 3000); // Message will disappear after 3 seconds (3000 milliseconds)
+      return () => clearTimeout(timer);
+    }
+  }, [success, error]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Check if name value is logged correctly
 
     if (password !== confirmPassword) {
       return;
@@ -47,20 +47,21 @@ const Register = () => {
       password,
     };
 
-    console.log(userData); // Check if userData object is logged correctly
-
     dispatch(registerUser(userData));
   };
 
-  console.log(name);
-
   return (
     <>
+      {loading && <Loader />}
+      {showMessage && error && <Message variant="danger">{error}</Message>}
+      {showMessage && success && (
+        <Message variant="success">Registration successful!</Message>
+      )}
       <Container className="register-container">
         <Row>
           <Form className="register-form" onSubmit={handleSubmit}>
-            <Col ml={5} className="register-column">
-              <Card ml={5} className="register-card">
+            <Col md={6} className="register-column">
+              <Card className="register-card">
                 <Form.Group className="mt-2">
                   <Form.Label>User Name</Form.Label>
                   <Form.Control
@@ -103,29 +104,35 @@ const Register = () => {
                     onChange={(e) => setDepartment(e.target.value)}
                   >
                     <option>Select user Department</option>
-
-                    <option>Electrical and Computer Engineering </option>
+                    <option>Electrical and Computer Engineering</option>
                     <option>Electromechanical Engineering</option>
                     <option>Mechanical Engineering</option>
                     <option>Software Engineering</option>
-
                     <option>Biotechnology Engineering</option>
                     <option>Chemical Engineering</option>
                     <option>Environmental Engineering</option>
-
                     <option>Mathematics Department</option>
                     <option>Language Department</option>
                     <option>Physics and Statistics Department</option>
                     <option>Social Sciences Department</option>
-
                     <option>Architecture Engineering</option>
                     <option>Civil Engineering</option>
-                    <option>Mining Engineering </option>
-
+                    <option>Mining Engineering</option>
                     <option>Geology Department</option>
                     <option>Industrial Chemistry Department</option>
                     <option>
                       Food Science and Applied Nutrition Department
+                    </option>
+                    <option>
+                      College of Electrical and Mechanical Engineering
+                    </option>
+                    <option>
+                      College of Biological and Chemical Engineering
+                    </option>
+                    <option>College of Applied Science</option>
+                    <option>College of Natural and Social Science</option>
+                    <option>
+                      College of Architecture and Civil Engineering
                     </option>
                     <option>Vice President</option>
                     <option>Human Resources</option>
@@ -141,19 +148,16 @@ const Register = () => {
                   >
                     <option>Select the Role of the User</option>
                     <option>Lecturer</option>
-
                     <option>Department Head</option>
                     <option>College Dean</option>
                     <option>Vice President</option>
                     <option>Human Resources</option>
                   </Form.Select>
                 </Form.Group>
-                {/* </Form> */}
               </Card>
             </Col>
-            <Col ml={5} className="register-column">
+            <Col md={6} className="register-column">
               <Card className="register-card">
-                {/* <Form className="p-4"> */}
                 <Form.Group className="mt-2">
                   <Form.Label>Email Address</Form.Label>
                   <Form.Control
@@ -163,7 +167,6 @@ const Register = () => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Form.Group>
-
                 <Form.Group className="mt-2">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
@@ -182,7 +185,6 @@ const Register = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
                 </Form.Group>
-
                 <Button className="btn btn-dark d-block mt-3" type="submit">
                   Register
                 </Button>
@@ -191,7 +193,6 @@ const Register = () => {
           </Form>
         </Row>
       </Container>
-      <Footer />
     </>
   );
 };
