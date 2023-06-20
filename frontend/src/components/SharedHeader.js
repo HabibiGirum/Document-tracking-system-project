@@ -22,7 +22,7 @@ const SharedHeader = () => {
           <LinkContainer to="/home">
             <Navbar.Brand className="nav">
               <img src={myImage} alt="Logo" height="30" className="logo" />
-              Document Tracking System
+              AASTU Document Tracking System
             </Navbar.Brand>
           </LinkContainer>
 

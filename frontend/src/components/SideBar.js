@@ -28,7 +28,7 @@ const Sidebar = () => {
   };
 
   const getSidebarIcon = (path) => {
-    if (path === "/homePage") return <FaHome />;
+    if (path === "/home") return <FaHome />;
     if (path === "/home") return <FaHome />;
     if (path === "/received") return <FaInbox />;
     if (path === "/sent") return <FaPaperPlane />;
@@ -61,7 +61,7 @@ const Sidebar = () => {
                 userInfo.role === "College Dean" ||
                 userInfo.role === "Department Head") && (
                 <li className={isActive("/homePage")}>
-                  <Link to="/homePage">
+                  <Link to="/home">
                     <FaHome />
                     Home
                   </Link>

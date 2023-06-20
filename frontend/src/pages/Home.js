@@ -175,8 +175,7 @@ function Home() {
       <Container className="justify-container-center mt-5 text-primary">
         <Card>
           <Form onSubmit={handleSubmit}>
-            <Row>
-              <Col>
+            
                 <Form.Group>
                   <Form.Label>Name :</Form.Label>
                   <Form.Control
@@ -186,8 +185,7 @@ function Home() {
                     disabled
                   />
                 </Form.Group>
-              </Col>
-              <Col>
+              
                 <Form.Group>
                   <Form.Label>Department:</Form.Label>
                   <Form.Control
@@ -197,8 +195,7 @@ function Home() {
                     disabled
                   />
                 </Form.Group>
-              </Col>
-              <Col>
+              
                 <Form.Group className="mb-3" controlId="home">
                   <Form.Label>Purpose of Submission</Form.Label>
                   <Form.Control
@@ -209,10 +206,9 @@ function Home() {
                   />
                   <Form.Text className="text-muted"></Form.Text>
                 </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
+              
+           
+             
                 {roll === "Electrical And Mechanical Collage Dean" && (
                   <Form.Group>
                     <Form.Label>To:</Form.Label>
@@ -603,8 +599,8 @@ function Home() {
                     </Form.Control>
                   </Form.Group>
                 )}
-              </Col>
-              <Col>
+              
+             
                 <Form.Group>
                   <Form.Label>select document type</Form.Label>
 
@@ -625,8 +621,7 @@ function Home() {
                     <option>Promotion</option>
                   </Form.Control>
                 </Form.Group>
-              </Col>
-              <Col>
+              
                 {selectedOption === "Promotion" && (
                   <Form.Group>
                     <Form.Label>Upload image document</Form.Label>
@@ -647,8 +642,7 @@ function Home() {
                     {result && <p>{result}</p>}
                   </Form.Group>
                 )}
-              </Col>
-              <Col>
+              
                 {selectedOption === "Promotion" && (
                   <Form.Group>
                     <Form.Label>ID:</Form.Label>
@@ -661,8 +655,7 @@ function Home() {
                     <Button onClick={performOcr}>Check </Button>
                   </Form.Group>
                 )}
-              </Col>
-              <Col>
+              
                 <Form.Group>
                   {response && (
                     // <Form.Label>Similarity</Form.Label>
@@ -677,8 +670,7 @@ function Home() {
                     ></Form.Control>
                   )}
                 </Form.Group>
-              </Col>
-              <Col>
+              
                 <Form.Group controlId="formFileMultiple" className="mb-3">
                   <Form.Label>Multiple files input example</Form.Label>
                   <Form.Control
@@ -688,9 +680,7 @@ function Home() {
                     onChange={handleFileChange}
                   />
                 </Form.Group>
-              </Col>
-            </Row>
-            <Row>
+             
               <Button
                 variant="secondary"
                 type="submit"
@@ -701,7 +691,7 @@ function Home() {
               >
                 Submit
               </Button>
-            </Row>
+           
           </Form>
         </Card>
       </Container>

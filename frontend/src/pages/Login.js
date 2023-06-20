@@ -81,7 +81,7 @@ const Login = () => {
         className="justify-content-center align-items-center"
         style={{ height: "100vh" }}
       >
-        <Col md={3}>
+        <Col md={4}>
           <Card className="my-2 my-card">
             
               <Container className="d-flex justify-content-center align-items-center">

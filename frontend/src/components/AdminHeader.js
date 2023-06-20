@@ -4,7 +4,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { Image } from "react-bootstrap";
 import myImage from "../assets/images/AASTU.jpg";
 
-const Header = () => {
+const AdminHeader = () => {
   function handleLogout() {
     // Remove user info from local storage
     localStorage.removeItem("userInfo");
@@ -19,7 +19,7 @@ const Header = () => {
       <Navbar className="Navbar" variant="dark" expand="lg" collapseOnSelect>
         <Image className="mx-5" src={myImage} height="40px" />
         <Container className="ml-3">
-          <LinkContainer to="/home">
+          <LinkContainer to="/homePage">
             <Navbar.Brand className="nav">
               AASTU Document Tracking System
             </Navbar.Brand>
@@ -44,4 +44,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminHeader;

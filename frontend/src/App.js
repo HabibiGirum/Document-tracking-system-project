@@ -42,7 +42,7 @@ function App({ isAuthenticated, role }) {
           role === "College Dean" ||
           role === "Vice President")&&(
           <Route
-            path="/homePage"
+            path="/home"
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Layout>
