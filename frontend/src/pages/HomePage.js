@@ -12,7 +12,7 @@ import { uploadImage } from "../redux/actions/uploadImageAction";
 import { addDocument } from "../redux/actions/trackingAction";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import {ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 // import List from "../components/List";
 
@@ -23,22 +23,11 @@ function HomePage() {
   const uploadError = useSelector((state) => state.uploadImage.uploadError);
   const error = useSelector((state) => state.uploadImage.error);
 
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [image, setImage] = useState(null);
-  const [result, setResult] = useState("");
-  const [tagNo, setTagNo] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const [similarity, setSimilarity] = useState(null);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target?.files[0]);
-  };
-
-  const handleImageChange = (event) => {
-    setSelectedImage(event.target.files[0]);
-    const file = event.target.files[0];
-    setImage(URL.createObjectURL(file));
   };
 
   const handleOptionChange = (event) => {
@@ -123,51 +112,7 @@ function HomePage() {
 
     // Save the PDF
 
-    doc.save(`${event.target.elements.documentType.valu}.pdf`);
-
-    dispatch(uploadImage(selectedImage, tagNo));
-    console.log("this is tagNo: ", tagNo);
-  };
-
-  useEffect(() => {
-    dispatch(uploadImage(image, tagNo));
-  }, [dispatch]);
-
-  const Extract_Tag_ID = () => {
-    Tesseract.recognize(image, "eng")
-      .then((response) => {
-        const extractedText = response.data.text;
-        const regex = /NO:(\d+)/;
-        const match = extractedText.match(regex);
-        if (match) {
-          const extractedTagNo = match[1];
-          setTagNo(extractedTagNo);
-        } else {
-          setTagNo("Pattern not found");
-        }
-      })
-      .catch((error) => {
-        console.error("Error performing OCR: ", error);
-      });
-    // dispatch(uploadImage(selectedImage, tagNo));
-  };
-  const performOcr = () => {
-    Tesseract.recognize(image, "eng")
-      .then((response) => {
-        const extractedText = response.data.text;
-        const regex = /NO:(\d+)/;
-        const match = extractedText.match(regex);
-        if (match) {
-          const extractedTagNo = match[1];
-          setTagNo(extractedTagNo);
-        } else {
-          setTagNo("Pattern not found");
-        }
-      })
-      .catch((error) => {
-        console.error("Error performing OCR: ", error);
-      });
-    dispatch(uploadImage(selectedImage, tagNo));
+    doc.save(`${event.target.elements.documentType.value}.pdf`);
   };
 
   return (
@@ -213,361 +158,212 @@ function HomePage() {
             </Row>
             <Row>
               <Col>
-                {roll === "Electrical And Mechanical Collage Dean" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-                    <Form.Control
-                      name="to"
-                      as="select"
-                      placeholder="Select To"
-                      required
-                    >
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Electrical and Computer Department</option>
-                      <option>Electromechanical Department</option>
-                      <option>Mechanical Department</option>
-                      <option>Software Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-                {department === "Electrical and Computer Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
+                {(roll === "College Dean" &&
+                  college ===
+                    "College of Electrical and Mechanical Engineering")&&(
+                      <Form.Group>
+                        <Form.Label>To:</Form.Label>
+                        <Form.Control
+                          name="to"
+                          as="select"
+                          placeholder="Select To"
+                          required
+                        >
+                          <option value=">Select send To" disabled>
+                            Select send To
+                          </option>
+                          <option>Electrical and Computer Department</option>
+                          <option>Electromechanical Department</option>
+                          <option>Mechanical Department</option>
+                          <option>Software Department</option>
+                          <option>Human Resources</option>
+                          <option>Vice President</option>
+                        </Form.Control>
+                      </Form.Group>
+                    )}
+              
+                {(roll === "Department Head" &&
+                  (
+                    department === "Electrical and Computer Engineering " ||
+                    department === "Electromechanical Engineering" ||
+                    department === "Mechanical Engineering" ||
+                    department === "Software Engineering"
+                  ))&&(
+                    <Form.Group>
+                      <Form.Label>To:</Form.Label>
+                      <Form.Control
+                        name="to"
+                        as="select"
+                        placeholder="Select To"
+                        required
+                      >
+                        <option value=">Select send To" disabled>
+                          Select send To
+                        </option>
+                        <option>Electrical And Mechanical Collage</option>
+                        <option>Human Resources</option>
+                        <option>Vice President</option>
+                      </Form.Control>
+                    </Form.Group>
+                  )}
 
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Electrical And Mechanical Collage</option>
-                      <option>Electrical and Computer Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
+                {(roll === "College Dean" &&
+                  college ===
+                    "College of Biological and Chemical Engineering")&&(
+                      <Form.Group>
+                        <Form.Label>To:</Form.Label>
+                        <Form.Control name="to" as="select" required>
+                          <option value=">Select send To" disabled>
+                            Select send To
+                          </option>
+                          <option>Biotechnology Department</option>
+                          <option>Chemical Department</option>
+                          <option>Environmental Department</option>
+                          <option>Human Resources</option>
+                          <option>Vice President</option>
+                        </Form.Control>
+                      </Form.Group>
+                    )}
 
-                {department === "Mechanical Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
+                {(roll === "Department Head" &&
+                  (
+                    department === "Chemical Engineering" ||
+                    department === "Biotechnology Engineering" ||
+                    department === "Environmental Engineering"
+                  ))&&(
+                    <Form.Group>
+                      <Form.Label>To:</Form.Label>
 
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Electrical And Mechanical Collage</option>
-                      <option>Mechanical Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
+                      <Form.Control name="to" as="select" required>
+                        <option value=">Select send To" disabled>
+                          Select send To
+                        </option>
+                        <option>Biological And Chemical Collage</option>
+                        <option>Human Resources</option>
+                        <option>Vice President</option>
+                      </Form.Control>
+                    </Form.Group>
+                  )}
 
-                {department === "Electromechanical Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
+                {(roll === "College Dean" &&
+                  (college === "College of Natural and Social Science"))&&(
+                    <Form.Group>
+                      <Form.Label>To:</Form.Label>
 
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Electrical And Mechanical Collage</option>
-                      <option>Electromechanical Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
+                      <Form.Control name="to" as="select" required>
+                        <option value=">Select send To" disabled>
+                          Select send To
+                        </option>
+                        <option>Mathematics Department</option>
+                        <option>Language Department</option>
+                        <option>Physics and Statistics</option>
+                        <option>Social Sciences Department</option>
+                        <option>Human Resources</option>
+                        <option>Vice President</option>
+                      </Form.Control>
+                    </Form.Group>
+                  )}
 
-                {department === "Software Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
+                {(roll === "Department Head" &&
+                  (
+                    department === "Mathematics Department" ||
+                    department === "Language Department" ||
+                    department === "Physics and Statistics Department" ||
+                    department === "Social Sciences Department"
+                  ))&&(
+                    <Form.Group>
+                      <Form.Label>To:</Form.Label>
 
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Electrical And Mechanical Collage</option>
-                      <option>Software Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
+                      <Form.Control name="to" as="select" required>
+                        <option value=">Select send To" disabled>
+                          Select send To
+                        </option>
+                        <option>Natural And Social Sciences College</option>
+                        <option>Human Resources</option>
+                        <option>Vice President</option>
+                      </Form.Control>
+                    </Form.Group>
+                  )}
 
-                {roll === "Biological And Chemical College Dean" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Biotechnology Department</option>
-                      <option>Chemical Department</option>
-                      <option>Environmental Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
+                {(roll === "College Dean" &&
+                  college ===
+                    "College of Architecture and Civil Engineering")&&(
+                      <Form.Group>
+                        <Form.Label>To:</Form.Label>
 
-                {department === "Chemical Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
+                        <Form.Control name="to" as="select" required>
+                          {/* <option>Architecture And Civil College</option> */}
+                          <option value=">Select send To" disabled>
+                            Select send To
+                          </option>
+                          <option>Architecture Department</option>
+                          <option>Civil Department</option>
+                          <option>Mining Department</option>
+                          <option>Human Resources</option>
+                          <option>Vice President</option>
+                        </Form.Control>
+                      </Form.Group>
+                    )}
 
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Biological And Chemical Collage</option>
-                      <option>Chemical Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-                {department === "Biotechnology Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
+                {(roll === "Department Head" &&
+                  (
+                    department === "Architecture Engineering" ||
+                    department === "Mining Engineering" ||
+                    department === "Civil Engineering"
+                  ))&&(
+                    <Form.Group>
+                      <Form.Label>To:</Form.Label>
 
-                    <Form.Control name="to" as="select" required>
-                      <option>Biological And Chemical Collage</option>
-                      <option>Biotechnology Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
+                      <Form.Control name="to" as="select" required>
+                        <option value=">Select send To" disabled>
+                          Select send To
+                        </option>
+                        <option>Architecture And Civil College</option>
+                        <option>Human Resources</option>
+                        <option>Vice President</option>
+                      </Form.Control>
+                    </Form.Group>
+                  )}
 
-                {department === "Environmental Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
+                {(roll === "College Dean" &&
+                  (college === "College of Applied Science"))&&(
+                    <Form.Group>
+                      <Form.Label>To:</Form.Label>
+                      <Form.Control name="to" as="select" required>
+                        {/* <option>Applied Sciences College</option> */}
+                        <option value=">Select send To" disabled>
+                          Select send To
+                        </option>
+                        <option>Geology Department</option>
+                        <option>Industrial Chemistry Department</option>
+                        <option>
+                          Food Science and Applied Nutrition Department
+                        </option>
+                        <option>Human Resources</option>
+                        <option>Vice President</option>
+                      </Form.Control>
+                    </Form.Group>
+                  )}
 
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Biological And Chemical Collage</option>
-                      <option>Environmental Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-
-                {roll === "Natural And Social College Dean" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Mathematics Department</option>
-                      <option>Language Department</option>
-                      <option>Physics and Statistics</option>
-                      <option>Social Sciences Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-
-                {department === "Mathematics Department" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Natural And Social Sciences College</option>
-                      <option>Mathematics Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-
-                {department === "Language Department" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>LNatural And Social College</option>
-                      <option>Language Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-                {department === "Physics and Statistics Department" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>LNatural And Social College</option>
-                      <option>Physics and Statistics Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-                {department === "Social Sciences Department" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>LNatural And Social College</option>
-                      <option>Social Sciences Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-
-                {roll === "Architecture And Civil College Dean" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-
-                    <Form.Control name="to" as="select" required>
-                      {/* <option>Architecture And Civil College</option> */}
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Architecture Department</option>
-                      <option>Civil Department</option>
-                      <option>Mining Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-
-                {department === "Architecture Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Architecture And Civil College</option>
-                      <option>Architecture Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-                {department === "Civil Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Architecture And Civil College</option>
-                      <option>Civil Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-
-                {department === "Mining Engineering" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Architecture And Civil College</option>
-                      <option>Mining Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-
-                {roll === "Applied College Dean" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-                    <Form.Control name="to" as="select" required>
-                      {/* <option>Applied Sciences College</option> */}
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Geology Department</option>
-                      <option>Industrial Chemistry Department</option>
-                      <option>
-                        Food Science and Applied Nutrition Department
-                      </option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-
-                {department === "Geology Department" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Applied Sciences College</option>
-                      <option>Geology Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-                {department === "Industrial Chemistry Department" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Applied Sciences College</option>
-                      <option>Industrial Chemistry Department</option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
-
-                {department ===
-                  "Food Science and Applied Nutrition Department" && (
-                  <Form.Group>
-                    <Form.Label>To:</Form.Label>
-                    <Form.Control name="to" as="select" required>
-                      <option value=">Select send To" disabled>
-                        Select send To
-                      </option>
-                      <option>Applied Sciences College</option>
-                      <option>
-                        Food Science and Applied Nutrition Department
-                      </option>
-                      <option>Human Resources</option>
-                      <option>Vice President</option>
-                    </Form.Control>
-                  </Form.Group>
-                )}
+                {(roll === "Department Head" &&
+                  (
+                    department === "Geology Department" ||
+                    department === "Industrial Chemistry Department" ||
+                    department ===
+                      "Food Science and Applied Nutrition Department"
+                  ))&&(
+                    <Form.Group>
+                      <Form.Label>To:</Form.Label>
+                      <Form.Control name="to" as="select" required>
+                        <option value=">Select send To" disabled>
+                          Select send To
+                        </option>
+                        <option>Applied Sciences College</option>
+                        <option>Human Resources</option>
+                        <option>Vice President</option>
+                      </Form.Control>
+                    </Form.Group>
+                  )}
 
                 {roll === "Vice President" && (
                   <Form.Group>
@@ -594,7 +390,7 @@ function HomePage() {
                       <option value=">Select send To" disabled>
                         Select send To
                       </option>
-                      <option>LNatural And Social College</option>
+                      <option>Natural And Social College</option>
                       <option>Biological And Chemical Collage</option>
                       <option>Electrical And Mechanical Collage</option>
                       <option>Applied Sciences Collage</option>
@@ -624,8 +420,7 @@ function HomePage() {
                   </Form.Control>
                 </Form.Group>
               </Col>
-          
-              
+
               <Col>
                 <Form.Group controlId="formFileMultiple" className="mb-3">
                   <Form.Label>Multiple files input example</Form.Label>

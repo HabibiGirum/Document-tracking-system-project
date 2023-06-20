@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
 const userInfoFromStorage = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
-
+console.log(userInfoFromStorage);
 const isAuthenticated = userInfoFromStorage !== null;
 
 const initialState = {
