@@ -14,7 +14,7 @@ node_modules/
 /frontend/build
 # misc
 .env
-/backend/.env
+
 
 =======
 /build
