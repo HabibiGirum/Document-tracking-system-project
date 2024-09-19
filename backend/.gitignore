@@ -15,10 +15,8 @@ node_modules/
 # misc
 .env
 /backend/.env
-
 =======
 /build
-
 # misc
 
 .DS_Store
